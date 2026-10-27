@@ -5,8 +5,6 @@ interface Env {
   RESEND_API_KEY?: string
   CONTACT_TO_EMAIL?: string
   CONTACT_FROM_EMAIL?: string
-  INSTAGRAM_USER_ID?: string
-  INSTAGRAM_ACCESS_TOKEN?: string
 }
 
 interface Project {
@@ -15,14 +13,6 @@ interface Project {
   repository: string
 }
 
-interface InstagramMedia {
-  id: string
-  caption: string
-  media_type: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM'
-  media_url: string
-  permalink: string
-  thumbnail_url?: string
-}
 
 const BASE_DOMAIN = 'chintan992.dev'
 
@@ -64,7 +54,7 @@ const allowedServices = new Set([
 
 const responseHeaders = {
   'Content-Security-Policy':
-    "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https://images.unsplash.com https://*.cdninstagram.com https://*.fbcdn.net https://avatars.githubusercontent.com https://github.com; media-src 'self' blob: data: https://*.cdninstagram.com https://*.fbcdn.net; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'",
+    "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com; media-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'",
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
@@ -91,91 +81,6 @@ function jsonResponse(body: Record<string, unknown>, status = 200): Response {
   })
 }
 
-async function handleInstagram(request: Request, env: Env): Promise<Response> {
-  if (request.method !== 'GET') {
-    return jsonResponse({ error: 'Use GET to load the Instagram gallery.' }, 405)
-  }
-
-  if (!env.INSTAGRAM_USER_ID || !env.INSTAGRAM_ACCESS_TOKEN) {
-    return jsonResponse({ error: 'The Instagram feed is not configured.' }, 503)
-  }
-
-  const url = new URL(
-    `https://graph.instagram.com/${encodeURIComponent(env.INSTAGRAM_USER_ID)}/media`,
-  )
-  url.searchParams.set(
-    'fields',
-    'id,caption,media_type,media_url,permalink,thumbnail_url,timestamp',
-  )
-  url.searchParams.set('limit', '8')
-  url.searchParams.set('access_token', env.INSTAGRAM_ACCESS_TOKEN)
-
-  let upstream: Response
-  try {
-    upstream = await fetch(url)
-  } catch (error) {
-    console.error('Instagram feed request failed:', error)
-    return jsonResponse({ error: 'The Instagram feed is temporarily unavailable.' }, 502)
-  }
-
-  if (!upstream.ok) {
-    console.error('Instagram Graph API returned status:', upstream.status)
-    return jsonResponse({ error: 'The Instagram feed is temporarily unavailable.' }, 502)
-  }
-
-  let payload: unknown
-  try {
-    payload = await upstream.json()
-  } catch (error) {
-    console.error('Instagram Graph API returned invalid JSON:', error)
-    return jsonResponse({ error: 'The Instagram feed returned an invalid response.' }, 502)
-  }
-
-  if (typeof payload !== 'object' || payload === null || !('data' in payload)) {
-    return jsonResponse({ error: 'The Instagram feed response was incomplete.' }, 502)
-  }
-
-  const rawMedia = payload.data
-  if (!Array.isArray(rawMedia)) {
-    return jsonResponse({ error: 'The Instagram feed did not include a media list.' }, 502)
-  }
-
-  const media = rawMedia.flatMap((item): InstagramMedia[] => {
-    if (typeof item !== 'object' || item === null) return []
-    const frame = item as Record<string, unknown>
-    if (
-      typeof frame.id !== 'string' ||
-      typeof frame.media_url !== 'string' ||
-      typeof frame.permalink !== 'string' ||
-      (frame.media_type !== 'IMAGE' &&
-        frame.media_type !== 'VIDEO' &&
-        frame.media_type !== 'CAROUSEL_ALBUM')
-    ) {
-      return []
-    }
-
-    return [{
-      id: frame.id,
-      caption: typeof frame.caption === 'string' ? frame.caption : '',
-      media_type: frame.media_type,
-      media_url: frame.media_url,
-      permalink: frame.permalink,
-      ...(typeof frame.thumbnail_url === 'string'
-        ? { thumbnail_url: frame.thumbnail_url }
-        : {}),
-    }]
-  })
-
-  return Response.json(
-    { media },
-    {
-      headers: {
-        ...responseHeaders,
-        'Cache-Control': 'public, max-age=1800',
-      },
-    },
-  )
-}
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (character) => {
@@ -418,9 +323,6 @@ export default {
       return withSecurityHeaders(await handleInquiry(request, env))
     }
 
-    if (url.pathname === '/api/instagram') {
-      return withSecurityHeaders(await handleInstagram(request, env))
-    }
 
     if (url.pathname === '/api/github') {
       return withSecurityHeaders(await handleGitHub(request))

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useMousePosition } from '@/hooks/useMousePosition'
 import { useDeviceOrientation } from '@/hooks/useDeviceOrientation'
+import type { PortfolioMode } from '@/data/portfolio-data'
 
 interface Particle {
   x: number
@@ -12,18 +13,27 @@ interface Particle {
   hue: number
 }
 
-export default function CursorCanvas() {
+interface CursorCanvasProps {
+  mode?: PortfolioMode
+}
+
+export default function CursorCanvas({ mode = 'hub' }: CursorCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouse = useMousePosition()
   const orientation = useDeviceOrientation()
   const mouseRef = useRef({ x: 0, y: 0 })
   const orientationRef = useRef({ beta: 0, gamma: 0, supported: false })
+  const modeRef = useRef<PortfolioMode>(mode)
   const particlesRef = useRef<Particle[]>([])
   const animRef = useRef(0)
 
   useEffect(() => {
     mouseRef.current = { x: mouse.x, y: mouse.y }
   }, [mouse.x, mouse.y])
+
+  useEffect(() => {
+    modeRef.current = mode
+  }, [mode])
 
   useEffect(() => {
     orientationRef.current = {
@@ -53,35 +63,64 @@ export default function CursorCanvas() {
 
     // Initialize particles
     const count = Math.min(80, Math.floor((window.innerWidth * window.innerHeight) / 15000))
-    particlesRef.current = Array.from({ length: count }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      size: Math.random() * 2 + 0.5,
-      alpha: Math.random() * 0.4 + 0.1,
-      hue: Math.random() * 60 + 140, // cyan-green range
-    }))
+    particlesRef.current = Array.from({ length: count }, () => {
+      const currentMode = modeRef.current
+      const hue =
+        currentMode === 'visual'
+          ? Math.random() * 15 + 38 // warm amber/gold
+          : currentMode === 'developer'
+          ? Math.random() * 50 + 140 // cyan-green range
+          : Math.random() > 0.5
+          ? Math.random() * 15 + 38
+          : Math.random() * 50 + 140
+      return {
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random() * 0.4 + 0.1,
+        hue,
+      }
+    })
 
     function draw() {
       const w = window.innerWidth
       const h = window.innerHeight
       const mx = mouseRef.current.x
       const my = mouseRef.current.y
+      const currentMode = modeRef.current
 
       ctx!.clearRect(0, 0, w, h)
 
       // Draw radial gradient glow following cursor
       if (mx > 0 || my > 0) {
         const grad = ctx!.createRadialGradient(mx, my, 0, mx, my, 280)
-        grad.addColorStop(0, 'rgba(0, 255, 157, 0.06)')
-        grad.addColorStop(0.5, 'rgba(56, 87, 239, 0.03)')
-        grad.addColorStop(1, 'transparent')
+        if (currentMode === 'visual') {
+          grad.addColorStop(0, 'rgba(200, 164, 92, 0.08)')
+          grad.addColorStop(0.5, 'rgba(180, 130, 40, 0.03)')
+          grad.addColorStop(1, 'transparent')
+        } else if (currentMode === 'developer') {
+          grad.addColorStop(0, 'rgba(0, 255, 157, 0.07)')
+          grad.addColorStop(0.5, 'rgba(56, 87, 239, 0.03)')
+          grad.addColorStop(1, 'transparent')
+        } else {
+          grad.addColorStop(0, 'rgba(255, 255, 255, 0.05)')
+          grad.addColorStop(0.5, 'rgba(0, 255, 157, 0.03)')
+          grad.addColorStop(1, 'transparent')
+        }
         ctx!.fillStyle = grad
         ctx!.fillRect(0, 0, w, h)
       }
 
       const particles = particlesRef.current
+      const strokeColor =
+        currentMode === 'visual'
+          ? '200, 164, 92'
+          : currentMode === 'developer'
+          ? '0, 255, 157'
+          : '200, 220, 210'
+
       for (const p of particles) {
         // Attract toward mouse
         const dx = mx - p.x
@@ -130,7 +169,7 @@ export default function CursorCanvas() {
             ctx!.beginPath()
             ctx!.moveTo(p.x, p.y)
             ctx!.lineTo(other.x, other.y)
-            ctx!.strokeStyle = `rgba(0, 255, 157, ${lineAlpha})`
+            ctx!.strokeStyle = `rgba(${strokeColor}, ${lineAlpha})`
             ctx!.lineWidth = 0.5
             ctx!.stroke()
           }

@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { fallbackFrames, isInstagramFrame, type InstagramFrame } from '@/data/portfolio-data'
+import { galleryFrames, type GalleryFrame } from '@/data/portfolio-data'
 import { ExternalLink } from 'lucide-react'
 import { InstagramIcon } from '@/components/Icons'
 import Lightbox from './Lightbox'
@@ -11,40 +11,8 @@ interface MasonryGalleryProps {
 }
 
 export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryProps) {
-  const [frames, setFrames] = useState<InstagramFrame[]>(fallbackFrames)
-  const [status, setStatus] = useState<'loading' | 'live' | 'fallback'>('loading')
+  const [frames] = useState<GalleryFrame[]>(galleryFrames)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
-
-  useEffect(() => {
-    const controller = new AbortController()
-
-    async function load() {
-      try {
-        const res = await fetch('/api/instagram', { signal: controller.signal })
-        if (!res.ok) {
-          setStatus('fallback')
-          return
-        }
-        const payload: unknown = await res.json()
-        if (typeof payload !== 'object' || payload === null || !('media' in payload)) {
-          throw new Error('bad shape')
-        }
-        const media = (payload as { media: unknown }).media
-        if (!Array.isArray(media)) throw new Error('no media array')
-        const validated = media.filter(isInstagramFrame)
-        setFrames(validated.length > 0 ? validated : fallbackFrames)
-        setStatus(validated.length > 0 ? 'live' : 'fallback')
-      } catch (err) {
-        if (controller.signal.aborted) return
-        console.info('Instagram feed unavailable', err)
-        setFrames(fallbackFrames)
-        setStatus('fallback')
-      }
-    }
-
-    void load()
-    return () => controller.abort()
-  }, [])
 
   const isDark = visualTone === 'night'
 
@@ -69,16 +37,10 @@ export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryP
               <span
                 className={cn(
                   'inline-block w-2 h-2 rounded-full mr-2',
-                  status === 'live'
-                    ? isDark
-                      ? 'bg-[#c8a45c] shadow-[0_0_8px_rgba(200,164,92,0.6)]'
-                      : 'bg-[#8b6914] shadow-[0_0_8px_rgba(139,105,20,0.4)]'
-                    : isDark
-                    ? 'bg-[#c8a45c]/40'
-                    : 'bg-[#8b6914]/40',
+                  isDark ? 'bg-[#c8a45c]' : 'bg-[#8b6914]',
                 )}
               />
-              {status === 'live' ? 'Live from Instagram' : status === 'loading' ? 'Loading...' : 'Selected frames'}
+              Selected frames
             </p>
             <h2
               className={cn(
@@ -137,15 +99,33 @@ export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryP
               )}
               onClick={() => setLightboxIndex(i)}
             >
-              <img
-                src={frame.media_type === 'VIDEO' ? frame.thumbnail_url ?? frame.media_url : frame.media_url}
-                alt={frame.caption || `Photography by Chintan Rathod, frame ${i + 1}`}
-                loading={i < 4 ? 'eager' : 'lazy'}
-                className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
-              />
+              {frame.media_type === 'VIDEO' ? (
+                <div className="relative w-full overflow-hidden">
+                  <video
+                    src={frame.media_url}
+                    poster={frame.thumbnail_url}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 backdrop-blur-xs flex items-center justify-center pointer-events-none">
+                    <span className="text-white text-[10px]">▶</span>
+                  </div>
+                </div>
+              ) : (
+                <img
+                  src={frame.media_url}
+                  alt={frame.caption || `Photography by Chintan Rathod, frame ${i + 1}`}
+                  loading={i < 4 ? 'eager' : 'lazy'}
+                  className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
+                />
+              )}
 
               {/* Hover overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-left">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-left pointer-events-none">
                 <p className="text-white text-xs line-clamp-2 leading-relaxed">
                   {frame.caption || 'A moment, kept.'}
                 </p>
@@ -153,22 +133,9 @@ export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryP
                   {String(i + 1).padStart(2, '0')} / {String(frames.length).padStart(2, '0')}
                 </span>
               </div>
-
-              {/* Video indicator */}
-              {frame.media_type === 'VIDEO' && (
-                <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 flex items-center justify-center">
-                  <span className="text-white text-[10px]">▶</span>
-                </div>
-              )}
             </motion.button>
           ))}
         </div>
-
-        {status === 'fallback' && (
-          <p className={cn('text-center text-xs font-mono mt-6', isDark ? 'text-gray-500' : 'text-gray-400')}>
-            These are preview frames. Connect Instagram for live content.
-          </p>
-        )}
       </motion.section>
 
       {/* Lightbox */}

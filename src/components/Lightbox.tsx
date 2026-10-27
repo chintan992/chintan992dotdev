@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, ExternalLink } from 'lucide-react'
-import type { InstagramFrame } from '@/data/portfolio-data'
+import type { GalleryFrame } from '@/data/portfolio-data'
 
 interface LightboxProps {
-  frames: InstagramFrame[]
+  frames: GalleryFrame[]
   startIndex: number
   onClose: () => void
 }
@@ -16,6 +16,7 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const frame = frames[index]
   const isVideo = frame.media_type === 'VIDEO'
@@ -99,17 +100,31 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
     setTouchStart(null)
   }
 
+  // Auto-play muted video when frame changes
+  useEffect(() => {
+    if (isVideo && videoRef.current) {
+      videoRef.current.currentTime = 0
+      videoRef.current.muted = true
+      const playPromise = videoRef.current.play()
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn('Playback waiting for user gesture:', err)
+        })
+      }
+    }
+  }, [index, isVideo, frame.id])
+
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col"
+        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col h-screen h-[100dvh] w-screen overflow-hidden"
         onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
       >
         {/* Top bar */}
-        <div className="flex items-center justify-between p-4 relative z-10">
+        <div className="shrink-0 h-14 flex items-center justify-between px-4 sm:px-6 relative z-20">
           <div className="text-white/60 text-sm font-mono">
             {String(index + 1).padStart(2, '0')} / {String(frames.length).padStart(2, '0')}
           </div>
@@ -119,14 +134,14 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
               <>
                 <button
                   onClick={() => setZoom(z => Math.min(z + 0.5, 4))}
-                  className="p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
+                  className="p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10 cursor-pointer"
                   aria-label="Zoom in"
                 >
                   <ZoomIn className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => { setZoom(z => { const n = Math.max(z - 0.5, 1); if (n === 1) setPosition({ x: 0, y: 0 }); return n }); }}
-                  className="p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
+                  className="p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10 cursor-pointer"
                   aria-label="Zoom out"
                 >
                   <ZoomOut className="w-5 h-5" />
@@ -144,7 +159,7 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
             </a>
             <button
               onClick={onClose}
-              className="p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10"
+              className="p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/10 cursor-pointer"
               aria-label="Close lightbox"
             >
               <X className="w-5 h-5" />
@@ -155,7 +170,7 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
         {/* Main content */}
         <div
           className={cn(
-            'flex-1 flex items-center justify-center relative overflow-hidden select-none',
+            'flex-1 min-h-0 w-full flex items-center justify-center relative overflow-hidden select-none px-4 sm:px-20',
             zoom > 1 ? 'cursor-grab' : 'cursor-default',
             isDragging && 'cursor-grabbing',
           )}
@@ -174,26 +189,48 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="max-w-[90vw] max-h-[80vh]"
+              className="w-full h-full max-w-full max-h-full flex items-center justify-center"
               style={{
                 transform: `scale(${zoom}) translate(${position.x / zoom}px, ${position.y / zoom}px)`,
                 transition: isDragging ? 'none' : 'transform 0.2s ease',
               }}
             >
               {isVideo ? (
-                <video
-                  src={frame.media_url}
-                  poster={frame.thumbnail_url}
-                  controls
-                  autoPlay
-                  className="max-w-full max-h-[80vh] rounded-lg"
-                  playsInline
-                />
+                <div
+                  className="relative flex items-center justify-center max-w-full max-h-full"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onTouchStart={(e) => e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <video
+                    ref={videoRef}
+                    key={frame.id}
+                    poster={frame.thumbnail_url}
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    className="max-w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-10rem)] w-auto h-auto rounded-lg shadow-2xl object-contain bg-black/60"
+                    style={{
+                      maxHeight: 'calc(100dvh - 13rem)',
+                      maxWidth: 'min(90vw, 1200px)',
+                    }}
+                  >
+                    <source src={frame.media_url} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
               ) : (
                 <img
                   src={frame.media_url}
                   alt={frame.caption || 'Photo by Chintan Rathod'}
-                  className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                  className="max-w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-10rem)] w-auto h-auto object-contain rounded-lg select-none"
+                  style={{
+                    maxHeight: 'calc(100dvh - 13rem)',
+                    maxWidth: 'min(90vw, 1400px)',
+                  }}
                   draggable={false}
                 />
               )}
@@ -203,14 +240,14 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
           {/* Navigation arrows */}
           <button
             onClick={(e) => { e.stopPropagation(); goPrev() }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-all backdrop-blur-sm"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white/70 hover:bg-black/90 hover:text-white transition-all backdrop-blur-sm z-30 shadow-lg cursor-pointer"
             aria-label="Previous"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); goNext() }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-all backdrop-blur-sm"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white/70 hover:bg-black/90 hover:text-white transition-all backdrop-blur-sm z-30 shadow-lg cursor-pointer"
             aria-label="Next"
           >
             <ChevronRight className="w-6 h-6" />
@@ -218,22 +255,22 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
         </div>
 
         {/* Caption bar */}
-        <div className="p-4 text-center">
-          <p className="text-white/80 text-sm max-w-lg mx-auto">
+        <div className="shrink-0 py-2 px-4 text-center relative z-10">
+          <p className="text-white/80 text-xs sm:text-sm max-w-lg mx-auto truncate sm:whitespace-normal">
             {frame.caption || 'A moment, kept.'}
           </p>
         </div>
 
         {/* Thumbnail strip */}
-        <div className="flex items-center justify-center gap-2 px-4 pb-4 overflow-x-auto">
+        <div className="shrink-0 pb-3 px-4 flex items-center justify-center gap-2 overflow-x-auto relative z-10 max-w-full">
           {frames.map((f, i) => (
             <button
               key={f.id}
               onClick={() => { setIndex(i); setZoom(1); setPosition({ x: 0, y: 0 }) }}
               className={cn(
-                'w-12 h-12 rounded-md overflow-hidden border-2 transition-all duration-200 shrink-0',
+                'w-12 h-12 rounded-md overflow-hidden border-2 transition-all duration-200 shrink-0 cursor-pointer',
                 i === index
-                  ? 'border-white/80 opacity-100 scale-110'
+                  ? 'border-white/80 opacity-100 scale-110 shadow-md'
                   : 'border-transparent opacity-40 hover:opacity-70',
               )}
             >

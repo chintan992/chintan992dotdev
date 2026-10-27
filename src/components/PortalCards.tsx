@@ -70,7 +70,7 @@ export default function PortalCards({ onSelect }: PortalCardsProps) {
 
           <div className="text-center">
             <p className="text-[#00ff9d]/60 text-xs font-mono tracking-[0.2em] uppercase mb-2">01 — Enter</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight font-[var(--display)]">
+            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight font-display">
               Developer
             </h2>
             <p className="text-sm text-gray-400 mt-2 max-w-[240px] leading-relaxed">
@@ -123,7 +123,7 @@ export default function PortalCards({ onSelect }: PortalCardsProps) {
 
           <div className="text-center">
             <p className="text-[#c8a45c]/60 text-xs font-mono tracking-[0.2em] uppercase mb-2">02 — Enter</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight font-[var(--display)]">
+            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight font-display">
               Visual Artist
             </h2>
             <p className="text-sm text-gray-400 mt-2 max-w-[240px] leading-relaxed">

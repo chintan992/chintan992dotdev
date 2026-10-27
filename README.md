@@ -18,23 +18,22 @@ npm run build
 npm run dev:worker
 ```
 
-The inquiry endpoint returns a clear configuration error until the Resend API key is set. No inquiry is reported as sent unless Resend accepts it. The photography gallery uses curated sample images until the Instagram Graph API is configured.
+The inquiry endpoint returns a clear configuration error until the Resend API key is set. No inquiry is reported as sent unless Resend accepts it. The photography gallery showcases curated portfolio frames with direct links to Instagram.
 
 ## Cloudflare deployment
 
 1. Add `chintan992.dev` to the Cloudflare account and confirm the zone is active.
 2. Create proxied DNS records for the apex and a wildcard (`*`) subdomain. The Worker routes in `wrangler.jsonc` target both `chintan992.dev/*` and `*.chintan992.dev/*`.
 3. In a Resend account, verify the recipient address `chintanr21@gmail.com`. The initial sender is `onboarding@resend.dev`; to send from an address on `chintan992.dev`, verify the domain in Resend and update `CONTACT_FROM_EMAIL`.
-4. To enable the live Instagram gallery, configure an Instagram Graph API user ID as the non-secret `INSTAGRAM_USER_ID` Worker variable and add the corresponding access token as a Worker secret. Configure `INSTAGRAM_USER_ID` in the Cloudflare dashboard or as a local Wrangler variable. Create the secrets and deploy:
+4. Create the required Worker secrets and deploy:
 
    ```sh
    npm install
    npx wrangler secret put RESEND_API_KEY
-   npx wrangler secret put INSTAGRAM_ACCESS_TOKEN
    npm run deploy
    ```
 
-   Set API keys and access tokens only through secret prompts; never commit them. `CONTACT_TO_EMAIL` and `CONTACT_FROM_EMAIL` are non-secret Worker variables in `wrangler.jsonc`.
+   Set API keys only through secret prompts; never commit them. `CONTACT_TO_EMAIL` and `CONTACT_FROM_EMAIL` are non-secret Worker variables in `wrangler.jsonc`.
 5. Confirm that the homepage, inquiry delivery, and project hostnames resolve after deployment. The first project previews are:
    - `https://letstream.chintan992.dev`
    - `https://xplayer.chintan992.dev`

@@ -19,7 +19,6 @@ import { InstagramIcon } from '@/components/Icons'
 
 // Icons
 import {
-  Camera,
   Terminal as TerminalIcon,
   Sparkles,
   ArrowUpRight,
@@ -27,7 +26,6 @@ import {
   FileText,
   MapPin,
   Cpu,
-  Layers,
   ArrowDown,
   Film,
 } from 'lucide-react'
@@ -82,7 +80,7 @@ export default function App() {
   return (
     <div className="relative min-h-screen text-gray-100 selection:bg-[#00ff9d] selection:text-black font-sans bg-[#050706]">
       {/* Global Interactive Background Canvas */}
-      <CursorCanvas />
+      <CursorCanvas mode={mode} />
 
       {/* Floating Social Dock */}
       <SocialDock mode={mode} />
@@ -318,17 +316,6 @@ export default function App() {
 
             {/* Section 1: Live GitHub & Featured Projects */}
             <section id="dev-projects" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-white/5">
-              <div className="mb-10">
-                <div className="inline-flex items-center gap-2 text-xs font-mono text-[#00ff9d] uppercase tracking-wider mb-2">
-                  <Layers className="w-3.5 h-3.5" /> Featured Codebases & Live Repos
-                </div>
-                <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-white">
-                  Engineered for Performance & Scale
-                </h2>
-                <p className="text-gray-400 text-sm mt-2 max-w-xl">
-                  Live data synced directly with GitHub. Filter by stack or click any repository to examine code and commit history.
-                </p>
-              </div>
               <GitHubGrid />
             </section>
 
@@ -501,19 +488,6 @@ export default function App() {
 
             {/* Section 1: Masonry Media Gallery */}
             <section id="visual-gallery" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-white/5">
-              <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <div>
-                  <div className="inline-flex items-center gap-2 text-xs font-mono text-[#c8a45c] uppercase tracking-wider mb-2">
-                    <Camera className="w-3.5 h-3.5" /> Field Notes & Curated Frames
-                  </div>
-                  <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-white">
-                    Moments in Focus
-                  </h2>
-                </div>
-                <p className="text-xs font-mono text-gray-400">
-                  Click any frame to launch high-resolution lightbox with zoom and details.
-                </p>
-              </div>
               <MasonryGallery />
             </section>
 

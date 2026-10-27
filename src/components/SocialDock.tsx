@@ -56,15 +56,20 @@ export default function SocialDock({ mode }: SocialDockProps) {
   ]
 
   return (
-    <div className="fixed top-5 right-5 z-40">
+    <div
+      className={cn(
+        'fixed z-40 transition-all duration-500',
+        isHub ? 'top-5 right-5' : 'bottom-6 right-6',
+      )}
+    >
       {/* Mobile Toggle / Floating Pill */}
       <div className="flex items-center gap-2">
         <AnimatePresence>
           {(isOpen || typeof window === 'undefined' || window.innerWidth >= 768) && (
             <motion.div
-              initial={{ opacity: 0, x: 20, scale: 0.9 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 20, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
               className={cn(
                 'flex items-center gap-1.5 p-1.5 rounded-full backdrop-blur-xl border transition-all duration-300',
                 isDev
@@ -87,7 +92,12 @@ export default function SocialDock({ mode }: SocialDockProps) {
                   >
                     <Icon className="w-4 h-4 transition-transform group-hover:scale-115" />
                     {/* Tooltip */}
-                    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded text-[10px] font-mono font-medium text-white bg-black/90 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                    <span
+                      className={cn(
+                        'absolute left-1/2 -translate-x-1/2 px-2 py-0.5 rounded text-[10px] font-mono font-medium text-white bg-black/90 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap',
+                        isHub ? '-bottom-8' : '-top-8',
+                      )}
+                    >
                       {item.name}
                     </span>
                   </a>
@@ -104,7 +114,12 @@ export default function SocialDock({ mode }: SocialDockProps) {
                 ) : (
                   <Mail className="w-4 h-4 transition-transform group-hover:scale-115" />
                 )}
-                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded text-[10px] font-mono font-medium text-white bg-black/90 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                <span
+                  className={cn(
+                    'absolute left-1/2 -translate-x-1/2 px-2 py-0.5 rounded text-[10px] font-mono font-medium text-white bg-black/90 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap',
+                    isHub ? '-bottom-8' : '-top-8',
+                  )}
+                >
                   {copied ? 'Copied!' : 'Copy Email'}
                 </span>
               </button>

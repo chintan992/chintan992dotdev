@@ -297,8 +297,8 @@ Type 'social' for quick links.`,
 Type a project number for details, or visit github.com/chintan992`,
 }
 
-/* ---- Instagram fallback frames ---------------------------------- */
-export interface InstagramFrame {
+/* ---- Curated gallery frames -------------------------------------- */
+export interface GalleryFrame {
   id: string
   caption: string
   media_type: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM'
@@ -307,72 +307,158 @@ export interface InstagramFrame {
   thumbnail_url?: string
 }
 
-export const fallbackFrames: InstagramFrame[] = [
+export type InstagramFrame = GalleryFrame
+
+export const galleryFrames: GalleryFrame[] = [
   {
-    id: 'field-notes-01',
-    caption: 'Blue hour, just before the city wakes.',
+    id: 'frame-01',
+    caption: 'City twilight along the skyline.',
     media_type: 'IMAGE',
-    media_url:
-      'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1100&q=85',
+    media_url: '/media/photos/CHR07389.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',
   },
   {
-    id: 'field-notes-02',
-    caption: 'A quieter kind of distance.',
-    media_type: 'IMAGE',
-    media_url:
-      'https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=900&q=85',
+    id: 'frame-02',
+    caption: 'Automotive silhouettes in motion.',
+    media_type: 'VIDEO',
+    media_url: '/media/videos/model-car.mp4',
+    thumbnail_url: '/media/thumbnails/model-car.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',
   },
   {
-    id: 'field-notes-03',
-    caption: 'Last light over the water.',
+    id: 'frame-03',
+    caption: 'Geometry in glass and steel.',
     media_type: 'IMAGE',
-    media_url:
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=85',
+    media_url: '/media/photos/CHR07391.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',
   },
   {
-    id: 'field-notes-04',
-    caption: 'The long way home.',
-    media_type: 'IMAGE',
-    media_url:
-      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1100&q=85',
+    id: 'frame-04',
+    caption: 'Street narratives and fleeting encounters.',
+    media_type: 'VIDEO',
+    media_url: '/media/videos/street1.mp4',
+    thumbnail_url: '/media/thumbnails/street1.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',
   },
   {
-    id: 'field-notes-05',
-    caption: 'Where the road meets the sky.',
+    id: 'frame-05',
+    caption: 'Quiet corridors at golden hour.',
     media_type: 'IMAGE',
-    media_url:
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85',
+    media_url: '/media/photos/CHR07399.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',
   },
   {
-    id: 'field-notes-06',
-    caption: 'Morning mist settling into the valley.',
+    id: 'frame-06',
+    caption: 'Shadows across architectural surfaces.',
     media_type: 'IMAGE',
-    media_url:
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=900&q=85',
+    media_url: '/media/photos/CHR07404.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',
   },
   {
-    id: 'field-notes-07',
-    caption: 'Silhouettes at the edge of golden hour.',
-    media_type: 'IMAGE',
-    media_url:
-      'https://images.unsplash.com/photo-1507400492013-162706c8c05e?auto=format&fit=crop&w=900&q=85',
+    id: 'frame-07',
+    caption: 'Urban monolith reaching upward.',
+    media_type: 'VIDEO',
+    media_url: '/media/videos/tower1.mp4',
+    thumbnail_url: '/media/thumbnails/tower1.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',
   },
   {
-    id: 'field-notes-08',
-    caption: 'Reflections in still water.',
+    id: 'frame-08',
+    caption: 'Subtle textures in morning light.',
     media_type: 'IMAGE',
-    media_url:
-      'https://images.unsplash.com/photo-1439853949127-fa647821eba0?auto=format&fit=crop&w=900&q=85',
+    media_url: '/media/photos/CHR07409.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-09',
+    caption: 'Focus and editorial presence.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07414.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-10',
+    caption: 'Transit rhythms and rail reflections.',
+    media_type: 'VIDEO',
+    media_url: '/media/videos/train1.mp4',
+    thumbnail_url: '/media/thumbnails/train1.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-11',
+    caption: 'Portraits in ambient natural glow.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07424.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-12',
+    caption: 'Framed perspectives through street glass.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07425.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-13',
+    caption: 'Editorial motion and cadence.',
+    media_type: 'VIDEO',
+    media_url: '/media/videos/model2.mp4',
+    thumbnail_url: '/media/thumbnails/model2.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-14',
+    caption: 'Minimalist compositions in monochrome.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07428.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-15',
+    caption: 'Reflections and urban atmosphere.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07430.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-16',
+    caption: 'Concrete, light, and depth in motion.',
+    media_type: 'VIDEO',
+    media_url: '/media/videos/wall.mp4',
+    thumbnail_url: '/media/thumbnails/wall.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-17',
+    caption: 'Crisp midday tones on architectural lines.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07457.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-18',
+    caption: 'Warm dusk falling over the street.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07514.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-19',
+    caption: 'Nightfall and cinematic warmth.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07521.jpg',
+    permalink: 'https://www.instagram.com/chintan992_2/',
+  },
+  {
+    id: 'frame-20',
+    caption: 'A moment, kept in stillness.',
+    media_type: 'IMAGE',
+    media_url: '/media/photos/CHR07533.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',
   },
 ]
+
+export const fallbackFrames = galleryFrames
 
 /* ---- Social links ----------------------------------------------- */
 export const socials = [
@@ -385,18 +471,3 @@ export const socials = [
 /* ---- Filter tags for GitHub grid -------------------------------- */
 export const filterTags = ['All', 'React', 'TypeScript', 'Flutter', 'Kotlin', 'Python', 'Web', 'Dart'] as const
 export type FilterTag = (typeof filterTags)[number]
-
-export function isInstagramFrame(value: unknown): value is InstagramFrame {
-  if (typeof value !== 'object' || value === null) return false
-  const frame = value as Record<string, unknown>
-  return (
-    typeof frame.id === 'string' &&
-    typeof frame.caption === 'string' &&
-    (frame.media_type === 'IMAGE' ||
-      frame.media_type === 'VIDEO' ||
-      frame.media_type === 'CAROUSEL_ALBUM') &&
-    typeof frame.media_url === 'string' &&
-    typeof frame.permalink === 'string' &&
-    (frame.thumbnail_url === undefined || typeof frame.thumbnail_url === 'string')
-  )
-}
