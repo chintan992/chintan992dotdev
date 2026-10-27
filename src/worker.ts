@@ -1,3 +1,5 @@
+import { AwsClient } from 'aws4fetch'
+
 interface Env {
   ASSETS: {
     fetch(request: Request): Promise<Response>
@@ -5,6 +7,11 @@ interface Env {
   RESEND_API_KEY?: string
   CONTACT_TO_EMAIL?: string
   CONTACT_FROM_EMAIL?: string
+  B2_APPLICATION_KEY_ID?: string
+  B2_APPLICATION_KEY?: string
+  B2_BUCKET_NAME?: string
+  B2_ENDPOINT?: string
+  B2_REGION?: string
 }
 
 interface Project {
@@ -54,7 +61,7 @@ const allowedServices = new Set([
 
 const responseHeaders = {
   'Content-Security-Policy':
-    "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com; media-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'",
+    "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https://media.chintan992.dev https://images.unsplash.com https://avatars.githubusercontent.com https://github.com; media-src 'self' blob: data: https://media.chintan992.dev; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'",
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
@@ -314,15 +321,107 @@ async function handleGitHub(request: Request): Promise<Response> {
   }
 }
 
+async function handleMedia(request: Request, env: Env, rawKey: string): Promise<Response> {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return new Response('Method not allowed', { status: 405, headers: responseHeaders })
+  }
+
+  const key = decodeURIComponent(rawKey).replace(/^\/+/, '')
+  if (key.includes('..') || key.includes('\0')) {
+    return new Response('Invalid path', { status: 400, headers: responseHeaders })
+  }
+
+  if (!key) {
+    return new Response('File not specified', { status: 400, headers: responseHeaders })
+  }
+
+  const bucket = env.B2_BUCKET_NAME || 'chintan992-content'
+  const endpoint = env.B2_ENDPOINT || 's3.us-east-005.backblazeb2.com'
+  const region = env.B2_REGION || 'us-east-005'
+  const keyId = env.B2_APPLICATION_KEY_ID
+  const appKey = env.B2_APPLICATION_KEY
+
+  if (!keyId || !appKey) {
+    console.warn('B2 storage credentials missing in worker environment')
+    return new Response('Media storage service unconfigured', { status: 503, headers: responseHeaders })
+  }
+
+  const s3Url = `https://${bucket}.${endpoint}/${encodeURI(key)}`
+
+  const aws = new AwsClient({
+    accessKeyId: keyId,
+    secretAccessKey: appKey,
+    service: 's3',
+    region,
+  })
+
+  const upstreamHeaders = new Headers()
+  const rangeHeader = request.headers.get('range')
+  if (rangeHeader) {
+    upstreamHeaders.set('range', rangeHeader)
+  }
+  const ifNoneMatch = request.headers.get('if-none-match')
+  if (ifNoneMatch) {
+    upstreamHeaders.set('if-none-match', ifNoneMatch)
+  }
+  const ifModifiedSince = request.headers.get('if-modified-since')
+  if (ifModifiedSince) {
+    upstreamHeaders.set('if-modified-since', ifModifiedSince)
+  }
+
+  try {
+    const upstream = await aws.fetch(s3Url, {
+      method: request.method,
+      headers: upstreamHeaders,
+      cf: {
+        cacheEverything: true,
+        cacheTtl: 31536000,
+      },
+    } as unknown as RequestInit)
+
+    if (upstream.status === 404) {
+      return new Response('Asset not found', { status: 404, headers: responseHeaders })
+    }
+
+    const outHeaders = new Headers(upstream.headers)
+    outHeaders.set('Access-Control-Allow-Origin', '*')
+    outHeaders.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS')
+    outHeaders.set('Accept-Ranges', 'bytes')
+    outHeaders.set('X-Content-Type-Options', 'nosniff')
+
+    if (upstream.status === 200 || upstream.status === 206) {
+      outHeaders.set('Cache-Control', 'public, max-age=31536000, immutable')
+    }
+
+    return new Response(upstream.body, {
+      status: upstream.status,
+      statusText: upstream.statusText,
+      headers: outHeaders,
+    })
+  } catch (error) {
+    console.error('Failed to fetch from B2:', error)
+    return new Response('Failed to retrieve media asset.', { status: 502, headers: responseHeaders })
+  }
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
     const hostname = url.hostname.toLowerCase()
 
+    // 1. Direct media subdomain: media.chintan992.dev/*
+    if (hostname === `media.${BASE_DOMAIN}`) {
+      return handleMedia(request, env, url.pathname)
+    }
+
+    // 2. Direct media route on current domain: /media/*
+    if (url.pathname.startsWith('/media/')) {
+      return handleMedia(request, env, url.pathname.slice('/media/'.length))
+    }
+
     if (url.pathname === '/api/inquiry') {
       return withSecurityHeaders(await handleInquiry(request, env))
     }
-
 
     if (url.pathname === '/api/github') {
       return withSecurityHeaders(await handleGitHub(request))

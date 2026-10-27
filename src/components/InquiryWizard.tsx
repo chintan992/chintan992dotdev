@@ -45,9 +45,6 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
-  const isDev = mode === 'developer'
-  const accentColor = isDev ? '#00ff9d' : '#c8a45c'
-
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (!name.trim() || !email.trim()) {
@@ -98,12 +95,11 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
     <div className="w-full max-w-2xl mx-auto">
       {/* Step Indicators */}
       <div className="flex items-center justify-between mb-8 relative">
-        <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-white/10 -translate-y-1/2 -z-0" />
+        <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-white/[0.1] -translate-y-1/2 -z-0" />
         <div
-          className="absolute top-1/2 left-0 h-[2px] -translate-y-1/2 transition-all duration-500 -z-0"
+          className="absolute top-1/2 left-0 h-[2px] -translate-y-1/2 transition-all duration-500 bg-white -z-0 shadow-[0_0_10px_rgba(255,255,255,0.4)]"
           style={{
             width: step === 1 ? '0%' : step === 2 ? '50%' : '100%',
-            backgroundColor: accentColor,
           }}
         />
 
@@ -124,15 +120,13 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
               className={cn(
                 'w-9 h-9 rounded-full flex items-center justify-center text-xs font-mono font-bold transition-all duration-300 border',
                 step >= item.num
-                  ? isDev
-                    ? 'bg-[#00ff9d] text-black border-[#00ff9d] shadow-[0_0_15px_rgba(0,255,157,0.4)]'
-                    : 'bg-[#c8a45c] text-black border-[#c8a45c] shadow-[0_0_15px_rgba(200,164,92,0.4)]'
-                  : 'bg-[#151515] text-gray-400 border-white/10',
+                  ? 'bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.3)]'
+                  : 'bg-[#12141a] text-slate-400 border-white/[0.1]',
               )}
             >
               {item.num}
             </button>
-            <span className="text-[11px] uppercase tracking-wider text-gray-400 mt-2 font-mono">
+            <span className="text-[11px] uppercase tracking-wider text-slate-400 mt-2 font-mono">
               {item.label}
             </span>
           </div>
@@ -140,14 +134,7 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
       </div>
 
       {/* Main Form Container */}
-      <div
-        className={cn(
-          'p-6 sm:p-8 rounded-2xl backdrop-blur-xl border transition-all duration-500',
-          isDev
-            ? 'bg-[#0a0f0d]/90 border-[#00ff9d]/20 shadow-[0_0_50px_rgba(0,255,157,0.06)]'
-            : 'bg-[#181614]/90 border-[#c8a45c]/20 shadow-[0_0_50px_rgba(200,164,92,0.06)]',
-        )}
-      >
+      <div className="titanium-card p-5 sm:p-9 rounded-2xl sm:rounded-3xl">
         <AnimatePresence mode="wait">
           {status === 'success' ? (
             <motion.div
@@ -157,16 +144,11 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
               exit={{ opacity: 0 }}
               className="py-12 text-center flex flex-col items-center"
             >
-              <div
-                className={cn(
-                  'w-16 h-16 rounded-full flex items-center justify-center mb-6',
-                  isDev ? 'bg-[#00ff9d]/20 text-[#00ff9d]' : 'bg-[#c8a45c]/20 text-[#c8a45c]',
-                )}
-              >
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_20px_rgba(52,211,153,0.15)]">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-2 font-display">Inquiry Transmitted</h3>
-              <p className="text-gray-300 max-w-md mx-auto text-sm leading-relaxed mb-6">
+              <p className="text-slate-300 max-w-md mx-auto text-sm leading-relaxed mb-6">
                 Thank you, <span className="text-white font-medium">{name}</span>. Your message has reached my primary inbox. I typically respond within 24–48 hours.
               </p>
               <button
@@ -175,12 +157,7 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                   setStep(1)
                   setMessage('')
                 }}
-                className={cn(
-                  'px-6 py-2.5 rounded-full text-xs font-mono font-medium border transition-colors',
-                  isDev
-                    ? 'border-[#00ff9d]/40 text-[#00ff9d] hover:bg-[#00ff9d]/10'
-                    : 'border-[#c8a45c]/40 text-[#c8a45c] hover:bg-[#c8a45c]/10',
-                )}
+                className="px-6 py-2.5 rounded-full text-xs font-mono font-medium border border-white/20 text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
                 Send Another Message
               </button>
@@ -197,8 +174,8 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                   className="space-y-4"
                 >
                   <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-white mb-1">Select Engagement Domain</h3>
-                    <p className="text-xs text-gray-400">Choose the primary area of focus for this collaboration.</p>
+                    <h3 className="text-xl font-bold font-display text-white mb-1">Select Engagement Domain</h3>
+                    <p className="text-xs text-slate-400">Choose the primary area of focus for this collaboration.</p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-3">
@@ -210,27 +187,23 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                           type="button"
                           onClick={() => setSelectedService(opt.id)}
                           className={cn(
-                            'w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all duration-300',
+                            'w-full flex items-center gap-4 p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer',
                             isSelected
-                              ? isDev
-                                ? 'bg-[#00ff9d]/10 border-[#00ff9d] text-white shadow-[0_0_20px_rgba(0,255,157,0.15)]'
-                                : 'bg-[#c8a45c]/10 border-[#c8a45c] text-white shadow-[0_0_20px_rgba(200,164,92,0.15)]'
-                              : 'bg-white/5 border-white/10 text-gray-300 hover:border-white/20 hover:bg-white/[0.07]',
+                              ? 'bg-white/[0.08] border-white text-white shadow-[0_0_20px_rgba(255,255,255,0.15)]'
+                              : 'bg-white/[0.02] border-white/[0.08] text-slate-300 hover:border-white/[0.2] hover:bg-white/[0.05]',
                           )}
                         >
-                          <span className="text-2xl p-2 rounded-lg bg-black/40">{opt.icon}</span>
+                          <span className="text-2xl p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08]">{opt.icon}</span>
                           <div className="flex-1 min-w-0">
-                            <div className="font-medium text-sm text-white">{opt.label}</div>
-                            <div className="text-xs text-gray-400 truncate">{opt.desc}</div>
+                            <div className="font-semibold text-sm text-white">{opt.label}</div>
+                            <div className="text-xs text-slate-400 truncate mt-0.5">{opt.desc}</div>
                           </div>
                           <div
                             className={cn(
                               'w-4 h-4 rounded-full border flex items-center justify-center transition-colors',
                               isSelected
-                                ? isDev
-                                  ? 'border-[#00ff9d] bg-[#00ff9d]'
-                                  : 'border-[#c8a45c] bg-[#c8a45c]'
-                                : 'border-gray-500',
+                                ? 'border-white bg-white'
+                                : 'border-slate-600',
                             )}
                           >
                             {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-black" />}
@@ -244,12 +217,7 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className={cn(
-                        'flex items-center gap-2 px-6 py-3 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-black transition-all duration-300',
-                        isDev
-                          ? 'bg-[#00ff9d] hover:bg-[#33ffb0] shadow-[0_0_20px_rgba(0,255,157,0.3)]'
-                          : 'bg-[#c8a45c] hover:bg-[#dfba70] shadow-[0_0_20px_rgba(200,164,92,0.3)]',
-                      )}
+                      className="flex items-center gap-2 px-6 py-3 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-black bg-white hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] cursor-pointer"
                     >
                       Next: Parameters <ArrowRight className="w-4 h-4" />
                     </button>
@@ -267,13 +235,13 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                   className="space-y-6"
                 >
                   <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-white mb-1">Target Timeline & Scale</h3>
-                    <p className="text-xs text-gray-400">Help frame the scope and anticipated schedule.</p>
+                    <h3 className="text-xl font-bold font-display text-white mb-1">Target Timeline & Scale</h3>
+                    <p className="text-xs text-slate-400">Help frame the scope and anticipated schedule.</p>
                   </div>
 
                   {/* Budget */}
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
                       Estimated Investment Scale
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -283,12 +251,10 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                           type="button"
                           onClick={() => setBudget(b)}
                           className={cn(
-                            'p-2.5 rounded-lg border text-xs font-mono text-center transition-all',
+                            'p-2.5 sm:p-3 rounded-xl border text-[11px] sm:text-xs font-mono text-center transition-all cursor-pointer',
                             budget === b
-                              ? isDev
-                                ? 'bg-[#00ff9d]/15 border-[#00ff9d] text-[#00ff9d]'
-                                : 'bg-[#c8a45c]/15 border-[#c8a45c] text-[#c8a45c]'
-                              : 'bg-white/5 border-white/10 text-gray-400 hover:text-white',
+                              ? 'bg-white text-black font-semibold border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]'
+                              : 'bg-white/[0.03] border-white/[0.08] text-slate-300 hover:border-white/[0.2]',
                           )}
                         >
                           {b}
@@ -299,7 +265,7 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
 
                   {/* Timeline */}
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
                       Delivery Window
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -309,12 +275,10 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                           type="button"
                           onClick={() => setTimeline(t)}
                           className={cn(
-                            'p-2.5 rounded-lg border text-xs font-mono text-center transition-all',
+                            'p-2.5 sm:p-3 rounded-xl border text-[11px] sm:text-xs font-mono text-center transition-all cursor-pointer',
                             timeline === t
-                              ? isDev
-                                ? 'bg-[#00ff9d]/15 border-[#00ff9d] text-[#00ff9d]'
-                                : 'bg-[#c8a45c]/15 border-[#c8a45c] text-[#c8a45c]'
-                              : 'bg-white/5 border-white/10 text-gray-400 hover:text-white',
+                              ? 'bg-white text-black font-semibold border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]'
+                              : 'bg-white/[0.03] border-white/[0.08] text-slate-300 hover:border-white/[0.2]',
                           )}
                         >
                           {t}
@@ -327,19 +291,14 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white font-mono"
+                      className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white font-mono cursor-pointer"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" /> Back
                     </button>
                     <button
                       type="button"
                       onClick={() => setStep(3)}
-                      className={cn(
-                        'flex items-center gap-2 px-6 py-3 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-black transition-all duration-300',
-                        isDev
-                          ? 'bg-[#00ff9d] hover:bg-[#33ffb0] shadow-[0_0_20px_rgba(0,255,157,0.3)]'
-                          : 'bg-[#c8a45c] hover:bg-[#dfba70] shadow-[0_0_20px_rgba(200,164,92,0.3)]',
-                      )}
+                      className="flex items-center gap-2 px-6 py-3 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-black bg-white hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] cursor-pointer"
                     >
                       Next: Contact <ArrowRight className="w-4 h-4" />
                     </button>
@@ -357,13 +316,13 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                   className="space-y-4"
                 >
                   <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-white mb-1">Your Details</h3>
-                    <p className="text-xs text-gray-400">Where should I send proposal details and next steps?</p>
+                    <h3 className="text-xl font-bold font-display text-white mb-1">Your Details</h3>
+                    <p className="text-xs text-slate-400">Where should I send proposal details and next steps?</p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-1">
+                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
                         Your Name *
                       </label>
                       <input
@@ -372,14 +331,11 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Alex Vance"
-                        className={cn(
-                          'w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none transition-all',
-                          isDev ? 'focus:border-[#00ff9d]' : 'focus:border-[#c8a45c]',
-                        )}
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-white text-base sm:text-sm focus:outline-none focus:border-white transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-1">
+                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
                         Email Address *
                       </label>
                       <input
@@ -388,16 +344,13 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="alex@studio.com"
-                        className={cn(
-                          'w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none transition-all',
-                          isDev ? 'focus:border-[#00ff9d]' : 'focus:border-[#c8a45c]',
-                        )}
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-white text-base sm:text-sm focus:outline-none focus:border-white transition-all"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-1">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
                       Brief Brief or Project Overview
                     </label>
                     <textarea
@@ -405,19 +358,16 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Tell me a bit about what you have in mind, specific requirements, or ideas..."
-                      className={cn(
-                        'w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none transition-all resize-none',
-                        isDev ? 'focus:border-[#00ff9d]' : 'focus:border-[#c8a45c]',
-                      )}
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-white text-base sm:text-sm focus:outline-none focus:border-white transition-all resize-none"
                     />
                   </div>
 
                   {/* Summary preview */}
-                  <div className="p-3 rounded-xl bg-black/40 border border-white/5 text-[11px] font-mono text-gray-400 flex items-center justify-between">
+                  <div className="p-3 rounded-xl bg-black/50 border border-white/[0.08] text-[11px] font-mono text-slate-400 flex items-center justify-between">
                     <span>
-                      Service: <span className="text-white">{selectedService}</span> · Budget: <span className="text-white">{budget}</span>
+                      Domain: <span className="text-white">{selectedService}</span> · Scale: <span className="text-white">{budget}</span>
                     </span>
-                    <Sparkles className="w-3.5 h-3.5 text-gray-400" />
+                    <Sparkles className="w-3.5 h-3.5 text-slate-400" />
                   </div>
 
                   {status === 'error' && errorMessage && (
@@ -432,19 +382,14 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                       type="button"
                       disabled={status === 'submitting'}
                       onClick={() => setStep(2)}
-                      className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white font-mono"
+                      className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white font-mono cursor-pointer"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" /> Back
                     </button>
                     <button
                       type="submit"
                       disabled={status === 'submitting'}
-                      className={cn(
-                        'flex items-center gap-2 px-7 py-3 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-black transition-all duration-300 disabled:opacity-50 cursor-pointer',
-                        isDev
-                          ? 'bg-[#00ff9d] hover:bg-[#33ffb0] shadow-[0_0_25px_rgba(0,255,157,0.35)]'
-                          : 'bg-[#c8a45c] hover:bg-[#dfba70] shadow-[0_0_25px_rgba(200,164,92,0.35)]',
-                      )}
+                      className="flex items-center gap-2 px-7 py-3 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-black bg-white hover:bg-slate-200 transition-all shadow-[0_0_25px_rgba(255,255,255,0.25)] disabled:opacity-50 cursor-pointer"
                     >
                       {status === 'submitting' ? (
                         <>
@@ -453,7 +398,7 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                         </>
                       ) : (
                         <>
-                          Send Inquiry <Send className="w-4 h-4" />
+                          Transmit Inquiry <Send className="w-4 h-4" />
                         </>
                       )}
                     </button>

@@ -62,25 +62,18 @@ export default function CursorCanvas({ mode = 'hub' }: CursorCanvasProps) {
     window.addEventListener('resize', resize)
 
     // Initialize particles
-    const count = Math.min(80, Math.floor((window.innerWidth * window.innerHeight) / 15000))
+    const count = Math.min(60, Math.floor((window.innerWidth * window.innerHeight) / 18000))
     particlesRef.current = Array.from({ length: count }, () => {
       const currentMode = modeRef.current
-      const hue =
-        currentMode === 'visual'
-          ? Math.random() * 15 + 38 // warm amber/gold
-          : currentMode === 'developer'
-          ? Math.random() * 50 + 140 // cyan-green range
-          : Math.random() > 0.5
-          ? Math.random() * 15 + 38
-          : Math.random() * 50 + 140
+      const isWarm = currentMode === 'visual' || (currentMode === 'hub' && Math.random() > 0.7)
       return {
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        size: Math.random() * 2 + 0.5,
-        alpha: Math.random() * 0.4 + 0.1,
-        hue,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        size: Math.random() * 1.8 + 0.6,
+        alpha: Math.random() * 0.25 + 0.08,
+        hue: isWarm ? 38 : 215, // warm titanium gold or cool titanium silver
       }
     })
 
@@ -93,20 +86,16 @@ export default function CursorCanvas({ mode = 'hub' }: CursorCanvasProps) {
 
       ctx!.clearRect(0, 0, w, h)
 
-      // Draw radial gradient glow following cursor
+      // Draw subtle radial titanium glow following cursor
       if (mx > 0 || my > 0) {
-        const grad = ctx!.createRadialGradient(mx, my, 0, mx, my, 280)
+        const grad = ctx!.createRadialGradient(mx, my, 0, mx, my, 320)
         if (currentMode === 'visual') {
-          grad.addColorStop(0, 'rgba(200, 164, 92, 0.08)')
-          grad.addColorStop(0.5, 'rgba(180, 130, 40, 0.03)')
-          grad.addColorStop(1, 'transparent')
-        } else if (currentMode === 'developer') {
-          grad.addColorStop(0, 'rgba(0, 255, 157, 0.07)')
-          grad.addColorStop(0.5, 'rgba(56, 87, 239, 0.03)')
+          grad.addColorStop(0, 'rgba(212, 175, 55, 0.05)')
+          grad.addColorStop(0.5, 'rgba(255, 255, 255, 0.015)')
           grad.addColorStop(1, 'transparent')
         } else {
-          grad.addColorStop(0, 'rgba(255, 255, 255, 0.05)')
-          grad.addColorStop(0.5, 'rgba(0, 255, 157, 0.03)')
+          grad.addColorStop(0, 'rgba(255, 255, 255, 0.04)')
+          grad.addColorStop(0.5, 'rgba(148, 163, 184, 0.015)')
           grad.addColorStop(1, 'transparent')
         }
         ctx!.fillStyle = grad
@@ -116,10 +105,8 @@ export default function CursorCanvas({ mode = 'hub' }: CursorCanvasProps) {
       const particles = particlesRef.current
       const strokeColor =
         currentMode === 'visual'
-          ? '200, 164, 92'
-          : currentMode === 'developer'
-          ? '0, 255, 157'
-          : '200, 220, 210'
+          ? '212, 175, 55'
+          : '203, 213, 225'
 
       for (const p of particles) {
         // Attract toward mouse

@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "chintan992-portfolio",
+  "name": "chintan992dotdev",
   "main": "src/worker.ts",
   "compatibility_date": "2026-10-26",
   "assets": {
@@ -20,6 +20,9 @@
   ],
   "vars": {
     "CONTACT_TO_EMAIL": "chintanr21@gmail.com",
-    "CONTACT_FROM_EMAIL": "onboarding@resend.dev"
+    "CONTACT_FROM_EMAIL": "onboarding@resend.dev",
+    "B2_BUCKET_NAME": "chintan992-content",
+    "B2_ENDPOINT": "s3.us-east-005.backblazeb2.com",
+    "B2_REGION": "us-east-005"
   }
 }

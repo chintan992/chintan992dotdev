@@ -97,48 +97,48 @@ export interface Service {
 
 export const devServices: Service[] = [
   {
-    title: 'Product engineering',
+    title: 'Product Engineering',
     description:
-      'Thoughtful web and mobile products, built to feel clear, responsive and ready for real people.',
-    details: ['Web applications', 'Mobile development', 'Prototypes & integrations'],
+      'High-performance web and mobile products engineered with modern runtimes, reactive architectures, and intuitive ergonomics.',
+    details: ['Web applications (React 19)', 'Mobile development (Kotlin, Flutter)', 'Prototypes & cloud edge runtimes'],
     icon: '⌘',
   },
   {
-    title: 'Data & automation',
+    title: 'Data & Intelligent Automation',
     description:
-      'Turn scattered information and repetitive work into systems people can actually use.',
-    details: ['Process analysis', 'Power BI & reporting', 'AI-assisted workflows'],
+      'Transform complex business logic and scattered data pipelines into automated, high-visibility operational systems.',
+    details: ['Process analysis & automation', 'Power BI & executive dashboards', 'AI/ML workflow integrations'],
     icon: '⚡',
   },
   {
-    title: 'Systems thinking',
+    title: 'Systems Architecture & Delivery',
     description:
-      'Bring technical delivery and business context together, from the first question to the final handoff.',
-    details: ['Requirements & discovery', 'Quality & documentation', 'Cross-functional delivery'],
+      'Bridging technical delivery and business objectives from initial discovery through production deployment and documentation.',
+    details: ['Requirements & architecture', 'Quality assurance & testing', 'Cross-functional engineering delivery'],
     icon: '◈',
   },
 ]
 
 export const visualServices: Service[] = [
   {
-    title: 'Videography',
+    title: 'Cinematic Videography',
     description:
-      'From concept to final cut — cinematic video production for brands, events, and creative projects.',
-    details: ['Commercial promos', 'Event coverage', 'Short films & reels', 'Drone footage'],
+      'From concept to final master — cinematic video production for brands, editorial campaigns, and documentary narratives.',
+    details: ['Commercial brand films', 'Documentary storytelling', 'Reels & short-form video', '4K HDR aerial drone capture'],
     icon: '🎬',
   },
   {
-    title: 'Photography',
+    title: 'Editorial Photography',
     description:
-      'Capturing authentic moments with natural light and a documentary-influenced eye.',
-    details: ['Portrait sessions', 'Product & lifestyle', 'Landscape & travel', 'Editorial work'],
+      'Capturing authentic human emotion and architectural depth with natural light and a patient documentary eye.',
+    details: ['Editorial portraits', 'Architectural & landscape', 'Commercial brand visuals', 'Event documentation'],
     icon: '📷',
   },
   {
-    title: 'Content editing',
+    title: 'Color Grading & Post-Production',
     description:
-      'Post-production that elevates your raw footage and images into polished, publishable work.',
-    details: ['Color grading', 'Video editing', 'Photo retouching', 'Social media optimization'],
+      'Precision post-production that transforms raw footage and stills into cohesive, filmic visual stories.',
+    details: ['Bespoke color grading', 'Narrative video editing', 'Photo retouching & grain', 'Sound design & mixing'],
     icon: '✂️',
   },
 ]

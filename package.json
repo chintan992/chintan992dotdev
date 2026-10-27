@@ -10,12 +10,15 @@
     "deploy": "npm run build && wrangler deploy",
     "lint": "oxlint",
     "preview": "vite preview",
-    "typecheck:worker": "tsc --noEmit -p tsconfig.worker.json"
+    "typecheck:worker": "tsc --noEmit -p tsconfig.worker.json",
+    "upload:media": "node scripts/upload-media.mjs"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
+    "aws4fetch": "^1.0.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^14.6.0",

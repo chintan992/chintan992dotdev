@@ -24,6 +24,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Raw media intake
+# Raw media intake & B2 hosted media
 content/
 .dev.vars
+public/media/videos/*.mp4

@@ -1,20 +1,13 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { cn } from '@/lib/utils'
 import { galleryFrames, type GalleryFrame } from '@/data/portfolio-data'
 import { ExternalLink } from 'lucide-react'
 import { InstagramIcon } from '@/components/Icons'
 import Lightbox from './Lightbox'
 
-interface MasonryGalleryProps {
-  visualTone?: 'day' | 'night'
-}
-
-export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryProps) {
+export default function MasonryGallery() {
   const [frames] = useState<GalleryFrame[]>(galleryFrames)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
-
-  const isDark = visualTone === 'night'
 
   return (
     <>
@@ -28,27 +21,12 @@ export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryP
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
-            <p
-              className={cn(
-                'text-xs font-mono tracking-[0.15em] uppercase mb-2',
-                isDark ? 'text-[#c8a45c]/70' : 'text-[#8b6914]/70',
-              )}
-            >
-              <span
-                className={cn(
-                  'inline-block w-2 h-2 rounded-full mr-2',
-                  isDark ? 'bg-[#c8a45c]' : 'bg-[#8b6914]',
-                )}
-              />
-              Selected frames
+            <p className="text-xs font-mono tracking-[0.15em] uppercase mb-2 text-slate-400">
+              <span className="inline-block w-2 h-2 rounded-full mr-2 bg-amber-400/80" />
+              Curated Frames & Film Motion
             </p>
-            <h2
-              className={cn(
-                'text-3xl md:text-4xl font-bold tracking-tight font-display',
-                isDark ? 'text-white' : 'text-[#2a2520]',
-              )}
-            >
-              Notes from <em className={isDark ? 'text-[#c8a45c]' : 'text-[#8b6914]'}>out there</em>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-display text-white">
+              Notes from <span className="serif-italic-accent font-normal text-slate-300">out there</span>
             </h2>
           </div>
           <div className="flex items-center gap-4">
@@ -56,10 +34,7 @@ export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryP
               href="https://www.instagram.com/chintan992_2/"
               target="_blank"
               rel="noreferrer"
-              className={cn(
-                'flex items-center gap-2 text-xs font-mono transition-colors',
-                isDark ? 'text-gray-400 hover:text-[#c8a45c]' : 'text-gray-600 hover:text-[#8b6914]',
-              )}
+              className="flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors"
             >
               <InstagramIcon className="w-4 h-4" />
               Photo work
@@ -69,10 +44,7 @@ export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryP
               href="https://www.instagram.com/chintan992/"
               target="_blank"
               rel="noreferrer"
-              className={cn(
-                'flex items-center gap-2 text-xs font-mono transition-colors',
-                isDark ? 'text-gray-400 hover:text-[#c8a45c]' : 'text-gray-600 hover:text-[#8b6914]',
-              )}
+              className="flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors"
             >
               <InstagramIcon className="w-4 h-4" />
               Main
@@ -90,13 +62,7 @@ export default function MasonryGallery({ visualTone = 'night' }: MasonryGalleryP
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, delay: i * 0.05 }}
-              className={cn(
-                'relative w-full break-inside-avoid rounded-xl overflow-hidden group cursor-pointer',
-                'border transition-all duration-300',
-                isDark
-                  ? 'border-gray-800/40 hover:border-[#c8a45c]/40 hover:shadow-[0_0_20px_rgba(200,164,92,0.1)]'
-                  : 'border-gray-200 hover:border-[#8b6914]/30 hover:shadow-lg',
-              )}
+              className="relative w-full break-inside-avoid rounded-2xl overflow-hidden group cursor-pointer border border-white/[0.08] hover:border-white/[0.25] hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)] transition-all duration-300 bg-white/[0.02]"
               onClick={() => setLightboxIndex(i)}
             >
               {frame.media_type === 'VIDEO' ? (
