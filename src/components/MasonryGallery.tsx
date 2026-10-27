@@ -1,9 +1,63 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { galleryFrames, type GalleryFrame } from '@/data/portfolio-data'
 import { ExternalLink } from 'lucide-react'
 import { InstagramIcon } from '@/components/Icons'
 import Lightbox from './Lightbox'
+
+function GalleryVideo({ src, poster }: { src: string; poster?: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (reducedMotionQuery.matches) {
+      video.pause()
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            // Handle browser autoplay policy restrictions gracefully
+          })
+        } else {
+          video.pause()
+        }
+      },
+      { threshold: 0.25 },
+    )
+
+    observer.observe(video)
+    return () => {
+      observer.disconnect()
+      video.pause()
+    }
+  }, [])
+
+  return (
+    <div className="relative w-full overflow-hidden">
+      <video
+        ref={videoRef}
+        src={src}
+        poster={poster}
+        loop
+        muted
+        playsInline
+        preload="none"
+        width={800}
+        height={1000}
+        className="w-full h-auto block"
+      />
+      <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs text-[10px] font-mono text-slate-300">
+        FILM
+      </div>
+    </div>
+  )
+}
 
 export default function MasonryGallery() {
   const [frames] = useState<GalleryFrame[]>(galleryFrames)
@@ -12,21 +66,20 @@ export default function MasonryGallery() {
   return (
     <>
       <motion.section
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.6, ease: [0.22, 0.72, 0.18, 1] }}
+        transition={{ duration: 0.5, ease: [0.22, 0.72, 0.18, 1] }}
         className="w-full"
       >
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-8">
           <div>
-            <p className="text-xs font-mono tracking-[0.15em] uppercase mb-2 text-slate-400">
-              <span className="inline-block w-2 h-2 rounded-full mr-2 bg-amber-400/80" />
-              Curated Frames & Film Motion
+            <p className="text-xs font-mono tracking-wider uppercase mb-1.5 text-slate-400">
+              Curated Frames & Motion
             </p>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-display text-white">
-              Notes from <span className="serif-italic-accent font-normal text-slate-300">out there</span>
+            <h2 className="text-2xl sm:text-3xl font-medium font-display tracking-tight text-white">
+              Selected Photography
             </h2>
           </div>
           <div className="flex items-center gap-4">
@@ -34,21 +87,11 @@ export default function MasonryGallery() {
               href="https://www.instagram.com/chintan992_2/"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-white transition-colors"
             >
               <InstagramIcon className="w-4 h-4" />
-              Photo work
-              <ExternalLink className="w-3 h-3" />
-            </a>
-            <a
-              href="https://www.instagram.com/chintan992/"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors"
-            >
-              <InstagramIcon className="w-4 h-4" />
-              Main
-              <ExternalLink className="w-3 h-3" />
+              <span>@chintan992_2</span>
+              <ExternalLink className="w-3 h-3 text-slate-500" />
             </a>
           </div>
         </div>
@@ -58,31 +101,15 @@ export default function MasonryGallery() {
           {frames.map((frame, i) => (
             <motion.button
               key={frame.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="relative w-full break-inside-avoid rounded-2xl overflow-hidden group cursor-pointer border border-white/[0.08] hover:border-white/[0.25] hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)] transition-all duration-300 bg-white/[0.02]"
+              transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.3) }}
+              className="relative w-full break-inside-avoid rounded-xl overflow-hidden group cursor-pointer bg-neutral-900 block focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               onClick={() => setLightboxIndex(i)}
             >
               {frame.media_type === 'VIDEO' ? (
-                <div className="relative w-full overflow-hidden">
-                  <video
-                    src={frame.media_url}
-                    poster={frame.thumbnail_url}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    width={800}
-                    height={1000}
-                    className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 backdrop-blur-xs flex items-center justify-center pointer-events-none">
-                    <span className="text-white text-[10px]">▶</span>
-                  </div>
-                </div>
+                <GalleryVideo src={frame.media_url} poster={frame.thumbnail_url} />
               ) : (
                 <img
                   src={frame.media_url}
@@ -91,19 +118,9 @@ export default function MasonryGallery() {
                   decoding="async"
                   width={800}
                   height={1000}
-                  className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-auto block group-hover:opacity-90 transition-opacity duration-200"
                 />
               )}
-
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-left pointer-events-none">
-                <p className="text-white text-xs line-clamp-2 leading-relaxed">
-                  {frame.caption || 'A moment, kept.'}
-                </p>
-                <span className="text-white/60 text-[10px] font-mono mt-1">
-                  {String(i + 1).padStart(2, '0')} / {String(frames.length).padStart(2, '0')}
-                </span>
-              </div>
             </motion.button>
           ))}
         </div>

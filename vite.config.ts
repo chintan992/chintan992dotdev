@@ -11,4 +11,13 @@ export default defineConfig({
       '@': path.resolve(import.meta.dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/media': {
+        target: 'https://media.chintan992.dev',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/media/, ''),
+      },
+    },
+  },
 })

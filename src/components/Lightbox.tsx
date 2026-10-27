@@ -258,7 +258,7 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
         {/* Caption bar */}
         <div className="shrink-0 py-2 px-4 text-center relative z-10">
           <p className="text-white/80 text-xs sm:text-sm max-w-lg mx-auto truncate sm:whitespace-normal">
-            {frame.caption || 'A moment, kept.'}
+            {frame.caption || 'Chintan Rathod · Visual Work'}
           </p>
         </div>
 

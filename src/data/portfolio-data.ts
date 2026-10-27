@@ -221,83 +221,6 @@ export const timeline: TimelineEntry[] = [
   },
 ]
 
-/* ---- Terminal commands ------------------------------------------- */
-export const terminalCommands: Record<string, string> = {
-  help: `Available commands:
-  help       — Show this help message
-  skills     — View my technical skills
-  projects   — Browse featured projects
-  about      — Learn about me
-  contact    — Get in touch
-  resume     — Download my resume
-  social     — Find me online
-  clear      — Clear the terminal`,
-
-  skills: `┌─── Technical Skills ───────────────────────┐
-│                                             │
-│  Languages    TypeScript · Kotlin · Dart    │
-│               Python · JavaScript · SQL     │
-│                                             │
-│  Frontend     React · Flutter · HTML/CSS    │
-│               Tailwind · Framer Motion      │
-│                                             │
-│  Backend      Node.js · Firebase · REST     │
-│               Cloudflare Workers            │
-│                                             │
-│  Mobile       Android (Kotlin) · Flutter    │
-│               Cross-platform               │
-│                                             │
-│  Data & AI    Power BI · ML/DL · Python     │
-│               Data Analysis · Automation    │
-│                                             │
-│  Tools        Git · Docker · Figma          │
-│               VS Code · Android Studio      │
-│                                             │
-└─────────────────────────────────────────────┘`,
-
-  about: `╭──────────────────────────────────────────╮
-│  Chintan Rathod                          │
-│  Calgary, Alberta, Canada                │
-│                                          │
-│  Software Engineer · Visual Storyteller  │
-│                                          │
-│  I turn complex ideas into useful        │
-│  products, clear systems, and            │
-│  thoughtful details.                     │
-│                                          │
-│  When I'm not coding, you'll find me     │
-│  behind a camera capturing landscapes    │
-│  and the quiet moments between them.     │
-╰──────────────────────────────────────────╯`,
-
-  contact: `📧  chintanr21@gmail.com
-🔗  linkedin.com/in/chintan992
-🐙  github.com/chintan992
-📷  instagram.com/chintan992
-
-Type 'social' for quick links.`,
-
-  resume: `📄 Resume: chintan-rathod.pdf
-   Opening resume download...
-   (Visit chintan992.dev for the latest version)`,
-
-  social: `→  github.com/chintan992
-→  instagram.com/chintan992
-→  instagram.com/chintan992_2  (photo work)
-→  linkedin.com/in/chintan992`,
-
-  projects: `Loading projects from GitHub...
-
-  01  Let's Stream         React · TypeScript · Firebase    ★ 23
-  02  X Player             Android · Kotlin
-  03  Stream Flutter       Flutter · Dart · Firebase        ★ 2
-  04  LinZe                Flutter · Dart                   ★ 1
-  05  Assetize             Web · Design tools
-  06  CineCull             Web · TypeScript
-
-Type a project number for details, or visit github.com/chintan992`,
-}
-
 /* ---- Curated gallery frames -------------------------------------- */
 export interface GalleryFrame {
   id: string
@@ -452,7 +375,7 @@ export const galleryFrames: GalleryFrame[] = [
   },
   {
     id: 'frame-20',
-    caption: 'A moment, kept in stillness.',
+    caption: 'Quiet dawn light across the foothills.',
     media_type: 'IMAGE',
     media_url: '/media/photos/CHR07533.jpg',
     permalink: 'https://www.instagram.com/chintan992_2/',

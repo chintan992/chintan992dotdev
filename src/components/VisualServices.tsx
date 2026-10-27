@@ -33,7 +33,7 @@ export default function VisualServices() {
                 className={cn(
                   'flex items-center gap-2 px-5 py-2 rounded-full text-xs font-mono font-medium transition-all duration-300 cursor-pointer',
                   isActive
-                    ? 'bg-white text-black font-semibold shadow-[0_0_15px_rgba(255,255,255,0.2)]'
+                    ? 'bg-white text-black font-semibold'
                     : 'text-slate-400 hover:text-white',
                 )}
               >
@@ -59,7 +59,7 @@ export default function VisualServices() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="titanium-card p-8 rounded-2xl flex flex-col justify-between group"
+              className="bg-white/[0.02] border border-white/[0.08] hover:border-white/[0.16] transition-colors p-8 rounded-2xl flex flex-col justify-between group"
             >
               <div>
                 <div className="text-3xl mb-4 p-3 rounded-xl bg-white/[0.04] w-fit border border-white/[0.08]">
@@ -88,13 +88,13 @@ export default function VisualServices() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          className="titanium-card p-8 sm:p-12 rounded-3xl"
+          className="bg-white/[0.02] border border-white/[0.08] p-8 sm:p-12 rounded-3xl"
         >
           <div className="max-w-2xl mx-auto space-y-6 text-center">
-            <span className="text-xs font-mono uppercase tracking-widest text-amber-300/80">
+            <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
               Documentary Rhythm · Intentional Light
             </span>
-            <h3 className="text-2xl sm:text-3xl font-display font-bold text-white leading-tight">
+            <h3 className="text-2xl sm:text-3xl font-display font-medium text-white leading-tight">
               Capturing quiet clarity before fast spectacle.
             </h3>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
@@ -102,18 +102,18 @@ export default function VisualServices() {
             </p>
             <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
               <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.08]">
-                <div className="text-xs font-mono text-amber-300/80 mb-1 font-semibold">01. PRE-PRODUCTION</div>
-                <div className="text-sm font-semibold text-white mb-1">Pacing & Moodboards</div>
+                <div className="text-xs font-mono text-slate-400 mb-1 font-medium">01. PRE-PRODUCTION</div>
+                <div className="text-sm font-medium text-white mb-1">Pacing & Moodboards</div>
                 <div className="text-xs text-slate-400">Story arcs, location scouting and visual tone mapping.</div>
               </div>
               <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.08]">
-                <div className="text-xs font-mono text-amber-300/80 mb-1 font-semibold">02. PRODUCTION</div>
-                <div className="text-sm font-semibold text-white mb-1">Cinematic Precision</div>
+                <div className="text-xs font-mono text-slate-400 mb-1 font-medium">02. PRODUCTION</div>
+                <div className="text-sm font-medium text-white mb-1">Cinematic Precision</div>
                 <div className="text-xs text-slate-400">4K HDR capture, gimbal glide and intentional framing.</div>
               </div>
               <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.08]">
-                <div className="text-xs font-mono text-amber-300/80 mb-1 font-semibold">03. POST-GRADES</div>
-                <div className="text-sm font-semibold text-white mb-1">Color & Rhythm</div>
+                <div className="text-xs font-mono text-slate-400 mb-1 font-medium">03. POST-GRADES</div>
+                <div className="text-sm font-medium text-white mb-1">Color & Rhythm</div>
                 <div className="text-xs text-slate-400">Bespoke film-inspired color grades and sound design.</div>
               </div>
             </div>
@@ -132,7 +132,7 @@ export default function VisualServices() {
           {gearList.map((g) => (
             <div
               key={g.category}
-              className="titanium-card p-6 rounded-2xl flex flex-col justify-between"
+              className="bg-white/[0.02] border border-white/[0.08] p-6 rounded-2xl flex flex-col justify-between"
             >
               <div>
                 <span className="text-[11px] font-mono uppercase text-slate-400 tracking-wider">

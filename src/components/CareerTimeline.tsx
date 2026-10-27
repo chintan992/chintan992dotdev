@@ -32,7 +32,7 @@ function TimelineCard({ entry, index }: { entry: TimelineEntry; index: number })
         <div
           className={cn(
             'w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center z-10 transition-all duration-300',
-            'bg-[#0e1116] border-white/15 text-slate-300 group-hover:border-white/40 group-hover:text-white group-hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]',
+            'bg-[#0e1116] border-white/15 text-slate-300 group-hover:border-white/40 group-hover:text-white',
           )}
         >
           <TimelineIcon type={entry.type} />
@@ -44,7 +44,7 @@ function TimelineCard({ entry, index }: { entry: TimelineEntry; index: number })
 
       {/* Card content */}
       <div
-        className="flex-1 titanium-card p-4 sm:p-6 rounded-2xl mb-5 sm:mb-6 cursor-pointer"
+        className="flex-1 bg-white/[0.02] border border-white/[0.08] hover:border-white/[0.16] transition-colors p-4 sm:p-6 rounded-2xl mb-5 sm:mb-6 cursor-pointer"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex items-start justify-between gap-4">
@@ -53,16 +53,16 @@ function TimelineCard({ entry, index }: { entry: TimelineEntry; index: number })
               <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-white/[0.06] text-slate-300 border border-white/[0.08]">
                 {entry.period}
               </span>
-              <span className="text-[11px] font-mono tracking-wider text-slate-400 uppercase font-semibold">
+              <span className="text-[11px] font-mono tracking-wider text-slate-400 uppercase font-medium">
                 {entry.label}
               </span>
             </div>
-            <h3 className="text-lg font-bold text-white font-display">{entry.title}</h3>
+            <h3 className="text-base sm:text-lg font-medium text-white font-display">{entry.title}</h3>
             <p className="text-xs text-slate-400 mt-0.5">{entry.org}</p>
           </div>
           <ChevronDown
             className={cn(
-              'w-4 h-4 text-slate-500 transition-transform duration-300 shrink-0 mt-1',
+              'w-4 h-4 text-slate-400 transition-transform duration-300 shrink-0 mt-1',
               expanded && 'rotate-180 text-white',
             )}
           />
@@ -101,32 +101,16 @@ function TimelineCard({ entry, index }: { entry: TimelineEntry; index: number })
 export default function CareerTimeline() {
   return (
     <motion.section
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, ease: [0.22, 0.72, 0.18, 1] }}
+      transition={{ duration: 0.5, ease: [0.22, 0.72, 0.18, 1] }}
       className="w-full"
     >
       <div className="relative">
         {timeline.map((entry: TimelineEntry, i: number) => (
           <TimelineCard key={entry.label + entry.org} entry={entry} index={i} />
         ))}
-      </div>
-
-      {/* Impact metrics banner */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 p-6 rounded-2xl titanium-card">
-        <div className="text-center p-3">
-          <p className="text-3xl md:text-4xl font-extrabold text-white font-display">15%</p>
-          <p className="text-xs text-slate-400 mt-1">Academic ML performance improvement</p>
-        </div>
-        <div className="text-center p-3 sm:border-x border-white/[0.08]">
-          <p className="text-3xl md:text-4xl font-extrabold text-white font-display">28%</p>
-          <p className="text-xs text-slate-400 mt-1">Higher user engagement in pilot</p>
-        </div>
-        <div className="text-center p-3">
-          <p className="text-3xl md:text-4xl font-extrabold text-white font-display">8%</p>
-          <p className="text-xs text-slate-400 mt-1">Retention improvement via segmentation</p>
-        </div>
       </div>
     </motion.section>
   )

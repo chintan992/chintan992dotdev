@@ -86,30 +86,30 @@ export default function GitHubGrid() {
       className="w-full"
     >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-8">
         <div>
-          <p className="text-slate-400 text-xs font-mono tracking-[0.15em] uppercase mb-2 flex items-center gap-2">
+          <p className="text-slate-400 text-xs font-mono tracking-wider uppercase mb-1.5 flex items-center gap-2">
             <span
               className={cn(
                 'inline-block w-2 h-2 rounded-full',
-                status === 'live' ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.7)]' : 'bg-slate-500',
+                status === 'live' ? 'bg-emerald-400' : 'bg-slate-500',
               )}
             />
-            {status === 'live' ? 'Live from GitHub API' : status === 'loading' ? 'Connecting to GitHub...' : 'Curated Project Suite'}
+            {status === 'live' ? 'Live GitHub Sync' : status === 'loading' ? 'Connecting to GitHub...' : 'Project Index'}
           </p>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-display">
-            Systems Architecture & <span className="serif-italic-accent font-normal text-slate-300">Open Source</span>
+          <h2 className="text-2xl sm:text-3xl font-medium text-white tracking-tight font-display">
+            Systems & Open Source
           </h2>
         </div>
         <a
           href="https://github.com/chintan992"
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors"
+          className="flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-white transition-colors"
         >
           <GithubIcon className="w-4 h-4" />
-          View full GitHub portfolio
-          <ExternalLink className="w-3 h-3" />
+          <span>Full GitHub Profile</span>
+          <ExternalLink className="w-3 h-3 text-slate-500" />
         </a>
       </div>
 
@@ -122,7 +122,7 @@ export default function GitHubGrid() {
             className={cn(
               'px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border cursor-pointer shrink-0',
               activeFilter === tag
-                ? 'bg-white text-black font-semibold border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]'
+                ? 'bg-white text-black font-semibold border-white'
                 : 'bg-white/[0.03] text-slate-400 border-white/[0.08] hover:text-white hover:border-white/[0.2]',
             )}
           >
@@ -138,19 +138,19 @@ export default function GitHubGrid() {
             <motion.article
               key={project.name}
               layout
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.35, delay: i * 0.05 }}
-              className="titanium-card group relative flex flex-col justify-between p-6 sm:p-7 rounded-2xl"
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.3, delay: Math.min(i * 0.04, 0.25) }}
+              className="bg-white/[0.02] border border-white/[0.08] hover:border-white/[0.18] transition-colors group relative flex flex-col justify-between p-6 sm:p-7 rounded-2xl"
             >
               <div>
-                <div className="flex items-center justify-between text-xs text-slate-500 font-mono mb-3">
-                  <span className="text-slate-400 font-bold">{project.number}</span>
+                <div className="flex items-center justify-between text-xs text-slate-400 font-mono mb-3">
+                  <span className="font-semibold text-slate-300">{project.number}</span>
                   <div className="flex items-center gap-3">
                     {project.liveStars !== undefined && project.liveStars > 0 && (
-                      <span className="flex items-center gap-1 text-amber-300/90 font-mono text-xs">
-                        <Star className="w-3 h-3 fill-amber-300/90" />
+                      <span className="flex items-center gap-1 text-slate-300 font-mono text-xs">
+                        <Star className="w-3 h-3 fill-slate-300" />
                         {project.liveStars}
                       </span>
                     )}
@@ -175,7 +175,7 @@ export default function GitHubGrid() {
                 <div className="text-[11px] text-slate-400 uppercase font-mono tracking-wider mb-1">
                   {project.category}
                 </div>
-                <h3 className="text-xl font-bold text-white group-hover:text-slate-200 transition-colors font-display">
+                <h3 className="text-lg sm:text-xl font-medium text-white group-hover:text-slate-200 transition-colors font-display">
                   {project.name}
                 </h3>
                 <p className="text-sm text-slate-400 mt-2 leading-relaxed line-clamp-3">
