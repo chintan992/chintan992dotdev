@@ -49,7 +49,7 @@ export default function NavigationHeader({
         </div>
 
         {/* Central Segmented Persona Switcher */}
-        <nav aria-label="Perspective Switcher" className="flex items-center p-1 rounded-full bg-white/[0.04] border border-white/[0.08] shadow-inner shrink-0">
+        <nav aria-label="View switcher" className="flex items-center p-1 rounded-full bg-white/[0.04] border border-white/[0.08] shadow-inner shrink-0">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = mode === item.id

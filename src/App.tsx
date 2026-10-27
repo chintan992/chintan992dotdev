@@ -428,9 +428,7 @@ export default function App() {
               onClick={() => switchMode(mode === 'developer' ? 'visual' : 'developer')}
               className="text-slate-400 hover:text-white transition-colors cursor-pointer"
             >
-              {mode === 'developer'
-                ? 'Switch to Cinematography Perspective →'
-                : 'Switch to Software Engineering Perspective →'}
+              {mode === 'developer' ? 'Cinematography →' : 'Engineering →'}
             </button>
           </div>
         </div>

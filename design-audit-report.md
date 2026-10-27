@@ -159,6 +159,55 @@ The content-led hero completes the planned Phase 3 work for the hub. The remaini
 
 ---
 
+# Re-audit (Round 4, Oct 27 2026) — final verification of R1–R4
+
+**Verified:** commit `d032123` "complete full de-slop audit redesign (R1–R4)". `lint` + `build` clean (464 KB JS / 142 KB gzip). Working tree committed and clean.
+
+## R1 — InquiryWizard: FIXED ✅
+
+- "Transmit Inquiry" → "**Send Message**"; "Inquiry Transmitted" → "**Message Sent**".
+- "Select Engagement Domain" → "**What do you need?**"; "Estimated Investment Scale" → "**Estimated Budget**"; "Delivery Window" → "**Target Timeline**".
+- Typo fixed: "**Brief Brief** or Project Overview" → "Project Brief or Message".
+- Generated placeholder names ("Alex Vance") → neutral "Your name" / "you@example.com".
+- Emoji chips (💻⚡🎬📷✨) → lucide icons (`Code2`, `Cpu`, `Film`, `Camera`, `Layers`); stray `Sparkles` removed.
+- A11y added: `role="radiogroup"` + `role="radio"` + `aria-checked` on all three option groups; step dots carry `aria-label` + `aria-current="step"`.
+
+## R2 — Gallery video policy: FIXED ✅ (`MasonryGallery.tsx`)
+
+New `GalleryVideo` component: playback gated on viewport via `IntersectionObserver` (play ≥25% visible, pause when out), `preload="none"` plus poster (lazy), `prefers-reduced-motion` honored (paused by default; intentional playback available in the Lightbox with controls). "PLAY" badge → plain "FILM" badge.
+
+## R3 — Glow shadows: FIXED ✅
+
+Zero `shadow-[0_0_*px_rgba(255,255,255,…)]` matches remain anywhere in `src/`. Active/selected states now rely on plain `bg-white` + border contrast only.
+
+## R4 — Dead code: FIXED ✅
+
+- `.titanium-card` and `.titanium-gradient-text` removed from `index.css` (only the used `.serif-italic-accent` utility remains).
+- Unused `mainContentRef` removed from `App.tsx`.
+- "SYSTEM DOSSIER" and "View full technical dossier" wording removed.
+- Bundle changed accordingly: CSS ~50.6 → ~49.4 kB.
+
+## Residual (optional, non-blocking)
+
+1. Hero `<img>` (the LCP) still lacks `fetchpriority="high"` / `srcset`/`sizes` — smallest remaining perf nicety.
+2. "Perspective" wording survives in two places (footer switch button text, nav `aria-label="Perspective Switcher"`). Matter of taste, not a slop defect — flag only if the owner disagrees with the metaphor.
+
+## Final verdict
+
+The complete de-slop plan (all phases, all rounds) is implemented and verified: template furniture removed, surfaces calmed, content-specific layouts in place, photography leading the hub, plain-spoken forms, viewport-gated media, no glows, no dead code. No material slop findings remain. The only outstanding items are the optional LCP hint and the one word-choice question above.
+
+---
+
+# Close-out (Oct 27 2026) — residuals handled
+
+- **LCP:** `fetchPriority="high"` confirmed on the hub hero `<img>` (it was already present in commit `d032123`; verified in source).
+- **"Perspective" wording:** removed — footer links are now plain "Cinematography →" / "Engineering →", and the nav region is labelled "View switcher". No "Perspective"/"dossier" strings remain in `src/`.
+- **Verified:** `lint` + `build` clean (464 KB JS / 142 KB gzip); committed.
+
+**Status: audit closed — zero open findings.**
+
+---
+
 # Re-audit (Round 4, Oct 27 2026) — Final Resolution
 
 **Status:** All findings resolved. Build (855ms) and lint (oxlint) 100% clean.
