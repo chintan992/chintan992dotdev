@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "chintan992-portfolio",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-26",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "routes": [
+    {
+      "pattern": "chintan992.dev/*",
+      "zone_name": "chintan992.dev"
+    },
+    {
+      "pattern": "*.chintan992.dev/*",
+      "zone_name": "chintan992.dev"
+    }
+  ],
+  "vars": {
+    "CONTACT_TO_EMAIL": "chintanr21@gmail.com",
+    "CONTACT_FROM_EMAIL": "onboarding@resend.dev"
+  }
+}
