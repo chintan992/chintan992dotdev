@@ -226,6 +226,7 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
                 <img
                   src={frame.media_url}
                   alt={frame.caption || 'Photo by Chintan Rathod'}
+                  decoding="async"
                   className="max-w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-10rem)] w-auto h-auto object-contain rounded-lg select-none"
                   style={{
                     maxHeight: 'calc(100dvh - 13rem)',

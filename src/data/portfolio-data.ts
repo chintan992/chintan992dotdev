@@ -13,6 +13,7 @@ export interface Project {
   stack: string[]
   github: string
   host: string
+  demoUrl?: string
   stars?: number
   language?: string
 }

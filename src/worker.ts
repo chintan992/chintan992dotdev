@@ -49,6 +49,16 @@ const projects: Record<string, Project> = {
     description: 'An anime discovery and recommendation experience.',
     repository: 'https://github.com/chintan992/LinZe',
   },
+  'letsstream-flutter': {
+    name: "Let's Stream Flutter",
+    description: 'Flutter-based media discovery app integrating TMDB API.',
+    repository: 'https://github.com/chintan992/letsstream-flutter-v2',
+  },
+  cinecull: {
+    name: 'CineCull',
+    description: 'A movie curation and discovery tool for finding films.',
+    repository: 'https://github.com/chintan992/cinecull',
+  },
 }
 
 const allowedServices = new Set([
@@ -61,7 +71,7 @@ const allowedServices = new Set([
 
 const responseHeaders = {
   'Content-Security-Policy':
-    "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https://media.chintan992.dev https://images.unsplash.com https://avatars.githubusercontent.com https://github.com; media-src 'self' blob: data: https://media.chintan992.dev; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'",
+    "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https://media.chintan992.dev https://images.unsplash.com https://avatars.githubusercontent.com https://github.com; media-src 'self' blob: data: https://media.chintan992.dev; style-src 'self' 'unsafe-inline'; script-src 'self' https://static.cloudflareinsights.com; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com",
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
@@ -111,6 +121,7 @@ function projectPlaceholder(project: Project): Response {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#183029">
     <title>${name} — coming soon</title>
     <style>
@@ -141,6 +152,41 @@ function projectPlaceholder(project: Project): Response {
         ),
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=300',
+    },
+  })
+}
+
+function notFoundResponse(message = 'The page you are looking for does not exist or has been moved.'): Response {
+  const html = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>404 — Page Not Found | Chintan Rathod</title>
+    <style>
+      *{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;color:#f8f7f1;background:#111513;font:16px/1.6 "Segoe UI",sans-serif}.card{width:min(100%,520px);padding:clamp(32px,6vw,48px);border:1px solid #ffffff15;border-radius:12px;background:#161c18;text-align:center}.code{display:inline-block;padding:4px 12px;border-radius:99px;background:#c5df7520;color:#c5df75;font:700 13px/1.4 monospace;margin-bottom:16px}h1{margin:0 0 12px;font:500 clamp(28px,5vw,36px) Georgia,serif;letter-spacing:-.03em}p{margin:0 0 24px;color:#94a3b8;font-size:15px}a{display:inline-flex;align-items:center;padding:10px 24px;border-radius:99px;background:#c5df75;color:#111513;text-decoration:none;font-weight:600;font-size:14px;transition:opacity .2s}a:hover{opacity:.9}
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <span class="code">HTTP 404</span>
+      <h1>Page Not Found</h1>
+      <p>${escapeHtml(message)}</p>
+      <a href="/">Return to Homepage</a>
+    </main>
+  </body>
+</html>`
+
+  return new Response(html, {
+    status: 404,
+    headers: {
+      ...responseHeaders,
+      'Content-Security-Policy': responseHeaders['Content-Security-Policy'].replace(
+        "style-src 'self'",
+        "style-src 'self' 'unsafe-inline'",
+      ),
+      'Content-Type': 'text/html; charset=utf-8',
     },
   })
 }
@@ -427,15 +473,39 @@ export default {
       return withSecurityHeaders(await handleGitHub(request))
     }
 
+    if (hostname === `www.${BASE_DOMAIN}`) {
+      const redirectUrl = new URL(request.url)
+      redirectUrl.hostname = BASE_DOMAIN
+      return Response.redirect(redirectUrl.toString(), 301)
+    }
+
     const isPortfolioHost =
       hostname === BASE_DOMAIN ||
-      hostname === `www.${BASE_DOMAIN}` ||
       hostname === 'localhost' ||
       hostname === '127.0.0.1' ||
       hostname.endsWith('.workers.dev')
 
+    const validPortfolioRoutes = new Set([
+      '/',
+      '/developer',
+      '/dev',
+      '/engineering',
+      '/visual',
+      '/photography',
+    ])
+
     if (isPortfolioHost) {
-      return withSecurityHeaders(await env.ASSETS.fetch(request))
+      if (validPortfolioRoutes.has(url.pathname)) {
+        const homeRequest = new Request(new URL('/', request.url).toString(), request)
+        const assetResponse = await env.ASSETS.fetch(homeRequest)
+        return withSecurityHeaders(assetResponse)
+      }
+
+      const assetResponse = await env.ASSETS.fetch(request)
+      if (assetResponse.status === 404) {
+        return notFoundResponse()
+      }
+      return withSecurityHeaders(assetResponse)
     }
 
     if (hostname.endsWith(`.${BASE_DOMAIN}`)) {
@@ -444,15 +514,9 @@ export default {
       if (project) {
         return projectPlaceholder(project)
       }
-      return new Response('Project preview not found.', {
-        status: 404,
-        headers: responseHeaders,
-      })
+      return notFoundResponse('Project preview not found.')
     }
 
-    return new Response('Not found.', {
-      status: 404,
-      headers: responseHeaders,
-    })
+    return notFoundResponse()
   },
 }

@@ -75,6 +75,8 @@ export default function MasonryGallery() {
                     muted
                     playsInline
                     preload="metadata"
+                    width={800}
+                    height={1000}
                     className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/60 backdrop-blur-xs flex items-center justify-center pointer-events-none">
@@ -86,6 +88,9 @@ export default function MasonryGallery() {
                   src={frame.media_url}
                   alt={frame.caption || `Photography by Chintan Rathod, frame ${i + 1}`}
                   loading={i < 4 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  width={800}
+                  height={1000}
                   className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
                 />
               )}

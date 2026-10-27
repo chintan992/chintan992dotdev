@@ -4,21 +4,244 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#111513" />
+    <title>Chintan Rathod — Software Engineer &amp; Photographer, Calgary</title>
+    <link rel="canonical" href="https://chintan992.dev/" />
     <meta
       name="description"
       content="Explore the software engineering and visual storytelling portfolios of Chintan Rathod, a Calgary-based software engineer, photographer and filmmaker."
     />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Chintan Rathod — Software & Visual Stories" />
+    <meta property="og:url" content="https://chintan992.dev/" />
+    <meta property="og:title" content="Chintan Rathod — Software Engineer &amp; Photographer, Calgary" />
     <meta
       property="og:description"
-      content="Software products, photography and short films by Chintan Rathod in Calgary."
+      content="Software products, photography and cinematography by Chintan Rathod in Calgary."
     />
+    <meta property="og:image" content="https://chintan992.dev/media/photos/CHR07389.jpg" />
+    <meta property="og:image:alt" content="Photography and software portfolio of Chintan Rathod" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://chintan992.dev/" />
+    <meta name="twitter:title" content="Chintan Rathod — Software Engineer &amp; Photographer, Calgary" />
+    <meta
+      name="twitter:description"
+      content="Software products, photography and cinematography by Chintan Rathod in Calgary."
+    />
+    <meta name="twitter:image" content="https://chintan992.dev/media/photos/CHR07389.jpg" />
+
+    <!-- Structured Data (Schema.org JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://chintan992.dev/#person",
+            "name": "Chintan Rathod",
+            "jobTitle": ["Software Engineer", "Photographer", "Filmmaker"],
+            "url": "https://chintan992.dev/",
+            "image": "https://chintan992.dev/media/photos/CHR07389.jpg",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Calgary",
+              "addressRegion": "AB",
+              "addressCountry": "Canada"
+            },
+            "sameAs": [
+              "https://github.com/chintan992",
+              "https://www.linkedin.com/in/chintan992/",
+              "https://www.instagram.com/chintan992/",
+              "https://www.instagram.com/chintan992_2/"
+            ],
+            "knowsAbout": [
+              "Software Engineering",
+              "React",
+              "TypeScript",
+              "Android Development",
+              "Kotlin",
+              "Flutter",
+              "Dart",
+              "Cloudflare Workers",
+              "Photography",
+              "Cinematography"
+            ]
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://chintan992.dev/#profilepage",
+            "url": "https://chintan992.dev/",
+            "name": "Chintan Rathod — Software Engineer & Photographer, Calgary",
+            "isPartOf": {
+              "@type": "WebSite",
+              "@id": "https://chintan992.dev/#website",
+              "url": "https://chintan992.dev/",
+              "name": "Chintan Rathod Portfolio"
+            },
+            "mainEntity": {
+              "@id": "https://chintan992.dev/#person"
+            }
+          }
+        ]
+      }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Chintan Rathod — Software & Visual Stories</title>
   </head>
-  <body>
-    <div id="root"></div>
+  <body class="bg-[#111513] text-[#f8f7f1]">
+    <div id="root">
+      <header style="max-width: 1200px; margin: 0 auto; padding: 24px 20px; display: flex; justify-content: space-between; align-items: center;">
+        <a href="/" style="font-weight: 700; font-size: 1.25rem; color: #fff; text-decoration: none;">Chintan Rathod</a>
+        <nav style="display: flex; gap: 16px; font-size: 0.875rem;">
+          <a href="#dev" style="color: #cbd5e1; text-decoration: none;">Software</a>
+          <a href="#visual" style="color: #cbd5e1; text-decoration: none;">Visual Stories</a>
+          <a href="#inquiry" style="color: #cbd5e1; text-decoration: none;">Contact</a>
+          <a href="/chintan-rathod.pdf" target="_blank" rel="noreferrer" style="color: #c5df75; text-decoration: none;">Resume (PDF)</a>
+        </nav>
+      </header>
+
+      <main style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+        <section style="text-align: center; margin-bottom: 60px;">
+          <p style="font-family: monospace; font-size: 0.85rem; color: #34d399; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em;">
+            Software Engineer &amp; Visual Storyteller · Calgary, Canada
+          </p>
+          <h1 style="font-size: clamp(2rem, 5vw, 3.75rem); font-weight: 800; line-height: 1.15; margin: 0 0 20px; color: #ffffff;">
+            Architecting resilient digital systems.<br />
+            <span style="font-style: italic; font-weight: 400; color: #cbd5e1;">Framing light, stillness &amp; human stories.</span>
+          </h1>
+          <p style="max-width: 700px; margin: 0 auto; color: #94a3b8; font-size: 1.125rem; line-height: 1.6;">
+            Dual-discipline engineer and filmmaker based in Calgary, Alberta. Building reactive web applications,
+            Kotlin Android runtimes, cross-platform mobile apps, and cinematic visual stories.
+          </p>
+        </section>
+
+        <section id="dev" style="margin-bottom: 60px;">
+          <h2 style="font-size: 1.75rem; font-weight: 700; color: #ffffff; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+            Featured Software Projects
+          </h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <article style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.25rem; margin: 0 0 8px; color: #fff;">Let's Stream</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 16px;">
+                A modern entertainment discovery platform for movies, series, and live content with PWA support.
+              </p>
+              <div style="font-family: monospace; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 16px;">
+                Stack: React, TypeScript, Firebase
+              </div>
+              <a href="https://github.com/chintan992/letsstream2" target="_blank" rel="noreferrer" style="color: #c5df75; font-size: 0.85rem; text-decoration: none;">View on GitHub ↗</a>
+            </article>
+
+            <article style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.25rem; margin: 0 0 8px; color: #fff;">X Player</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 16px;">
+                A high-performance Android video player designed for a smooth, focused playback experience.
+              </p>
+              <div style="font-family: monospace; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 16px;">
+                Stack: Android, Kotlin, Jetpack Media3
+              </div>
+              <a href="https://github.com/chintan992/x-player" target="_blank" rel="noreferrer" style="color: #c5df75; font-size: 0.85rem; text-decoration: none;">View on GitHub ↗</a>
+            </article>
+
+            <article style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.25rem; margin: 0 0 8px; color: #fff;">Let's Stream Flutter</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 16px;">
+                Cross-platform mobile media discovery app integrating the TMDB API for movies, TV series, and anime.
+              </p>
+              <div style="font-family: monospace; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 16px;">
+                Stack: Flutter, Dart, Firebase
+              </div>
+              <a href="https://github.com/chintan992/letsstream-flutter-v2" target="_blank" rel="noreferrer" style="color: #c5df75; font-size: 0.85rem; text-decoration: none;">View on GitHub ↗</a>
+            </article>
+
+            <article style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.25rem; margin: 0 0 8px; color: #fff;">LinZe</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 16px;">
+                Anime discovery experience with a modern interface and personalized recommendations.
+              </p>
+              <div style="font-family: monospace; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 16px;">
+                Stack: Flutter, Dart
+              </div>
+              <a href="https://github.com/chintan992/LinZe" target="_blank" rel="noreferrer" style="color: #c5df75; font-size: 0.85rem; text-decoration: none;">View on GitHub ↗</a>
+            </article>
+
+            <article style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.25rem; margin: 0 0 8px; color: #fff;">Assetize</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 16px;">
+                Automated developer tool for generating consistent app icon packages across iOS, Android, and web.
+              </p>
+              <div style="font-family: monospace; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 16px;">
+                Stack: TypeScript, Web, Design Tools
+              </div>
+              <a href="https://github.com/chintan992/Assetize" target="_blank" rel="noreferrer" style="color: #c5df75; font-size: 0.85rem; text-decoration: none;">View on GitHub ↗</a>
+            </article>
+
+            <article style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.25rem; margin: 0 0 8px; color: #fff;">CineCull</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 16px;">
+                A movie curation and discovery tool for finding cinematic works to watch.
+              </p>
+              <div style="font-family: monospace; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 16px;">
+                Stack: TypeScript, Modern Web
+              </div>
+              <a href="https://github.com/chintan992/cinecull" target="_blank" rel="noreferrer" style="color: #c5df75; font-size: 0.85rem; text-decoration: none;">View on GitHub ↗</a>
+            </article>
+          </div>
+        </section>
+
+        <section id="services" style="margin-bottom: 60px;">
+          <h2 style="font-size: 1.75rem; font-weight: 700; color: #ffffff; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+            Services &amp; Specializations
+          </h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.15rem; color: #fff; margin-top: 0;">Product Engineering</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5;">
+                High-performance web applications (React 19, TypeScript), mobile development (Kotlin Android, Flutter), and cloud edge runtimes (Cloudflare Workers).
+              </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.15rem; color: #fff; margin-top: 0;">Data &amp; Automation</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5;">
+                Process analysis, executive dashboards with Power BI, workflow automation, and machine learning integrations.
+              </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px;">
+              <h3 style="font-size: 1.15rem; color: #fff; margin-top: 0;">Visual Arts &amp; Cinematography</h3>
+              <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5;">
+                Commercial cinematography, architectural photography, automotive stories, and editorial portraits based in Calgary.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="visual" style="margin-bottom: 60px;">
+          <h2 style="font-size: 1.75rem; font-weight: 700; color: #ffffff; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+            Visual Storytelling Gallery
+          </h2>
+          <p style="color: #94a3b8; font-size: 1rem; margin-bottom: 16px;">
+            Curated photographic frames and motion pieces from Calgary and beyond.
+          </p>
+          <ul style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.8;">
+            <li>City twilight along the skyline — Calgary architecture</li>
+            <li>Automotive silhouettes in motion — cinematic captures</li>
+            <li>Geometry in glass and steel — urban symmetry</li>
+            <li>Street narratives and fleeting encounters</li>
+          </ul>
+        </section>
+      </main>
+
+      <footer style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; font-size: 0.85rem; color: #64748b;">
+        <div>&copy; 2026 Chintan Rathod. Calgary, AB, Canada.</div>
+        <div style="display: flex; gap: 16px;">
+          <a href="https://github.com/chintan992" target="_blank" rel="noreferrer" style="color: #94a3b8; text-decoration: none;">GitHub</a>
+          <a href="https://www.linkedin.com/in/chintan992/" target="_blank" rel="noreferrer" style="color: #94a3b8; text-decoration: none;">LinkedIn</a>
+          <a href="https://www.instagram.com/chintan992/" target="_blank" rel="noreferrer" style="color: #94a3b8; text-decoration: none;">Instagram</a>
+          <a href="https://www.instagram.com/chintan992_2/" target="_blank" rel="noreferrer" style="color: #94a3b8; text-decoration: none;">Photo Work</a>
+        </div>
+      </footer>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

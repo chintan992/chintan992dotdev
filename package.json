@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:worker": "wrangler dev",
-    "build": "tsc -b && npm run typecheck:worker && vite build",
+    "build": "tsc -b && npm run typecheck:worker && vite build && node -e \"import('node:fs').then(fs => fs.rmSync('dist/media', { recursive: true, force: true }))\"",
     "deploy": "npm run build && wrangler deploy",
     "lint": "oxlint",
     "preview": "vite preview",

@@ -197,14 +197,24 @@ export default function GitHubGrid() {
                       {project.liveLanguage ?? project.language}
                     </span>
                   )}
-                  {project.host && (
+                  {project.demoUrl ? (
                     <a
-                      href={`https://${project.host}.chintan992.dev`}
+                      href={project.demoUrl}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-white transition-colors"
                     >
                       <span>Preview</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  ) : (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-white transition-colors"
+                    >
+                      <span>Source</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   )}

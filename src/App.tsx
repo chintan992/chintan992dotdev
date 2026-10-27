@@ -30,6 +30,14 @@ const CURRENT_YEAR = new Date().getFullYear()
 export default function App() {
   const [mode, setMode] = useState<PortfolioMode>(() => {
     if (typeof window !== 'undefined') {
+      const path = window.location.pathname.toLowerCase()
+      if (path.startsWith('/developer') || path.startsWith('/dev') || path.startsWith('/engineering')) {
+        return 'developer'
+      }
+      if (path.startsWith('/visual') || path.startsWith('/photography') || path.startsWith('/film')) {
+        return 'visual'
+      }
+
       const hash = window.location.hash.toLowerCase()
       if (hash === '#developer' || hash === '#dev') return 'developer'
       if (hash === '#visual' || hash === '#media') return 'visual'
@@ -40,9 +48,19 @@ export default function App() {
   const [showTerminal, setShowTerminal] = useState(false)
   const mainContentRef = useRef<HTMLDivElement>(null)
 
-  // Sync mode with window location hash
+  // Sync mode with window location and update document title
   useEffect(() => {
-    function handleHashChange() {
+    function handleLocationChange() {
+      const path = window.location.pathname.toLowerCase()
+      if (path.startsWith('/developer') || path.startsWith('/dev') || path.startsWith('/engineering')) {
+        setMode('developer')
+        return
+      }
+      if (path.startsWith('/visual') || path.startsWith('/photography') || path.startsWith('/film')) {
+        setMode('visual')
+        return
+      }
+
       const hash = window.location.hash.toLowerCase()
       if (hash === '#developer' || hash === '#dev') {
         setMode('developer')
@@ -53,22 +71,30 @@ export default function App() {
       }
     }
 
-    window.addEventListener('hashchange', handleHashChange)
-    return () => window.removeEventListener('hashchange', handleHashChange)
+    window.addEventListener('popstate', handleLocationChange)
+    window.addEventListener('hashchange', handleLocationChange)
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange)
+      window.removeEventListener('hashchange', handleLocationChange)
+    }
   }, [])
+
+  // Dynamic intent-specific page titles
+  useEffect(() => {
+    if (mode === 'developer') {
+      document.title = 'Software Engineering Portfolio — Chintan Rathod | Calgary'
+    } else if (mode === 'visual') {
+      document.title = 'Photography & Cinematography — Chintan Rathod | Calgary'
+    } else {
+      document.title = 'Chintan Rathod — Software Engineer & Photographer, Calgary'
+    }
+  }, [mode])
 
   function switchMode(newMode: PortfolioMode) {
     setMode(newMode)
-    if (newMode === 'hub') {
-      window.history.pushState(null, '', '#all')
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    } else if (newMode === 'developer') {
-      window.history.pushState(null, '', '#dev')
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    } else if (newMode === 'visual') {
-      window.history.pushState(null, '', '#visual')
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
+    const targetPath = newMode === 'hub' ? '/' : `/${newMode}`
+    window.history.pushState(null, '', targetPath)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
