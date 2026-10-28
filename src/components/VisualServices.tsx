@@ -18,7 +18,7 @@ export default function VisualServices() {
     <div className="w-full max-w-5xl mx-auto">
       {/* Category Toggle Tabs */}
       <div className="flex justify-center mb-10">
-        <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-md">
+        <div className="grid grid-cols-3 sm:flex sm:items-center gap-1 p-1 rounded-2xl sm:rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-md w-full sm:w-auto">
           {[
             { id: 'services', label: 'Offerings', icon: Film },
             { id: 'approach', label: 'Philosophy', icon: Aperture },
@@ -31,7 +31,7 @@ export default function VisualServices() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 className={cn(
-                  'flex items-center gap-2 px-5 py-2 rounded-full text-xs font-mono font-medium transition-all duration-300 cursor-pointer',
+                  'flex items-center justify-center gap-1.5 px-2 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs font-mono font-medium whitespace-nowrap transition-all duration-300 cursor-pointer',
                   isActive
                     ? 'bg-white text-black font-semibold'
                     : 'text-slate-400 hover:text-white',

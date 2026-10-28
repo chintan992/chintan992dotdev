@@ -83,7 +83,7 @@ export default function NavigationHeader({
         </nav>
 
         {/* Right Utilities & Actions */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           {/* Resume PDF */}
           <a
             href="/chintan-rathod.pdf"
@@ -140,7 +140,7 @@ export default function NavigationHeader({
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-xl text-slate-400 hover:text-white bg-white/[0.04] border border-white/[0.1] cursor-pointer"
+          className="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white bg-white/[0.04] border border-white/[0.1] cursor-pointer"
           aria-label="Toggle navigation menu"
         >
           {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -154,7 +154,7 @@ export default function NavigationHeader({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-white/[0.08] bg-[#0c0e12]/95 backdrop-blur-2xl px-5 py-6 space-y-4"
+            className="lg:hidden border-t border-white/[0.08] bg-[#0c0e12]/95 backdrop-blur-2xl px-5 py-6 space-y-4"
           >
             <div className="space-y-2">
               <a
