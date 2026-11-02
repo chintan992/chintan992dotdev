@@ -5,10 +5,10 @@ import { visualServices, type Service } from '@/data/portfolio-data'
 import { Camera, Film, Aperture } from 'lucide-react'
 
 const gearList = [
-  { category: 'Camera Bodies', items: ['Sony Alpha Full-Frame Series', 'Secondary 4K B-Cam'] },
-  { category: 'Optics & Lenses', items: ['24-70mm f/2.8 G-Master', '35mm f/1.4 Prime', '85mm f/1.8 Portrait Prime'] },
-  { category: 'Movement & Aerial', items: ['DJI RS3 Pro Gimbal', 'DJI Mini 4 Pro Drone (4K 24fps HDR)'] },
-  { category: 'Sound & Illumination', items: ['Rode Wireless PRO (32-bit float)', 'Aputure Bi-Color LED Arrays'] },
+  { category: 'Camera Bodies', items: ['Sony A7Sii (Full Frame)', 'Sony ZVE10 (APS-C)'] },
+  { category: 'Optics & Lenses', items: ['Sony 18-105mm f/4 G OSS (APS-C E-Mount)', 'Sigma 30mm f/1.4 Prime (APS-C E-Mount)', 'Meike 85mm f/1.8 Portrait Prime'] },
+  { category: 'Movement & Aerial', items: ['DJI RS4 Mini Gimbal', 'DJI Mini 3 Drone (4K 24fps HDR)'] },
+  { category: 'Sound & Illumination', items: ['DJI Mic Mini 2', 'Aputure Bi-Color LED Arrays (Portable)'] },
 ]
 
 export default function VisualServices() {

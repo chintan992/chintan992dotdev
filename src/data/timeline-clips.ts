@@ -78,7 +78,7 @@ export const timelineClips: TimelineClip[] = [
     mediaUrl: '/media/videos/tower1.mp4',
     thumbnailUrl: '/media/thumbnails/tower1.jpg',
     metrics: [
-      { label: 'Motion', value: 'DJI RS3 Pro Gimbal' },
+      { label: 'Motion', value: 'DJI RS4 Mini Gimbal' },
       { label: 'Framerate', value: '23.976 fps' },
       { label: 'Location', value: 'Calgary, AB' },
     ],
@@ -97,7 +97,7 @@ export const timelineClips: TimelineClip[] = [
     mediaUrl: '/media/videos/train1.mp4',
     thumbnailUrl: '/media/thumbnails/train1.jpg',
     metrics: [
-      { label: 'Audio', value: '32-bit Float' },
+      { label: 'Audio', value: '24-bit' },
       { label: 'Lighting', value: 'Natural Dusk' },
       { label: 'Optics', value: '85mm f/1.8' },
     ],
