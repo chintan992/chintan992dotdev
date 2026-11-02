@@ -107,6 +107,7 @@ export default function MasonryGallery() {
                   src={frame.media_url}
                   alt={frame.caption || `Photography by Chintan Rathod, frame ${i + 1}`}
                   loading={i < 4 ? 'eager' : 'lazy'}
+                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                   decoding="async"
                   width={800}
                   height={1000}

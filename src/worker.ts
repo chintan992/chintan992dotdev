@@ -202,6 +202,98 @@ interface RouteMeta {
   canonical: string
 }
 
+function routeSeoContent(pathname: string): { html: string; schema: string } | null {
+  const normalized = pathname.replace(/\/+$/, '') || '/'
+  const link = (href: string, label: string) =>
+    `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`
+
+  if (normalized === '/') {
+    return null
+  }
+
+  if (normalized === '/developer') {
+    return {
+      html: `<main><p>Software engineering portfolio · Calgary, Alberta</p><h1>Software Engineering &amp; Systems Architecture</h1><p>Chintan Rathod builds reactive web platforms, Kotlin Android applications, Flutter products, and Cloudflare edge services.</p><h2>Selected engineering work</h2><p>${link('/developer/projects', 'Explore software projects and engineering case studies')} or ${link('/inquiry', 'start a technical inquiry')}.</p></main>`,
+      schema: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'Software Engineering & Systems Architecture',
+        url: `https://${BASE_DOMAIN}/developer`,
+        description: getRouteMeta('/developer')?.description,
+        isPartOf: { '@id': `https://${BASE_DOMAIN}/#website` },
+        about: { '@type': 'Thing', name: 'Software engineering and systems architecture' },
+      }),
+    }
+  }
+
+  if (normalized === '/visual') {
+    return {
+      html: `<main><p>Visual portfolio · Calgary, Alberta</p><h1>Cinematography &amp; Documentary Photography</h1><p>Documentary photography, commercial cinematography, architectural work, and editorial portraits by Chintan Rathod across Calgary and the Canadian Rockies.</p><h2>Visual storytelling services</h2><p>${link('/inquiry', 'Discuss a photography or film commission')} or ${link('/', 'return to the complete portfolio')}.</p></main>`,
+      schema: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'Cinematography & Documentary Photography',
+        url: `https://${BASE_DOMAIN}/visual`,
+        description: getRouteMeta('/visual')?.description,
+        isPartOf: { '@id': `https://${BASE_DOMAIN}/#website` },
+        about: { '@type': 'Thing', name: 'Cinematography and documentary photography' },
+      }),
+    }
+  }
+
+  if (normalized === '/inquiry') {
+    return {
+      html: `<main><p>Commissioning · Calgary, Alberta</p><h1>Inquiries &amp; Commissions</h1><p>Commission software architecture, mobile application development, commercial cinematography, or photography with Chintan Rathod.</p><h2>Start a project conversation</h2><p>The inquiry form is available after JavaScript loads. You can also ${link('mailto:chintanr21@gmail.com', 'email Chintan directly')} or ${link('/', 'review the portfolio')} first.</p></main>`,
+      schema: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        name: 'Inquiries & Commissions',
+        url: `https://${BASE_DOMAIN}/inquiry`,
+        description: getRouteMeta('/inquiry')?.description,
+        mainEntity: { '@id': `https://${BASE_DOMAIN}/#person` },
+      }),
+    }
+  }
+
+  if (normalized === '/developer/projects') {
+    return {
+      html: `<main><p>Software engineering portfolio · Calgary, Alberta</p><h1>Projects &amp; Engineering Case Studies</h1><p>Explore software products, mobile applications, developer tools, and media experiences built by Chintan Rathod.</p><h2>Featured projects</h2><p>${Object.entries(projects)
+        .map(([slug, project]) => link(`/developer/projects/${slug}`, project.name))
+        .join(' · ')}</p><p>${link('/developer', 'Read about engineering capabilities')} or ${link('/inquiry', 'start a project inquiry')}.</p></main>`,
+      schema: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Projects & Engineering Case Studies',
+        url: `https://${BASE_DOMAIN}/developer/projects`,
+        description: getRouteMeta('/developer/projects')?.description,
+        isPartOf: { '@id': `https://${BASE_DOMAIN}/#website` },
+      }),
+    }
+  }
+
+  if (normalized.startsWith('/developer/projects/')) {
+    const slug = normalized.slice('/developer/projects/'.length)
+    const project = projects[slug]
+    if (project) {
+      return {
+        html: `<main><p>${link('/developer/projects', 'Engineering case studies')} / ${escapeHtml(project.name)}</p><h1>${escapeHtml(project.name)}</h1><p>${escapeHtml(project.description)}</p><h2>Project preview</h2><p>The full preview is being prepared. Review the source repository on ${link(project.repository, 'GitHub')} or ${link('/developer', 'return to the engineering portfolio')}.</p></main>`,
+        schema: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'CreativeWork',
+          name: project.name,
+          url: `https://${BASE_DOMAIN}/developer/projects/${slug}`,
+          description: project.description,
+          creator: { '@id': `https://${BASE_DOMAIN}/#person` },
+          isPartOf: { '@id': `https://${BASE_DOMAIN}/#website` },
+          sameAs: project.repository,
+        }),
+      }
+    }
+  }
+
+  return null
+}
+
 function getRouteMeta(pathname: string): RouteMeta | null {
   const normalized = pathname.replace(/\/+$/, '') || '/'
 
@@ -266,7 +358,22 @@ function getRouteMeta(pathname: string): RouteMeta | null {
 }
 
 function applyRouteMeta(response: Response, meta: RouteMeta): Response {
+  const routeContent = routeSeoContent(new URL(meta.canonical).pathname)
   return new HTMLRewriter()
+    .on('head', {
+      element(e: Element) {
+        if (routeContent) {
+          e.append(`<script type="application/ld+json">${routeContent.schema}</script>`, { html: true })
+        }
+      },
+    })
+    .on('#root', {
+      element(e: Element) {
+        if (routeContent) {
+          e.setInnerContent(routeContent.html, { html: true })
+        }
+      },
+    })
     .on('title', {
       element(e: Element) {
         e.setInnerContent(meta.title)
