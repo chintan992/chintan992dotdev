@@ -6,13 +6,7 @@ import {
   type TimelineClip,
   type TrackType,
 } from '@/data/timeline-clips'
-
-function formatTimecode(seconds: number): string {
-  const mins = Math.floor(seconds / 60)
-  const secs = Math.floor(seconds % 60)
-  const frames = Math.floor((seconds % 1) * 24)
-  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${String(frames).padStart(2, '0')}`
-}
+import { formatTimecode } from '@/lib/playback-engine'
 
 interface TimelineSequencerProps {
   currentTime: number

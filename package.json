@@ -9,6 +9,7 @@
     "build": "tsc -b && npm run typecheck:worker && vite build && node -e \"import('node:fs').then(fs => fs.rmSync('dist/media', { recursive: true, force: true }))\"",
     "deploy": "npm run build && wrangler deploy",
     "lint": "oxlint",
+    "test": "vitest run",
     "preview": "vite preview",
     "typecheck:worker": "tsc --noEmit -p tsconfig.worker.json",
     "upload:media": "node scripts/upload-media.mjs"
@@ -38,6 +39,7 @@
     "oxlint": "^1.88.0",
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
+    "vitest": "^5.1.0",
     "wrangler": "^4.153.0"
   }
 }
