@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import type { PortfolioMode } from '@/data/portfolio-data'
 import { FileText, Menu, X, ArrowUpRight, Layers, Code2, Film, Mail } from 'lucide-react'
 import { GithubIcon, InstagramIcon, LinkedinIcon } from '@/components/Icons'
+import CRLogo from '@/components/CRLogo'
 
 interface NavigationHeaderProps {
   mode: PortfolioMode
@@ -40,9 +41,13 @@ export default function NavigationHeader({
             className="flex items-center gap-3 group text-left cursor-pointer"
             aria-label="Return to overview"
           >
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/[0.05] border border-white/12 flex items-center justify-center font-display font-medium text-xs sm:text-sm text-white group-hover:border-white/25 transition-all">
-              CR
-              <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border-2 border-[#090a0d]" />
+            <div className="relative flex items-center justify-center group-hover:scale-105 transition-transform">
+              <CRLogo size={36} accentColor="#38bdf8" />
+              <span
+                className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-[#090a0d]"
+                title="Status: Online"
+                aria-label="Status: Online"
+              />
             </div>
             <div className="hidden sm:block">
               <div className="font-display font-medium text-sm tracking-tight text-white group-hover:text-zinc-200 transition-colors">
@@ -181,6 +186,14 @@ export default function NavigationHeader({
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden border-t border-white/[0.08] bg-[#090a0d]/98 backdrop-blur-2xl px-5 py-6 space-y-4"
           >
+            <div className="flex items-center gap-3 pb-3 border-b border-white/[0.08]">
+              <CRLogo size={32} accentColor="#38bdf8" />
+              <div>
+                <div className="font-display font-medium text-sm text-white">Chintan Rathod</div>
+                <div className="text-[10px] font-mono text-zinc-400">CALGARY 51°N · NLE STUDIO</div>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <a
                 href="/chintan-rathod.pdf"

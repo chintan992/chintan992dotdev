@@ -12,6 +12,7 @@ import MasonryGallery from '@/components/MasonryGallery'
 import VisualServices from '@/components/VisualServices'
 import InquiryWizard from '@/components/InquiryWizard'
 import ProjectModal from '@/components/ProjectModal'
+import CRLogo from '@/components/CRLogo'
 
 // Icons
 import {
@@ -536,9 +537,12 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             {/* Column 1: Brand & Bio */}
             <div className="md:col-span-1 space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span className="font-display font-medium text-white text-base">Chintan Rathod</span>
+              <div className="flex items-center gap-3">
+                <CRLogo size={32} showBadge={false} accentColor="#38bdf8" />
+                <div>
+                  <span className="font-display font-medium text-white text-base block leading-tight">Chintan Rathod</span>
+                  <span className="text-[10px] font-mono text-zinc-500">CALGARY 51°N · STUDIO</span>
+                </div>
               </div>
               <p className="text-zinc-400 leading-relaxed text-xs">
                 Systems & Mobile Engineer · Cinematographer & Photographer based in Calgary, Alberta.
