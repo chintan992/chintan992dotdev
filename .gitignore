@@ -29,3 +29,9 @@ content/
 .dev.vars
 public/media/videos/*.mp4
 .playwright-mcp/
+
+# env vars
+.env*
+
+#dns records
+cloudflare-dns-import.txt
