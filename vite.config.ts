@@ -24,12 +24,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (
-            id.includes('node_modules/react') ||
-            id.includes('node_modules/react-dom') ||
-            id.includes('node_modules/framer-motion') ||
-            id.includes('node_modules/lucide-react')
-          ) {
+          if (/node_modules[\\/](react|react-dom|framer-motion|lucide-react)[\\/]/.test(id)) {
             return 'ui-vendor'
           }
         },

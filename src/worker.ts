@@ -66,6 +66,10 @@ const projects: Record<string, Project> = {
   },
 }
 
+function getProject(slug: string): Project | null {
+  return Object.prototype.hasOwnProperty.call(projects, slug) ? projects[slug] : null
+}
+
 const allowedServices = new Set([
   'Software development',
   'Business analysis & automation',
@@ -273,7 +277,7 @@ function routeSeoContent(pathname: string): { html: string; schema: string } | n
 
   if (normalized.startsWith('/developer/projects/')) {
     const slug = normalized.slice('/developer/projects/'.length)
-    const project = projects[slug]
+    const project = getProject(slug)
     if (project) {
       return {
         html: `<main><p>${link('/developer/projects', 'Engineering case studies')} / ${escapeHtml(project.name)}</p><h1>${escapeHtml(project.name)}</h1><p>${escapeHtml(project.description)}</p><h2>Project preview</h2><p>The full preview is being prepared. Review the source repository on ${link(project.repository, 'GitHub')} or ${link('/developer', 'return to the engineering portfolio')}.</p></main>`,
@@ -344,7 +348,7 @@ function getRouteMeta(pathname: string): RouteMeta | null {
 
   if (normalized.startsWith('/developer/projects/')) {
     const slug = normalized.slice('/developer/projects/'.length)
-    const project = projects[slug]
+    const project = getProject(slug)
     if (project) {
       return {
         title: `${project.name} — Software Project by Chintan Rathod`,
@@ -751,7 +755,7 @@ export default {
 
     if (hostname.endsWith(`.${BASE_DOMAIN}`)) {
       const slug = hostname.slice(0, -BASE_DOMAIN.length - 1)
-      const project = projects[slug]
+      const project = getProject(slug)
       if (project) {
         return projectPlaceholder(project)
       }
