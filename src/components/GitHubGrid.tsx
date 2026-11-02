@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { projects, filterTags, type FilterTag, type Project } from '@/data/portfolio-data'
-import { Star, GitFork, ExternalLink } from 'lucide-react'
+import { Star, GitFork, ExternalLink, Cpu } from 'lucide-react'
 import { GithubIcon } from '@/components/Icons'
 
 interface GitHubRepo {
@@ -82,25 +82,19 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
         )
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, ease: [0.22, 0.72, 0.18, 1] }}
-      className="w-full"
-    >
+    <section className="w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-8">
         <div>
-          <p className="text-slate-400 text-xs font-mono tracking-wider uppercase mb-1.5 flex items-center gap-2">
+          <div className="flex items-center gap-2 text-xs font-medium text-zinc-400 mb-1.5">
             <span
               className={cn(
-                'inline-block w-2 h-2 rounded-full',
-                status === 'live' ? 'bg-emerald-400' : 'bg-slate-500',
+                'inline-block w-1.5 h-1.5 rounded-full',
+                status === 'live' ? 'bg-[#e2a868]' : 'bg-zinc-600',
               )}
             />
-            {status === 'live' ? 'Live GitHub Sync' : status === 'loading' ? 'Connecting to GitHub...' : 'Project Index'}
-          </p>
+            <span>{status === 'live' ? 'Live GitHub Sync' : status === 'loading' ? 'Connecting to GitHub' : 'Project Index'}</span>
+          </div>
           <h2 className="text-2xl sm:text-3xl font-medium text-white tracking-tight font-display">
             Systems & Open Source
           </h2>
@@ -109,11 +103,11 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
           href="https://github.com/chintan992"
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-white transition-colors"
+          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
         >
           <GithubIcon className="w-4 h-4" />
-          <span>Full GitHub Profile</span>
-          <ExternalLink className="w-3 h-3 text-slate-500" />
+          <span>github.com/chintan992</span>
+          <ExternalLink className="w-3 h-3 text-zinc-500" />
         </a>
       </div>
 
@@ -124,10 +118,10 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
             key={tag}
             onClick={() => setActiveFilter(tag)}
             className={cn(
-              'px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border cursor-pointer shrink-0',
+              'px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border cursor-pointer shrink-0',
               activeFilter === tag
-                ? 'bg-white text-black font-semibold border-white'
-                : 'bg-white/[0.03] text-slate-400 border-white/[0.08] hover:text-white hover:border-white/[0.2]',
+                ? 'bg-[#f4f5f6] text-[#0c0d0e] font-medium border-transparent'
+                : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/[0.2]',
             )}
           >
             {tag}
@@ -135,31 +129,34 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
         ))}
       </div>
 
-      {/* Projects grid */}
+      {/* Technical Dossiers Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project, i) => (
+          {filteredProjects.map((project) => (
             <motion.article
               key={project.name}
               layout
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.3, delay: Math.min(i * 0.04, 0.25) }}
-              className="bg-white/[0.02] border border-white/[0.08] hover:border-white/[0.18] transition-colors group relative flex flex-col justify-between p-6 sm:p-7 rounded-2xl"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="bg-[#141618] border border-white/[0.08] hover:border-white/[0.18] transition-colors group relative flex flex-col justify-between p-6 rounded-xl"
             >
               <div>
-                <div className="flex items-center justify-between text-xs text-slate-400 font-mono mb-3">
-                  <span className="font-semibold text-slate-300">{project.number}</span>
+                {/* Meta Bar */}
+                <div className="flex items-center justify-between text-xs text-zinc-400 mb-3">
+                  <span className="text-[11px] font-medium text-zinc-400 tracking-wide">
+                    {project.category}
+                  </span>
                   <div className="flex items-center gap-3">
                     {project.liveStars !== undefined && project.liveStars > 0 && (
-                      <span className="flex items-center gap-1 text-slate-300 font-mono text-xs">
-                        <Star className="w-3 h-3 fill-slate-300" />
+                      <span className="flex items-center gap-1 text-zinc-300 text-xs">
+                        <Star className="w-3 h-3 fill-zinc-300" />
                         {project.liveStars}
                       </span>
                     )}
                     {project.liveForks !== undefined && project.liveForks > 0 && (
-                      <span className="flex items-center gap-1 text-slate-400 font-mono text-xs">
+                      <span className="flex items-center gap-1 text-zinc-400 text-xs">
                         <GitFork className="w-3 h-3" />
                         {project.liveForks}
                       </span>
@@ -168,7 +165,7 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
                       href={project.github}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-slate-400 hover:text-white transition-colors"
+                      className="text-zinc-400 hover:text-white transition-colors"
                       aria-label={`${project.name} on GitHub`}
                     >
                       <GithubIcon className="w-4 h-4" />
@@ -176,21 +173,28 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
                   </div>
                 </div>
 
-                <div className="text-[11px] text-slate-400 uppercase font-mono tracking-wider mb-1">
-                  {project.category}
-                </div>
-                <h3 className="text-lg sm:text-xl font-medium text-white group-hover:text-slate-200 transition-colors font-display">
+                {/* Title & Description */}
+                <h3 className="text-lg font-medium text-white group-hover:text-[#e2a868] transition-colors font-display">
                   {project.name}
                 </h3>
-                <p className="text-sm text-slate-400 mt-2 leading-relaxed line-clamp-3">
+                <p className="text-sm text-zinc-300 mt-2.5 leading-relaxed line-clamp-3">
                   {project.description}
                 </p>
+
+                {/* Architectural highlights snippet if available */}
+                {project.architecture && (
+                  <div className="mt-3.5 pt-3 border-t border-white/[0.06] text-xs text-zinc-400 flex items-start gap-1.5">
+                    <Cpu className="w-3.5 h-3.5 text-zinc-500 shrink-0 mt-0.5" />
+                    <span className="line-clamp-2 leading-relaxed">{project.architecture}</span>
+                  </div>
+                )}
               </div>
 
+              {/* Footer specs & actions */}
               <div className="mt-5 pt-4 border-t border-white/[0.08] space-y-3">
                 <div className="flex items-center justify-between">
                   {(project.liveLanguage ?? project.language) && (
-                    <span className="flex items-center gap-1.5 text-slate-300 font-mono text-xs">
+                    <span className="flex items-center gap-1.5 text-zinc-300 text-xs font-mono">
                       <span
                         className="w-2 h-2 rounded-full"
                         style={{
@@ -201,27 +205,20 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
                       {project.liveLanguage ?? project.language}
                     </span>
                   )}
-                  <a
-                    href={`/developer/projects/${project.host}`}
-                    onClick={(e) => {
-                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
-                        e.preventDefault()
-                        onSelectProject?.(project)
-                      }
-                    }}
-                    className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400 hover:text-emerald-300 font-medium transition-colors"
+                  <button
+                    onClick={() => onSelectProject?.(project)}
+                    className="text-xs font-medium text-[#e2a868] hover:text-[#f4f5f6] transition-colors cursor-pointer"
                   >
-                    <span>Architecture</span>
-                    <span aria-hidden="true">→</span>
-                  </a>
+                    Architecture case study
+                  </button>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/[0.04]">
+                <div className="flex items-center justify-between gap-2 pt-2 border-t border-white/[0.04]">
                   <div className="flex flex-wrap gap-1.5">
                     {project.stack.map((tag: string) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-slate-300 border border-white/[0.08]"
+                        className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.03] text-zinc-300 border border-white/[0.06]"
                       >
                         {tag}
                       </span>
@@ -232,7 +229,7 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
                     href={project.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-white transition-colors shrink-0"
+                    className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors shrink-0"
                   >
                     <span>Source</span>
                     <ExternalLink className="w-3 h-3" />
@@ -243,6 +240,6 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
           ))}
         </AnimatePresence>
       </div>
-    </motion.section>
+    </section>
   )
 }

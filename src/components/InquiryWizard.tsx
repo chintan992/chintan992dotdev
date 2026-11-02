@@ -23,33 +23,33 @@ interface InquiryWizardProps {
 const serviceOptions = [
   {
     id: 'Software development',
-    label: 'Software Development',
+    label: 'Software Engineering',
     icon: Code2,
-    desc: 'Web apps, mobile solutions & systems architecture',
+    desc: 'Web applications, Kotlin Android runtimes & systems architecture',
   },
   {
     id: 'Business analysis & automation',
-    label: 'Systems & Automation',
+    label: 'Systems Analysis & Automation',
     icon: Cpu,
-    desc: 'Process automation, reporting & intelligent workflows',
+    desc: 'Process automation, data pipelines & operational integrations',
   },
   {
     id: 'Videography',
     label: 'Cinematic Videography',
     icon: Film,
-    desc: 'Commercial films, event storytelling & color grading',
+    desc: 'Commercial brand films, documentary narratives & color grading',
   },
   {
     id: 'Photography',
     label: 'Editorial Photography',
     icon: Camera,
-    desc: 'Portraits, documentary, travel & brand visuals',
+    desc: 'Portraits, documentary wilderness & architectural assignments',
   },
   {
     id: 'Something else',
-    label: 'Collaborative Project',
+    label: 'Collaborative Assignment',
     icon: Layers,
-    desc: 'Advisory, cross-discipline work, or custom assignments',
+    desc: 'Cross-discipline project, advisory, or custom inquiry',
   },
 ]
 
@@ -135,7 +135,7 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
       <div className="flex items-center justify-between mb-8 relative">
         <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-white/[0.08] -translate-y-1/2 -z-0" />
         <div
-          className="absolute top-1/2 left-0 h-[2px] -translate-y-1/2 transition-all duration-500 bg-white -z-0"
+          className="absolute top-1/2 left-0 h-[2px] -translate-y-1/2 transition-all duration-300 bg-[#e2a868] -z-0"
           style={{
             width: step === 1 ? '0%' : step === 2 ? '50%' : '100%',
           }}
@@ -157,17 +157,17 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                 }
               }}
               className={cn(
-                'w-9 h-9 rounded-full flex items-center justify-center text-xs font-mono font-medium transition-all duration-300 border',
+                'w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-200 border cursor-pointer',
                 step >= item.num
-                  ? 'bg-white text-black border-white'
-                  : 'bg-[#12141a] text-slate-400 border-white/[0.1]',
+                  ? 'bg-white text-[#0c0d0e] border-white font-semibold'
+                  : 'bg-[#141618] text-zinc-400 border-white/[0.1]',
               )}
               aria-label={`Step ${item.num}: ${item.label}`}
               aria-current={step === item.num ? 'step' : undefined}
             >
               {item.num}
             </button>
-            <span className="text-[11px] uppercase tracking-wider text-slate-400 mt-2 font-mono">
+            <span className="text-[11px] font-medium text-zinc-400 mt-2">
               {item.label}
             </span>
           </div>
@@ -175,24 +175,24 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
       </div>
 
       {/* Main Form Container */}
-      <div className="bg-white/[0.02] border border-white/[0.08] p-5 sm:p-9 rounded-2xl sm:rounded-3xl">
+      <div className="bg-[#141618] border border-white/[0.08] p-5 sm:p-8 rounded-xl">
         <AnimatePresence mode="wait">
           {status === 'success' ? (
             <motion.div
               key="success"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="py-12 text-center flex flex-col items-center"
             >
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-6 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                <CheckCircle2 className="w-7 h-7" />
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-5 bg-[#e2a868]/10 text-[#e2a868] border border-[#e2a868]/30">
+                <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-medium text-white mb-2 font-display">
-                Message Sent
+              <h3 className="text-xl font-medium text-white mb-2 font-display">
+                Message Dispatched
               </h3>
-              <p className="text-slate-300 max-w-md mx-auto text-sm leading-relaxed mb-6">
-                Thank you, <span className="text-white font-medium">{name}</span>. Your message has reached my primary inbox. I typically respond within 24–48 hours.
+              <p className="text-zinc-300 max-w-md mx-auto text-sm leading-relaxed mb-6">
+                Thank you, <span className="text-white font-medium">{name}</span>. Your inquiry has arrived in my primary inbox. I typically respond within 24–48 hours.
               </p>
               <button
                 type="button"
@@ -201,9 +201,9 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                   setStep(1)
                   setMessage('')
                 }}
-                className="px-6 py-2 rounded-full text-xs font-mono font-medium border border-white/20 text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="px-5 py-2 rounded-full text-xs font-medium border border-white/20 text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
-                Send Another Message
+                Send another message
               </button>
             </motion.div>
           ) : (
@@ -212,17 +212,18 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
               {step === 1 && (
                 <motion.div
                   key="step1"
-                  initial={{ opacity: 0, x: 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -16 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                   className="space-y-4"
                 >
-                  <div className="mb-6">
-                    <h3 className="text-lg sm:text-xl font-medium font-display text-white mb-1">
-                      What do you need?
+                  <div className="mb-5">
+                    <h3 className="text-lg font-medium font-display text-white mb-1">
+                      Select Practice Area
                     </h3>
-                    <p className="text-xs text-slate-400">
-                      Select the primary area of focus for this project or inquiry.
+                    <p className="text-xs text-zinc-400">
+                      Choose the primary domain for this engagement or technical requirement.
                     </p>
                   </div>
 
@@ -240,24 +241,24 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                           className={cn(
                             'w-full flex items-center gap-3.5 p-3.5 sm:p-4 rounded-xl border text-left transition-colors cursor-pointer',
                             isSelected
-                              ? 'bg-white/[0.06] border-white/40 text-white'
-                              : 'bg-white/[0.02] border-white/[0.08] text-slate-300 hover:border-white/[0.18] hover:bg-white/[0.04]',
+                              ? 'bg-white/[0.05] border-[#e2a868]/60 text-white'
+                              : 'bg-white/[0.02] border-white/[0.06] text-zinc-300 hover:border-white/[0.16] hover:bg-white/[0.03]',
                           )}
                         >
-                          <div className="p-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300 shrink-0">
+                          <div className="p-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-zinc-300 shrink-0">
                             <Icon className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="font-medium text-sm text-white">{opt.label}</div>
-                            <div className="text-xs text-slate-400 truncate mt-0.5">{opt.desc}</div>
+                            <div className="text-xs text-zinc-400 truncate mt-0.5">{opt.desc}</div>
                           </div>
                           <div
                             className={cn(
                               'w-4 h-4 rounded-full border flex items-center justify-center transition-colors shrink-0',
-                              isSelected ? 'border-white bg-white' : 'border-slate-600',
+                              isSelected ? 'border-[#e2a868] bg-[#e2a868]' : 'border-zinc-600',
                             )}
                           >
-                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-black" />}
+                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-[#0c0d0e]" />}
                           </div>
                         </button>
                       )
@@ -268,9 +269,10 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-mono font-medium uppercase tracking-wider text-black bg-white hover:bg-slate-200 transition-all cursor-pointer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium text-[#0c0d0e] bg-white hover:bg-zinc-200 transition-all cursor-pointer"
                     >
-                      Next: Scope & Budget <ArrowRight className="w-4 h-4" />
+                      <span>Continue to Scope</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </motion.div>
@@ -280,24 +282,25 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
               {step === 2 && (
                 <motion.div
                   key="step2"
-                  initial={{ opacity: 0, x: 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -16 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                   className="space-y-6"
                 >
                   <div className="mb-4">
-                    <h3 className="text-lg sm:text-xl font-medium font-display text-white mb-1">
-                      Budget & Timeline
+                    <h3 className="text-lg font-medium font-display text-white mb-1">
+                      Scope & Timeline
                     </h3>
-                    <p className="text-xs text-slate-400">
-                      Help estimate the project scope and anticipated schedule.
+                    <p className="text-xs text-zinc-400">
+                      Approximate parameters for project planning and scheduling.
                     </p>
                   </div>
 
                   {/* Budget */}
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-                      Estimated Budget
+                    <label className="block text-xs font-medium text-zinc-300 mb-2">
+                      Estimated Budget Range
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2" role="radiogroup" aria-label="Estimated budget">
                       {budgetRanges.map((b) => (
@@ -308,10 +311,10 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                           aria-checked={budget === b}
                           onClick={() => setBudget(b)}
                           className={cn(
-                            'p-2.5 sm:p-3 rounded-xl border text-[11px] sm:text-xs font-mono text-center transition-colors cursor-pointer',
+                            'p-2.5 sm:p-3 rounded-lg border text-xs text-center transition-colors cursor-pointer',
                             budget === b
-                              ? 'bg-white text-black font-semibold border-white'
-                              : 'bg-white/[0.03] border-white/[0.08] text-slate-300 hover:border-white/[0.2]',
+                              ? 'bg-white text-[#0c0d0e] font-medium border-white'
+                              : 'bg-white/[0.02] border-white/[0.08] text-zinc-300 hover:border-white/[0.2]',
                           )}
                         >
                           {b}
@@ -322,8 +325,8 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
 
                   {/* Timeline */}
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-                      Target Timeline
+                    <label className="block text-xs font-medium text-zinc-300 mb-2">
+                      Target Schedule
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2" role="radiogroup" aria-label="Target timeline">
                       {timelineOptions.map((t) => (
@@ -334,10 +337,10 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                           aria-checked={timeline === t}
                           onClick={() => setTimeline(t)}
                           className={cn(
-                            'p-2.5 sm:p-3 rounded-xl border text-[11px] sm:text-xs font-mono text-center transition-colors cursor-pointer',
+                            'p-2.5 sm:p-3 rounded-lg border text-xs text-center transition-colors cursor-pointer',
                             timeline === t
-                              ? 'bg-white text-black font-semibold border-white'
-                              : 'bg-white/[0.03] border-white/[0.08] text-slate-300 hover:border-white/[0.2]',
+                              ? 'bg-white text-[#0c0d0e] font-medium border-white'
+                              : 'bg-white/[0.02] border-white/[0.08] text-zinc-300 hover:border-white/[0.2]',
                           )}
                         >
                           {t}
@@ -350,16 +353,17 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white font-mono cursor-pointer"
+                      className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white cursor-pointer font-medium"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" /> Back
                     </button>
                     <button
                       type="button"
                       onClick={() => setStep(3)}
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-mono font-medium uppercase tracking-wider text-black bg-white hover:bg-slate-200 transition-all cursor-pointer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium text-[#0c0d0e] bg-white hover:bg-zinc-200 transition-all cursor-pointer"
                     >
-                      Next: Details <ArrowRight className="w-4 h-4" />
+                      <span>Continue to Details</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </motion.div>
@@ -369,23 +373,24 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
               {step === 3 && (
                 <motion.div
                   key="step3"
-                  initial={{ opacity: 0, x: 16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -16 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                   className="space-y-4"
                 >
                   <div className="mb-4">
-                    <h3 className="text-lg sm:text-xl font-medium font-display text-white mb-1">
-                      Contact Information
+                    <h3 className="text-lg font-medium font-display text-white mb-1">
+                      Direct Details
                     </h3>
-                    <p className="text-xs text-slate-400">
-                      Where should I send a reply?
+                    <p className="text-xs text-zinc-400">
+                      Provide your contact coordinates and project summary.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+                      <label className="block text-xs font-medium text-zinc-300 mb-1.5">
                         Your Name *
                       </label>
                       <input
@@ -393,12 +398,12 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Your name"
-                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.1] text-white text-base sm:text-sm focus:outline-none focus:border-white/50 transition-colors"
+                        placeholder="Name"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-[#0c0d0e] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-[#e2a868] transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+                      <label className="block text-xs font-medium text-zinc-300 mb-1.5">
                         Email Address *
                       </label>
                       <input
@@ -407,27 +412,27 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@example.com"
-                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.1] text-white text-base sm:text-sm focus:outline-none focus:border-white/50 transition-colors"
+                        className="w-full px-3.5 py-2.5 rounded-lg bg-[#0c0d0e] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-[#e2a868] transition-colors"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
-                      Project Brief or Message
+                    <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+                      Project Specifications or Note
                     </label>
                     <textarea
                       rows={3}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Share project goals, requirements, or timeline..."
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.1] text-white text-base sm:text-sm focus:outline-none focus:border-white/50 transition-colors resize-none"
+                      placeholder="Outline your systems architecture challenges, timeline goals, or visual brief..."
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#0c0d0e] border border-white/[0.1] text-white text-sm focus:outline-none focus:border-[#e2a868] transition-colors resize-none"
                     />
                   </div>
 
                   {/* Summary preview */}
-                  <div className="p-3 rounded-xl bg-black/40 border border-white/[0.08] text-xs font-mono text-slate-400">
-                    Service: <span className="text-slate-200">{selectedService}</span> · Budget: <span className="text-slate-200">{budget}</span> · Timeline: <span className="text-slate-200">{timeline}</span>
+                  <div className="p-3 rounded-lg bg-[#0c0d0e] border border-white/[0.06] text-xs text-zinc-400">
+                    Domain: <span className="text-zinc-200">{selectedService}</span> · Scope: <span className="text-zinc-200">{budget}</span> · Schedule: <span className="text-zinc-200">{timeline}</span>
                   </div>
 
                   {status === 'error' && errorMessage && (
@@ -442,23 +447,24 @@ export default function InquiryWizard({ mode, defaultService }: InquiryWizardPro
                       type="button"
                       disabled={status === 'submitting'}
                       onClick={() => setStep(2)}
-                      className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white font-mono cursor-pointer"
+                      className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white cursor-pointer font-medium"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" /> Back
                     </button>
                     <button
                       type="submit"
                       disabled={status === 'submitting'}
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-mono font-medium uppercase tracking-wider text-black bg-white hover:bg-slate-200 transition-all disabled:opacity-50 cursor-pointer"
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-medium text-[#0c0d0e] bg-white hover:bg-zinc-200 transition-all disabled:opacity-50 cursor-pointer"
                     >
                       {status === 'submitting' ? (
                         <>
                           <div className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                          Sending...
+                          <span>Dispatching...</span>
                         </>
                       ) : (
                         <>
-                          Send Message <Send className="w-3.5 h-3.5" />
+                          <span>Send Message</span>
+                          <Send className="w-3.5 h-3.5" />
                         </>
                       )}
                     </button>

@@ -176,7 +176,7 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen text-slate-100 font-sans bg-[#08090a]">
+    <div className="relative min-h-screen text-[#f4f5f6] font-sans bg-[#0c0d0e]">
       {/* Unified Navigation Bar */}
       <NavigationHeader
         mode={mode}
@@ -195,7 +195,7 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.35 }}
+              transition={{ duration: 0.3 }}
               className="space-y-16 sm:space-y-24"
             >
               {/* Editorial Hero Showcase */}
@@ -212,27 +212,28 @@ export default function App() {
                 <MasonryGallery />
               </section>
 
-              {/* Core Disciplines & Technical Philosophy (Dense list layout, no icon cards) */}
+              {/* Core Disciplines & Technical Capabilities */}
               <section id="services" className="max-w-6xl mx-auto px-4 sm:px-6 pt-4">
                 <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-8">
                   <div>
-                    <p className="text-xs font-mono tracking-wider text-slate-400 uppercase mb-1.5">
-                      Practice & Capabilities
-                    </p>
+                    <div className="text-xs font-medium text-zinc-400 mb-1.5 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
+                      <span>Practice & Capabilities</span>
+                    </div>
                     <h2 className="text-2xl sm:text-3xl font-medium font-display tracking-tight text-white">
                       Disciplines & Craft
                     </h2>
                   </div>
                   <button
                     onClick={() => switchMode('developer')}
-                    className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="text-xs font-medium text-zinc-300 hover:text-[#e2a868] flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <span>View all engineering work</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
 
-                {/* Plain, dense list format per audit recommendation */}
+                {/* Dense spec list format */}
                 <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
                   {devServices.map((service: Service) => (
                     <div
@@ -245,13 +246,13 @@ export default function App() {
                         </h3>
                       </div>
                       <div className="md:col-span-8 space-y-3">
-                        <p className="text-slate-300 text-sm leading-relaxed">
+                        <p className="text-zinc-300 text-sm leading-relaxed">
                           {service.description}
                         </p>
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-mono text-slate-400">
+                        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-zinc-400">
                           {service.details.map((detail: string) => (
                             <span key={detail} className="flex items-center gap-1.5">
-                              <span className="text-slate-500">·</span>
+                              <span className="w-1 h-1 rounded-full bg-[#e2a868]" />
                               <span>{detail}</span>
                             </span>
                           ))}
@@ -265,14 +266,15 @@ export default function App() {
               {/* Direct Inquiry / Contact */}
               <section id="inquiry" className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
                 <div className="text-center max-w-xl mx-auto mb-10">
-                  <p className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-2">
-                    Inquiries & Collaborations
-                  </p>
+                  <div className="inline-flex items-center gap-2 text-xs font-medium text-zinc-400 mb-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
+                    <span>Inquiries & Direct Commissions</span>
+                  </div>
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Start a Conversation
                   </h2>
-                  <p className="text-slate-400 text-sm mt-2">
-                    Have a systems architecture challenge, software product, or visual assignment in mind?
+                  <p className="text-zinc-400 text-sm mt-2">
+                    Have a systems architecture challenge, mobile application, or commercial visual production in mind?
                   </p>
                 </div>
                 <InquiryWizard mode="hub" />
@@ -289,15 +291,15 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.35 }}
+              transition={{ duration: 0.3 }}
               className="space-y-16 py-8"
             >
               {/* Focused Developer Hero */}
               <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-6">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                   <div className="lg:col-span-7 space-y-6">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-slate-300 text-xs font-mono">
-                      <Cpu className="w-3.5 h-3.5 text-slate-400" />
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300 text-xs font-medium">
+                      <Cpu className="w-3.5 h-3.5 text-[#e2a868]" />
                       <span>Software Engineering & Systems Architecture</span>
                     </div>
 
@@ -305,66 +307,67 @@ export default function App() {
                       Building reactive web platforms & high-performance runtimes.
                     </h1>
 
-                    <p className="text-slate-300 text-base leading-relaxed max-w-xl">
-                      Crafting resilient digital products with TypeScript, Kotlin, Flutter, and edge cloud infrastructure. Driven by architectural clarity, sub-second latency, and scalable business value.
+                    <p className="text-zinc-300 text-base leading-relaxed max-w-xl">
+                      Engineering reactive web systems, Android playback pipelines, and edge cloud services with TypeScript, Kotlin, and Cloudflare Workers. Focusing on clean state architectures, measurable runtime efficiency, and rock-solid reliability.
                     </p>
 
                     <div className="flex flex-wrap items-center gap-4 pt-2">
                       <a
                         href="#dev-projects"
-                        className="px-6 py-2.5 rounded-full bg-white text-black font-mono font-medium text-xs uppercase tracking-wider hover:bg-slate-200 transition-all flex items-center gap-2 cursor-pointer"
+                        className="px-5 py-2.5 rounded-full bg-white text-[#0c0d0e] font-medium text-xs hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer"
                       >
-                        Explore Projects <ArrowDown className="w-3.5 h-3.5" />
+                        Explore engineering dossiers <ArrowDown className="w-3.5 h-3.5" />
                       </a>
                     </div>
                   </div>
 
                   <div className="lg:col-span-5">
-                    {/* Technical Profile Card */}
-                    <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/[0.08] space-y-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
-                        <span className="text-xs font-mono text-slate-300">TECHNICAL PROFILE</span>
-                        <span className="text-xs font-mono text-slate-400">Calgary, Canada</span>
+                    {/* Technical Profile Dossier */}
+                    <div className="p-6 rounded-xl bg-[#141618] border border-white/[0.08] space-y-4">
+                      <div className="flex items-center justify-between pb-3 border-b border-white/[0.06] text-xs">
+                        <span className="font-medium text-white">Technical Profile</span>
+                        <span className="text-zinc-400">Calgary, Canada</span>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-3 text-xs font-mono">
-                        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                          <div className="text-slate-400 text-[10px]">PRIMARY STACK</div>
+                      <div className="grid grid-cols-2 gap-3 text-xs">
+                        <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
+                          <div className="text-zinc-400 text-[11px] font-medium">Primary Stack</div>
                           <div className="text-white font-medium mt-1">TypeScript · Kotlin</div>
                         </div>
-                        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                          <div className="text-slate-400 text-[10px]">MOBILE ENGINES</div>
+                        <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
+                          <div className="text-zinc-400 text-[11px] font-medium">Mobile Runtimes</div>
                           <div className="text-white font-medium mt-1">Android · Flutter</div>
                         </div>
-                        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                          <div className="text-slate-400 text-[10px]">CLOUD RUNTIME</div>
-                          <div className="text-white font-medium mt-1">Cloudflare · Node</div>
+                        <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
+                          <div className="text-zinc-400 text-[11px] font-medium">Cloud Infrastructure</div>
+                          <div className="text-white font-medium mt-1">Cloudflare · Node.js</div>
                         </div>
-                        <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                          <div className="text-slate-400 text-[10px]">ORGANIZATION</div>
-                          <div className="text-white font-medium mt-1">Compugen</div>
+                        <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
+                          <div className="text-zinc-400 text-[11px] font-medium">Current Role</div>
+                          <div className="text-white font-medium mt-1">Compugen Systems</div>
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs font-mono text-slate-300">
-                        Available for architecture reviews, full-stack builds, and mobile systems engineering.
+                      <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-300 leading-relaxed">
+                        Available for systems architecture reviews, full-stack builds, and mobile systems engineering.
                       </div>
                     </div>
                   </div>
                 </div>
               </section>
 
-              {/* Projects Grid (Live once in developer mode) */}
+              {/* Projects Grid */}
               <section id="dev-projects" className="max-w-6xl mx-auto px-4 sm:px-6">
                 <GitHubGrid onSelectProject={openProject} />
               </section>
 
-              {/* Career Timeline (Live once in developer mode) */}
+              {/* Career Timeline */}
               <section className="max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="mb-8">
-                  <p className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" /> Milestones & Experience
-                  </p>
+                  <div className="text-xs font-medium text-zinc-400 mb-1.5 flex items-center gap-2">
+                    <MapPin className="w-3.5 h-3.5 text-[#e2a868]" />
+                    <span>Milestones & Experience</span>
+                  </div>
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Trajectory & Engineering Delivery
                   </h2>
@@ -375,30 +378,29 @@ export default function App() {
               {/* Technical Service Disciplines */}
               <section className="max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="mb-8">
-                  <p className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-1.5">
-                    Engineering Services
-                  </p>
+                  <div className="text-xs font-medium text-zinc-400 mb-1.5 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
+                    <span>Engineering Capabilities</span>
+                  </div>
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Technical Disciplines
                   </h2>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   {devServices.map((service: Service) => (
                     <div
                       key={service.title}
-                      className="p-6 sm:p-7 rounded-2xl bg-white/[0.02] border border-white/[0.08] flex flex-col justify-between"
+                      className="p-7 rounded-xl bg-[#141618] border border-white/[0.08] flex flex-col justify-between"
                     >
                       <div>
-                        <div className="text-2xl mb-4 p-2.5 rounded-xl bg-white/[0.04] w-fit border border-white/[0.06] text-white">
-                          {service.icon}
-                        </div>
                         <h3 className="text-lg font-medium font-display text-white mb-2">{service.title}</h3>
-                        <p className="text-slate-400 text-sm leading-relaxed mb-6">{service.description}</p>
+                        <p className="text-zinc-300 text-sm leading-relaxed mb-6">{service.description}</p>
                       </div>
                       <div className="pt-4 border-t border-white/[0.06] space-y-2">
                         {service.details.map((detail: string) => (
-                          <div key={detail} className="text-xs font-mono text-slate-300 flex items-center gap-2">
-                            <span className="text-slate-500">›</span> {detail}
+                          <div key={detail} className="text-xs text-zinc-300 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868] shrink-0" />
+                            <span>{detail}</span>
                           </div>
                         ))}
                       </div>
@@ -413,7 +415,7 @@ export default function App() {
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Start a Technical Conversation
                   </h2>
-                  <p className="text-slate-400 text-sm mt-2">
+                  <p className="text-zinc-400 text-sm mt-2">
                     Have a product roadmap, app idea, or systems challenge? Send over the details below.
                   </p>
                 </div>
@@ -431,13 +433,13 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.35 }}
+              transition={{ duration: 0.3 }}
               className="space-y-16 py-8"
             >
               {/* Focused Visual Hero */}
               <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-10 text-center">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-slate-300 text-xs font-mono mb-6">
-                  <Film className="w-3.5 h-3.5 text-slate-400" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300 text-xs font-medium mb-6">
+                  <Film className="w-3.5 h-3.5 text-[#e2a868]" />
                   <span>Cinematic Filmmaking · Documentary Photography</span>
                 </div>
 
@@ -445,22 +447,22 @@ export default function App() {
                   Light, stillness, and human moments framed with purpose.
                 </h1>
 
-                <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mt-6">
+                <p className="text-zinc-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mt-6">
                   Based in Calgary, capturing the Canadian wilderness, editorial portraits, and cinematic brand stories. Every frame is treated with intentional color rhythm and organic texture.
                 </p>
 
                 <div className="flex justify-center items-center gap-4 mt-8">
                   <a
                     href="#visual-gallery"
-                    className="px-6 py-2.5 rounded-full bg-white text-black font-mono font-medium text-xs uppercase tracking-wider hover:bg-slate-200 transition-all flex items-center gap-2 cursor-pointer"
+                    className="px-5 py-2.5 rounded-full bg-white text-[#0c0d0e] font-medium text-xs hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer"
                   >
-                    View Gallery <ArrowDown className="w-3.5 h-3.5" />
+                    View gallery <ArrowDown className="w-3.5 h-3.5" />
                   </a>
                   <a
                     href="#visual-inquiry"
-                    className="px-6 py-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-white font-mono text-xs hover:bg-white/[0.08] transition-all flex items-center gap-2 cursor-pointer"
+                    className="px-5 py-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-white text-xs font-medium hover:bg-white/[0.08] transition-all flex items-center gap-2 cursor-pointer"
                   >
-                    Book Shoot Session
+                    Commission a session
                   </a>
                 </div>
               </section>
@@ -473,9 +475,10 @@ export default function App() {
               {/* Offerings & Gear */}
               <section id="visual-offerings" className="max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="text-center max-w-xl mx-auto mb-10">
-                  <p className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-1.5">
-                    Creative Suite
-                  </p>
+                  <div className="inline-flex items-center gap-2 text-xs font-medium text-zinc-400 mb-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
+                    <span>Creative Suite</span>
+                  </div>
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Cinematic Production & Toolkit
                   </h2>
@@ -489,7 +492,7 @@ export default function App() {
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Commission A Shoot or Production
                   </h2>
-                  <p className="text-slate-400 text-sm mt-2">
+                  <p className="text-zinc-400 text-sm mt-2">
                     Currently booking creative brand campaigns, commercial assignments, and editorial portraits.
                   </p>
                 </div>
@@ -507,27 +510,27 @@ export default function App() {
         onInquire={() => navigateToInquiry()}
       />
 
-      {/* Comprehensive Architectural Footer */}
-      <footer className="border-t border-white/[0.08] pt-16 pb-12 mt-24 text-xs font-mono text-slate-400 bg-black/40">
+      {/* Editorial Footer */}
+      <footer className="border-t border-white/[0.08] pt-16 pb-12 mt-24 text-xs text-zinc-400 bg-[#0c0d0e]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             {/* Column 1: Brand & Bio */}
             <div className="md:col-span-1 space-y-3">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="w-2 h-2 rounded-full bg-[#e2a868]" />
                 <span className="font-display font-medium text-white text-base">Chintan Rathod</span>
               </div>
-              <p className="text-slate-400 leading-relaxed text-xs">
+              <p className="text-zinc-400 leading-relaxed text-xs">
                 Systems & Mobile Engineer · Cinematographer & Photographer based in Calgary, Alberta.
               </p>
-              <div className="text-[11px] text-slate-500">
-                Staff Engineer at Compugen · Open-Source Contributor
+              <div className="text-[11px] text-zinc-500">
+                Staff Integration Technician at Compugen
               </div>
             </div>
 
             {/* Column 2: Software Engineering */}
             <div className="space-y-3">
-              <h4 className="text-xs uppercase tracking-wider text-slate-300 font-semibold">
+              <h4 className="text-xs font-medium text-zinc-200">
                 Software Systems
               </h4>
               <ul className="space-y-2">
@@ -568,7 +571,6 @@ export default function App() {
                     className="hover:text-white transition-colors inline-flex items-center gap-1"
                   >
                     <span>GitHub Profile</span>
-                    <span aria-hidden="true">↗</span>
                   </a>
                 </li>
                 <li>
@@ -579,7 +581,6 @@ export default function App() {
                     className="hover:text-white transition-colors inline-flex items-center gap-1"
                   >
                     <span>Curriculum Vitae (PDF)</span>
-                    <span aria-hidden="true">↗</span>
                   </a>
                 </li>
               </ul>
@@ -587,7 +588,7 @@ export default function App() {
 
             {/* Column 3: Visual & Film */}
             <div className="space-y-3">
-              <h4 className="text-xs uppercase tracking-wider text-slate-300 font-semibold">
+              <h4 className="text-xs font-medium text-zinc-200">
                 Visual Stories
               </h4>
               <ul className="space-y-2">
@@ -643,7 +644,6 @@ export default function App() {
                     className="hover:text-white transition-colors inline-flex items-center gap-1"
                   >
                     <span>Photography Instagram</span>
-                    <span aria-hidden="true">↗</span>
                   </a>
                 </li>
               </ul>
@@ -651,8 +651,8 @@ export default function App() {
 
             {/* Column 4: Collaboration & Contact */}
             <div className="space-y-3">
-              <h4 className="text-xs uppercase tracking-wider text-slate-300 font-semibold">
-                Collaboration
+              <h4 className="text-xs font-medium text-zinc-200">
+                Direct Contact
               </h4>
               <ul className="space-y-2">
                 <li>
@@ -664,9 +664,9 @@ export default function App() {
                         navigateToInquiry()
                       }
                     }}
-                    className="hover:text-white transition-colors text-emerald-400 font-medium"
+                    className="hover:text-white transition-colors text-[#e2a868] font-medium"
                   >
-                    Start an Inquiry →
+                    Send an inquiry
                   </a>
                 </li>
                 <li>
@@ -685,23 +685,22 @@ export default function App() {
                     className="hover:text-white transition-colors inline-flex items-center gap-1"
                   >
                     <span>LinkedIn</span>
-                    <span aria-hidden="true">↗</span>
                   </a>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+          <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
             <div>
               © {CURRENT_YEAR} Chintan Rathod · Calgary, Alberta · Built with React & Cloudflare Workers
             </div>
             <div className="flex items-center gap-4">
               <button
                 onClick={() => switchMode(mode === 'developer' ? 'visual' : 'developer')}
-                className="hover:text-slate-300 transition-colors cursor-pointer"
+                className="hover:text-zinc-300 transition-colors cursor-pointer"
               >
-                Switch to {mode === 'developer' ? 'Photography & Film' : 'Software Engineering'} →
+                Switch to {mode === 'developer' ? 'Photography & Film' : 'Software Engineering'}
               </button>
             </div>
           </div>

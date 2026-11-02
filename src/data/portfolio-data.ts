@@ -7,7 +7,7 @@ export type PortfolioMode = 'hub' | 'developer' | 'visual'
 /* ---- Projects ---------------------------------------------------- */
 export interface Project {
   name: string
-  number: string
+  number?: string
   category: string
   description: string
   stack: string[]
@@ -137,7 +137,7 @@ export interface Service {
   title: string
   description: string
   details: string[]
-  icon: string
+  icon?: string
 }
 
 export const devServices: Service[] = [

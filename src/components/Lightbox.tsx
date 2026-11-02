@@ -271,7 +271,7 @@ export default function Lightbox({ frames, startIndex, onClose }: LightboxProps)
               className={cn(
                 'w-12 h-12 rounded-md overflow-hidden border-2 transition-all duration-200 shrink-0 cursor-pointer',
                 i === index
-                  ? 'border-white/80 opacity-100 scale-110 shadow-md'
+                  ? 'border-[#e2a868] opacity-100 scale-105 shadow-md'
                   : 'border-transparent opacity-40 hover:opacity-70',
               )}
             >

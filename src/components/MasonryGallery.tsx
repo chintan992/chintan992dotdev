@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { galleryFrames, type GalleryFrame } from '@/data/portfolio-data'
 import { ExternalLink } from 'lucide-react'
 import { InstagramIcon } from '@/components/Icons'
@@ -22,7 +21,7 @@ function GalleryVideo({ src, poster }: { src: string; poster?: string }) {
       ([entry]) => {
         if (entry.isIntersecting) {
           video.play().catch(() => {
-            // Handle browser autoplay policy restrictions gracefully
+            // Browser autoplay restrictions handled gracefully
           })
         } else {
           video.pause()
@@ -39,7 +38,7 @@ function GalleryVideo({ src, poster }: { src: string; poster?: string }) {
   }, [])
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden bg-neutral-950">
       <video
         ref={videoRef}
         src={src}
@@ -52,8 +51,8 @@ function GalleryVideo({ src, poster }: { src: string; poster?: string }) {
         height={1000}
         className="w-full h-auto block"
       />
-      <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs text-[10px] font-mono text-slate-300">
-        FILM
+      <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-black/70 backdrop-blur-xs text-[10px] font-mono text-zinc-300 border border-white/10">
+        MOTION
       </div>
     </div>
   )
@@ -65,21 +64,16 @@ export default function MasonryGallery() {
 
   return (
     <>
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.5, ease: [0.22, 0.72, 0.18, 1] }}
-        className="w-full"
-      >
+      <section className="w-full">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-8">
           <div>
-            <p className="text-xs font-mono tracking-wider uppercase mb-1.5 text-slate-400">
-              Curated Frames & Motion
-            </p>
+            <div className="text-xs font-medium text-zinc-400 mb-1.5 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
+              <span>Documentary Chronicle · Canadian Rockies</span>
+            </div>
             <h2 className="text-2xl sm:text-3xl font-medium font-display tracking-tight text-white">
-              Selected Photography
+              Selected Photography & Motion
             </h2>
           </div>
           <div className="flex items-center gap-4">
@@ -87,11 +81,11 @@ export default function MasonryGallery() {
               href="https://www.instagram.com/chintan992_2/"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
             >
               <InstagramIcon className="w-4 h-4" />
               <span>@chintan992_2</span>
-              <ExternalLink className="w-3 h-3 text-slate-500" />
+              <ExternalLink className="w-3 h-3 text-zinc-500" />
             </a>
           </div>
         </div>
@@ -99,13 +93,9 @@ export default function MasonryGallery() {
         {/* Masonry grid */}
         <div className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
           {frames.map((frame, i) => (
-            <motion.button
+            <button
               key={frame.id}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.3) }}
-              className="relative w-full break-inside-avoid rounded-xl overflow-hidden group cursor-pointer bg-neutral-900 block focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              className="relative w-full break-inside-avoid rounded-xl overflow-hidden group cursor-pointer bg-[#141618] border border-white/[0.06] block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e2a868]"
               onClick={() => setLightboxIndex(i)}
             >
               {frame.media_type === 'VIDEO' ? (
@@ -118,13 +108,13 @@ export default function MasonryGallery() {
                   decoding="async"
                   width={800}
                   height={1000}
-                  className="w-full h-auto block group-hover:opacity-90 transition-opacity duration-200"
+                  className="w-full h-auto block group-hover:opacity-90 transition-opacity duration-300"
                 />
               )}
-            </motion.button>
+            </button>
           ))}
         </div>
-      </motion.section>
+      </section>
 
       {/* Lightbox */}
       {lightboxIndex !== null && (
