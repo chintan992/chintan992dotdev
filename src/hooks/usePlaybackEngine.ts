@@ -51,7 +51,14 @@ export function usePlaybackEngine({
     if (!enableKeyboardShortcuts) return
 
     function handleKeyDown(e: KeyboardEvent) {
-      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return
+      const target = e.target
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          target.closest('button, a, input, textarea, select, [contenteditable="true"], [role="button"], [role="tab"], [role="slider"]'))
+      ) {
+        return
+      }
 
       if (e.code === 'Space') {
         e.preventDefault()
@@ -87,4 +94,3 @@ export function usePlaybackEngine({
 }
 
 export type PlaybackEngine = ReturnType<typeof usePlaybackEngine>
-

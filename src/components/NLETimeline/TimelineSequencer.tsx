@@ -24,12 +24,15 @@ export default function TimelineSequencer({
   onScrub,
 }: TimelineSequencerProps) {
   const timelineRef = useRef<HTMLDivElement>(null)
+  const playheadRatio = currentTime / TOTAL_TIMELINE_SECONDS
 
   function handleTimelineScrub(e: React.MouseEvent<HTMLDivElement>) {
     if (!timelineRef.current) return
     const rect = timelineRef.current.getBoundingClientRect()
-    const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width))
-    const ratio = clickX / rect.width
+    const trackLabelWidth = window.matchMedia('(min-width: 640px)').matches ? 128 : 112
+    const usableWidth = rect.width - trackLabelWidth
+    const clickX = Math.max(0, Math.min(e.clientX - rect.left - trackLabelWidth, usableWidth))
+    const ratio = usableWidth > 0 ? clickX / usableWidth : 0
     const newTime = Math.round(ratio * TOTAL_TIMELINE_SECONDS)
     onScrub(newTime)
   }
@@ -79,7 +82,7 @@ export default function TimelineSequencer({
             >
               {/* Timecode markers across 120s */}
               <div
-                className="absolute inset-0 flex justify-between px-3 text-[10px] font-mono text-zinc-400 items-center pointer-events-none"
+                className="absolute inset-y-0 left-28 right-0 sm:left-32 flex justify-between text-[10px] font-mono text-zinc-400 items-center pointer-events-none"
                 aria-hidden="true"
               >
                 <span>00:00</span>
@@ -95,7 +98,7 @@ export default function TimelineSequencer({
 
               {/* Vertical Sub-Ticks */}
               <div
-                className="absolute inset-0 flex justify-between px-3 items-end pointer-events-none opacity-20"
+                className="absolute inset-y-0 left-28 right-0 sm:left-32 flex justify-between items-end pointer-events-none opacity-20"
                 aria-hidden="true"
               >
                 {Array.from({ length: 25 }).map((_, i) => (
@@ -105,9 +108,16 @@ export default function TimelineSequencer({
 
               {/* Playhead Indicator in Header */}
               <div
-                className="absolute top-0 bottom-0 w-[2px] bg-[#ef4444] z-20 pointer-events-none transition-all duration-75"
+                className="absolute top-0 bottom-0 w-[2px] bg-[#ef4444] z-20 pointer-events-none transition-all duration-75 sm:hidden"
                 style={{
-                  left: `${(currentTime / TOTAL_TIMELINE_SECONDS) * 100}%`,
+                  left: `calc(7rem + ${playheadRatio * 100}% - ${playheadRatio * 7}rem)`,
+                }}
+                aria-hidden="true"
+              />
+              <div
+                className="absolute top-0 bottom-0 w-[2px] bg-[#ef4444] z-20 pointer-events-none transition-all duration-75 hidden sm:block"
+                style={{
+                  left: `calc(8rem + ${playheadRatio * 100}% - ${playheadRatio * 8}rem)`,
                 }}
                 aria-hidden="true"
               >
@@ -119,9 +129,16 @@ export default function TimelineSequencer({
             <div className="relative divide-y divide-white/[0.06] bg-[#0e1013]">
               {/* Playhead Vertical Line traversing all tracks */}
               <div
-                className="absolute top-0 bottom-0 w-[2px] bg-[#ef4444] z-20 pointer-events-none transition-all duration-75"
+                className="absolute top-0 bottom-0 w-[2px] bg-[#ef4444] z-20 pointer-events-none transition-all duration-75 sm:hidden"
                 style={{
-                  left: `${(currentTime / TOTAL_TIMELINE_SECONDS) * 100}%`,
+                  left: `calc(7rem + ${playheadRatio * 100}% - ${playheadRatio * 7}rem)`,
+                }}
+                aria-hidden="true"
+              />
+              <div
+                className="absolute top-0 bottom-0 w-[2px] bg-[#ef4444] z-20 pointer-events-none transition-all duration-75 hidden sm:block"
+                style={{
+                  left: `calc(8rem + ${playheadRatio * 100}% - ${playheadRatio * 8}rem)`,
                 }}
                 aria-hidden="true"
               />
@@ -300,4 +317,3 @@ export default function TimelineSequencer({
     </div>
   )
 }
-

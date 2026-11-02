@@ -59,14 +59,24 @@ export function resolveActiveClip(
   filter: 'all' | TrackType,
 ): TimelineClip {
   if (isPlaying) {
-    const match = clips.find((c) => {
+    const matches = clips.filter((c) => {
       if (filter !== 'all' && c.track !== filter) return false
       return currentTime >= c.startTime && currentTime < c.startTime + c.duration
     })
-    if (match) return match
+    if (matches.length > 0) {
+      if (filter === 'all') {
+        return matches.find((c) => c.id === selectedClipId) ?? matches[0]
+      }
+      return matches[0]
+    }
   }
 
-  return clips.find((c) => c.id === selectedClipId) ?? clips[0]
+  const selectedClip = clips.find((c) => c.id === selectedClipId)
+  if (selectedClip && (filter === 'all' || selectedClip.track === filter)) {
+    return selectedClip
+  }
+
+  return clips.find((c) => filter === 'all' || c.track === filter) ?? clips[0]
 }
 
 /**
@@ -191,11 +201,18 @@ export function executePlaybackAction(
     case 'RESET': {
       const currentTime = 0
       const isPlaying = false
+      const resetMatch = clips.find((c) => {
+        if (state.activeTrackFilter !== 'all' && c.track !== state.activeTrackFilter) {
+          return false
+        }
+        return currentTime >= c.startTime && currentTime < c.startTime + c.duration
+      })
+      const selectedClipId = resetMatch?.id ?? state.selectedClipId
       const activeClip = resolveActiveClip(
         clips,
         currentTime,
         isPlaying,
-        state.selectedClipId,
+        selectedClipId,
         state.activeTrackFilter,
       )
       const correlatedProject = resolveCorrelatedProject(activeClip, projectsList)
@@ -203,6 +220,7 @@ export function executePlaybackAction(
         ...state,
         currentTime,
         isPlaying,
+        selectedClipId: activeClip.id,
         activeClip,
         correlatedProject,
       }
@@ -298,6 +316,7 @@ export function executePlaybackAction(
       return {
         ...state,
         activeTrackFilter,
+        selectedClipId: activeClip.id,
         activeClip,
         correlatedProject,
       }

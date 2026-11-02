@@ -185,6 +185,45 @@ describe('PlaybackEngine Domain & State Machine', () => {
     expect(activeWhenPaused.id).toBe('clip-1')
   })
 
+  it('keeps the selected clip when overlapping clips share the playhead', () => {
+    const overlapping = [
+      mockClips[0],
+      { ...mockClips[2], startTime: 0 },
+    ]
+
+    expect(resolveActiveClip(overlapping, 5, true, 'clip-sys-1', 'all').id).toBe('clip-sys-1')
+  })
+
+  it('updates the selected clip when resetting or changing filters', () => {
+    const initial = createInitialPlaybackState('clip-1', mockClips, mockProjects)
+    const filtered = executePlaybackAction(
+      { ...initial, currentTime: 65 },
+      { type: 'SET_FILTER', filter: 'sys' },
+      mockClips,
+      mockProjects,
+    )
+    expect(filtered.activeClip.id).toBe('clip-sys-1')
+    expect(filtered.selectedClipId).toBe('clip-sys-1')
+
+    const reset = executePlaybackAction(
+      { ...filtered, currentTime: 65, selectedClipId: 'clip-sys-1' },
+      { type: 'RESET' },
+      mockClips,
+      mockProjects,
+    )
+    expect(reset.currentTime).toBe(0)
+    expect(reset.selectedClipId).toBe('clip-sys-1')
+  })
+
+  it('resets selection to the clip covering the start of the sequence', () => {
+    const initial = createInitialPlaybackState('clip-2', mockClips, mockProjects)
+    const reset = executePlaybackAction(initial, { type: 'RESET' }, mockClips, mockProjects)
+
+    expect(reset.currentTime).toBe(0)
+    expect(reset.selectedClipId).toBe('clip-1')
+    expect(reset.activeClip.id).toBe('clip-1')
+  })
+
   it('toggles audio mute status', () => {
     const initial = createInitialPlaybackState('clip-1', mockClips, mockProjects)
     expect(initial.isMuted).toBe(true)

@@ -41,6 +41,8 @@ export default function NLETimelineStudio({
           <ProgramMonitor
             activeClip={state.activeClip}
             isMuted={state.isMuted}
+            isPlaying={state.isPlaying}
+            currentTime={state.currentTime}
             onToggleMute={engine.toggleMute}
             correlatedProject={state.correlatedProject}
             onOpenProject={onOpenProject}

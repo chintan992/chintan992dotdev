@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Volume2,
@@ -15,6 +15,8 @@ import type { Project } from '@/data/portfolio-data'
 interface ProgramMonitorProps {
   activeClip: TimelineClip
   isMuted: boolean
+  isPlaying: boolean
+  currentTime: number
   onToggleMute: () => void
   correlatedProject: Project | null
   onOpenProject?: (project: Project) => void
@@ -23,22 +25,67 @@ interface ProgramMonitorProps {
 export default function ProgramMonitor({
   activeClip,
   isMuted,
+  isPlaying,
+  currentTime,
   onToggleMute,
   correlatedProject,
   onOpenProject,
 }: ProgramMonitorProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const playbackStateRef = useRef({
+    currentTime,
+    startTime: activeClip.startTime,
+    duration: activeClip.duration,
+    isPlaying,
+  })
 
-  // Respect prefers-reduced-motion for video
+  const syncVideo = useCallback((video: HTMLVideoElement) => {
+    const playbackState = playbackStateRef.current
+    const targetTime = Math.max(
+      0,
+      Math.min(
+        playbackState.currentTime - playbackState.startTime,
+        playbackState.duration,
+      ),
+    )
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (
+      !playbackState.isPlaying ||
+      Math.abs(video.currentTime - targetTime) > 0.25
+    ) {
+      video.currentTime = targetTime
+    }
+
+    if (reducedMotion || !playbackState.isPlaying) {
+      video.pause()
+      return
+    }
+
+    video.play().catch((error: unknown) => {
+      if (error instanceof DOMException && error.name === 'NotAllowedError') return
+      console.error('Unable to play program monitor video.', error)
+    })
+  }, [])
+
+  const handleVideoRef = useCallback((video: HTMLVideoElement | null) => {
+    videoRef.current = video
+    if (video) syncVideo(video)
+  }, [syncVideo])
+
+  useEffect(() => {
+    playbackStateRef.current = {
+      currentTime,
+      startTime: activeClip.startTime,
+      duration: activeClip.duration,
+      isPlaying,
+    }
+  }, [activeClip.duration, activeClip.startTime, currentTime, isPlaying])
+
   useEffect(() => {
     const video = videoRef.current
-    if (!video) return
-
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (reducedMotionQuery.matches) {
-      video.pause()
-    }
-  }, [activeClip.id])
+    if (video) syncVideo(video)
+  }, [activeClip.id, currentTime, isPlaying, syncVideo])
 
   return (
     <div
@@ -76,11 +123,9 @@ export default function ProgramMonitor({
               className="relative w-full h-full"
             >
               <video
-                ref={videoRef}
+                ref={handleVideoRef}
                 src={activeClip.mediaUrl}
                 poster={activeClip.thumbnailUrl}
-                loop
-                autoPlay
                 muted={isMuted}
                 playsInline
                 className="w-full h-full object-cover"
@@ -239,4 +284,3 @@ export default function ProgramMonitor({
     </div>
   )
 }
-

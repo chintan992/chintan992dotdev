@@ -122,7 +122,7 @@ export default function TransportBar({
           <div
             role="tablist"
             aria-label="Track filters"
-            className="hidden lg:flex items-center bg-[#131518] border border-white/[0.1] rounded p-0.5 text-[11px] font-mono"
+            className="flex items-center max-w-full overflow-x-auto bg-[#131518] border border-white/[0.1] rounded p-0.5 text-[11px] font-mono"
           >
             {[
               { id: 'all', label: 'ALL TRACKS' },
@@ -138,7 +138,7 @@ export default function TransportBar({
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => onFilterChange(filter.id as typeof activeFilter)}
-                  className={`px-2.5 py-1 rounded transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#38bdf8] ${
+                  className={`px-2.5 py-1 rounded whitespace-nowrap transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#38bdf8] ${
                     isActive
                       ? 'bg-white/10 text-white font-medium'
                       : 'text-zinc-400 hover:text-zinc-200'
@@ -154,4 +154,3 @@ export default function TransportBar({
     </div>
   )
 }
-
