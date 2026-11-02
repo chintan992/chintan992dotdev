@@ -59,7 +59,7 @@ export default function VisualServices() {
             {visualServices.map((service: Service) => (
               <div
                 key={service.title}
-                className="bg-[#141618] border border-white/[0.08] hover:border-white/[0.18] transition-colors p-7 rounded-xl flex flex-col justify-between"
+                className="bg-[#131518] border border-white/[0.08] hover:border-[#e59846]/40 transition-colors p-7 rounded-xl flex flex-col justify-between"
               >
                 <div>
                   <h3 className="text-xl font-medium text-white mb-2 font-display">{service.title}</h3>
@@ -69,7 +69,7 @@ export default function VisualServices() {
                 <div className="space-y-2 pt-4 border-t border-white/[0.06]">
                   {service.details.map((detail: string) => (
                     <div key={detail} className="flex items-center gap-2 text-xs text-zinc-300">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868] shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#e59846] shrink-0" />
                       <span>{detail}</span>
                     </div>
                   ))}
@@ -87,12 +87,14 @@ export default function VisualServices() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="bg-[#141618] border border-white/[0.08] p-8 sm:p-10 rounded-2xl"
+            className="bg-[#131518] border border-white/[0.08] p-8 sm:p-10 rounded-2xl"
           >
             <div className="max-w-2xl mx-auto space-y-6 text-center">
-              <div className="inline-flex items-center gap-2 text-xs font-medium text-zinc-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
-                <span>Documentary Rhythm · Intentional Light</span>
+              <div className="inline-flex items-center gap-2 text-xs font-mono text-zinc-400">
+                <span className="w-2 h-2 rounded-full bg-[#e59846]" />
+                <span className="text-[#e59846] font-semibold">DOCUMENTARY RHYTHM</span>
+                <span className="text-zinc-600">/</span>
+                <span>INTENTIONAL COMPOSITION</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-display font-medium text-white leading-tight">
                 Capturing quiet clarity before fast spectacle.
@@ -100,21 +102,21 @@ export default function VisualServices() {
               <p className="text-zinc-300 text-sm sm:text-base leading-relaxed">
                 Every frame should tell a grounded story. Whether framing natural landscapes in the Canadian Rockies or filming brand stories, my methodology blends natural light, deliberate color grading, and patient composition.
               </p>
-              <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+              <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left font-mono">
                 <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                  <div className="text-xs text-zinc-400 mb-1 font-medium">Pre-Production</div>
-                  <div className="text-sm font-medium text-white mb-1">Pacing & Moodboards</div>
-                  <div className="text-xs text-zinc-400">Story arcs, location scouting and visual tone mapping.</div>
+                  <div className="text-xs text-[#e59846] mb-1 font-semibold">PRE-PRODUCTION</div>
+                  <div className="text-sm font-medium text-white mb-1">Pacing & Tone</div>
+                  <div className="text-xs text-zinc-400 font-sans">Story arcs, location scouting and visual tone mapping.</div>
                 </div>
                 <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                  <div className="text-xs text-zinc-400 mb-1 font-medium">Production</div>
-                  <div className="text-sm font-medium text-white mb-1">Cinematic Precision</div>
-                  <div className="text-xs text-zinc-400">4K HDR capture, gimbal glide and intentional framing.</div>
+                  <div className="text-xs text-[#e59846] mb-1 font-semibold">PRODUCTION</div>
+                  <div className="text-sm font-medium text-white mb-1">Optical Rigor</div>
+                  <div className="text-xs text-zinc-400 font-sans">4K HDR capture, gimbal glide and intentional framing.</div>
                 </div>
                 <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-                  <div className="text-xs text-zinc-400 mb-1 font-medium">Post-Production</div>
-                  <div className="text-sm font-medium text-white mb-1">Color & Rhythm</div>
-                  <div className="text-xs text-zinc-400">Bespoke film-inspired color grades and sound design.</div>
+                  <div className="text-xs text-[#e59846] mb-1 font-semibold">POST-PRODUCTION</div>
+                  <div className="text-sm font-medium text-white mb-1">Color Grading</div>
+                  <div className="text-xs text-zinc-400 font-sans">Bespoke film-inspired color grades and 32-bit sound design.</div>
                 </div>
               </div>
             </div>
@@ -134,16 +136,16 @@ export default function VisualServices() {
             {gearList.map((g) => (
               <div
                 key={g.category}
-                className="bg-[#141618] border border-white/[0.08] p-6 rounded-xl flex flex-col justify-between"
+                className="bg-[#131518] border border-white/[0.08] p-6 rounded-xl flex flex-col justify-between"
               >
                 <div>
-                  <div className="text-xs font-medium text-zinc-400 tracking-wide">
+                  <div className="text-xs font-mono font-medium text-zinc-400 tracking-wide">
                     {g.category}
                   </div>
                   <ul className="mt-3.5 space-y-2">
                     {g.items.map((item) => (
                       <li key={item} className="text-xs text-zinc-300 flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868] mt-1.5 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#e59846] mt-1.5 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}

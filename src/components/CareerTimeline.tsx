@@ -11,7 +11,7 @@ function TimelineCard({ entry, isLast }: { entry: TimelineEntry; isLast: boolean
     <div className="relative flex gap-4 sm:gap-6 group">
       {/* Timeline spine + quiet node */}
       <div className="flex flex-col items-center shrink-0">
-        <div className="w-3.5 h-3.5 rounded-full bg-[#0c0d0e] border-2 border-[#e2a868] mt-2 z-10 group-hover:scale-110 transition-transform" />
+        <div className="w-3 h-3 rounded-full bg-[#090a0d] border-2 border-[#a78bfa] mt-2 z-10 group-hover:scale-110 transition-transform" />
         {!isLast && (
           <div className="w-px flex-1 bg-white/[0.08] min-h-[40px]" />
         )}
@@ -19,21 +19,21 @@ function TimelineCard({ entry, isLast }: { entry: TimelineEntry; isLast: boolean
 
       {/* Card content */}
       <div
-        className="flex-1 bg-[#141618] border border-white/[0.08] hover:border-white/[0.18] transition-colors p-5 sm:p-6 rounded-xl mb-4 cursor-pointer"
+        className="flex-1 bg-[#131518] border border-white/[0.08] hover:border-[#a78bfa]/40 transition-colors p-5 sm:p-6 rounded-xl mb-4 cursor-pointer"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/[0.04] text-zinc-300 border border-white/[0.06]">
+              <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/[0.04] text-[#a78bfa] border border-[#a78bfa]/20">
                 {entry.period}
               </span>
-              <span className="text-xs font-medium text-zinc-400">
+              <span className="text-xs font-mono text-zinc-400">
                 {entry.label}
               </span>
             </div>
             <h3 className="text-base sm:text-lg font-medium text-white font-display">{entry.title}</h3>
-            <p className="text-xs text-[#e2a868] font-medium mt-0.5">{entry.org}</p>
+            <p className="text-xs text-[#a78bfa] font-mono mt-0.5">{entry.org}</p>
           </div>
           <ChevronDown
             className={cn(
@@ -58,7 +58,7 @@ function TimelineCard({ entry, isLast }: { entry: TimelineEntry; isLast: boolean
                   <ul className="space-y-2">
                     {entry.achievements.map((achievement: string) => (
                       <li key={achievement} className="flex items-start gap-2 text-xs sm:text-sm text-zinc-300">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868] mt-1.5 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#a78bfa] mt-1.5 shrink-0" />
                         <span>{achievement}</span>
                       </li>
                     ))}

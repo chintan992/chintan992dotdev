@@ -66,14 +66,16 @@ export default function MasonryGallery() {
     <>
       <section className="w-full">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-6">
           <div>
-            <div className="text-xs font-medium text-zinc-400 mb-1.5 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
-              <span>Documentary Chronicle · Canadian Rockies</span>
+            <div className="text-xs font-mono text-zinc-400 mb-1.5 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#e59846]" />
+              <span className="text-[#e59846] font-semibold">TRACK V1/V2 · DOCUMENTARY CHRONICLE</span>
+              <span className="text-zinc-600">/</span>
+              <span>CANADIAN ROCKIES</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-medium font-display tracking-tight text-white">
-              Selected Photography & Motion
+              Selected Cinematography & Fine Stills
             </h2>
           </div>
           <div className="flex items-center gap-4">
@@ -81,7 +83,7 @@ export default function MasonryGallery() {
               href="https://www.instagram.com/chintan992_2/"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-white transition-colors"
             >
               <InstagramIcon className="w-4 h-4" />
               <span>@chintan992_2</span>
@@ -95,7 +97,7 @@ export default function MasonryGallery() {
           {frames.map((frame, i) => (
             <button
               key={frame.id}
-              className="relative w-full break-inside-avoid rounded-xl overflow-hidden group cursor-pointer bg-[#141618] border border-white/[0.06] block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e2a868]"
+              className="relative w-full break-inside-avoid rounded-xl overflow-hidden group cursor-pointer bg-[#131518] border border-white/[0.06] block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e59846]"
               onClick={() => setLightboxIndex(i)}
             >
               {frame.media_type === 'VIDEO' ? (

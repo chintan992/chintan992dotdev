@@ -84,26 +84,28 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
   return (
     <section className="w-full">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-6">
         <div>
-          <div className="flex items-center gap-2 text-xs font-medium text-zinc-400 mb-1.5">
+          <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 mb-1.5">
             <span
               className={cn(
-                'inline-block w-1.5 h-1.5 rounded-full',
-                status === 'live' ? 'bg-[#e2a868]' : 'bg-zinc-600',
+                'inline-block w-2 h-2 rounded-full',
+                status === 'live' ? 'bg-[#38bdf8]' : 'bg-zinc-600',
               )}
             />
-            <span>{status === 'live' ? 'Live GitHub Sync' : status === 'loading' ? 'Connecting to GitHub' : 'Project Index'}</span>
+            <span className="text-[#38bdf8] font-semibold">
+              {status === 'live' ? 'LIVE GITHUB SYNC' : status === 'loading' ? 'CONNECTING TELEMETRY' : 'SYS REPOSITORY INDEX'}
+            </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-medium text-white tracking-tight font-display">
-            Systems & Open Source
+            Systems & Open Source Dossiers
           </h2>
         </div>
         <a
           href="https://github.com/chintan992"
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
+          className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-[#38bdf8] transition-colors"
         >
           <GithubIcon className="w-4 h-4" />
           <span>github.com/chintan992</span>
@@ -112,16 +114,16 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
       </div>
 
       {/* Filter tags */}
-      <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 sm:flex-wrap scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+      <div className="flex items-center gap-1.5 mb-6 overflow-x-auto pb-2 sm:flex-wrap scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
         {filterTags.map((tag: FilterTag) => (
           <button
             key={tag}
             onClick={() => setActiveFilter(tag)}
             className={cn(
-              'px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border cursor-pointer shrink-0',
+              'px-3 py-1 rounded text-xs font-mono transition-all duration-150 border cursor-pointer shrink-0',
               activeFilter === tag
-                ? 'bg-[#f4f5f6] text-[#0c0d0e] font-medium border-transparent'
-                : 'bg-white/[0.03] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/[0.2]',
+                ? 'bg-[#38bdf8] text-[#090a0d] font-bold border-transparent'
+                : 'bg-[#131518] text-zinc-400 border-white/[0.08] hover:text-white hover:border-white/[0.2]',
             )}
           >
             {tag}
@@ -140,23 +142,23 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="bg-[#141618] border border-white/[0.08] hover:border-white/[0.18] transition-colors group relative flex flex-col justify-between p-6 rounded-xl"
+              className="bg-[#131518] border border-white/[0.08] hover:border-[#38bdf8]/40 transition-colors group relative flex flex-col justify-between p-6 rounded-xl"
             >
               <div>
                 {/* Meta Bar */}
                 <div className="flex items-center justify-between text-xs text-zinc-400 mb-3">
-                  <span className="text-[11px] font-medium text-zinc-400 tracking-wide">
+                  <span className="text-[11px] font-mono text-zinc-400 tracking-wide">
                     {project.category}
                   </span>
                   <div className="flex items-center gap-3">
                     {project.liveStars !== undefined && project.liveStars > 0 && (
-                      <span className="flex items-center gap-1 text-zinc-300 text-xs">
+                      <span className="flex items-center gap-1 text-zinc-300 text-xs font-mono">
                         <Star className="w-3 h-3 fill-zinc-300" />
                         {project.liveStars}
                       </span>
                     )}
                     {project.liveForks !== undefined && project.liveForks > 0 && (
-                      <span className="flex items-center gap-1 text-zinc-400 text-xs">
+                      <span className="flex items-center gap-1 text-zinc-400 text-xs font-mono">
                         <GitFork className="w-3 h-3" />
                         {project.liveForks}
                       </span>
@@ -174,7 +176,7 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
                 </div>
 
                 {/* Title & Description */}
-                <h3 className="text-lg font-medium text-white group-hover:text-[#e2a868] transition-colors font-display">
+                <h3 className="text-xl font-medium text-white group-hover:text-[#38bdf8] transition-colors font-display">
                   {project.name}
                 </h3>
                 <p className="text-sm text-zinc-300 mt-2.5 leading-relaxed line-clamp-3">
@@ -184,7 +186,7 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
                 {/* Architectural highlights snippet if available */}
                 {project.architecture && (
                   <div className="mt-3.5 pt-3 border-t border-white/[0.06] text-xs text-zinc-400 flex items-start gap-1.5">
-                    <Cpu className="w-3.5 h-3.5 text-zinc-500 shrink-0 mt-0.5" />
+                    <Cpu className="w-3.5 h-3.5 text-[#38bdf8] shrink-0 mt-0.5" />
                     <span className="line-clamp-2 leading-relaxed">{project.architecture}</span>
                   </div>
                 )}
@@ -207,9 +209,9 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
                   )}
                   <button
                     onClick={() => onSelectProject?.(project)}
-                    className="text-xs font-medium text-[#e2a868] hover:text-[#f4f5f6] transition-colors cursor-pointer"
+                    className="text-xs font-mono font-medium text-[#38bdf8] hover:text-white transition-colors cursor-pointer"
                   >
-                    Architecture case study
+                    Inspect Architecture →
                   </button>
                 </div>
 
@@ -229,7 +231,7 @@ export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
                     href={project.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors shrink-0"
+                    className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors shrink-0 font-mono"
                   >
                     <span>Source</span>
                     <ExternalLink className="w-3 h-3" />

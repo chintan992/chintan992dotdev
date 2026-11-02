@@ -49,7 +49,7 @@ export default function ProjectModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 16 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl bg-[#141618] border border-white/[0.12] rounded-xl p-6 sm:p-8 shadow-2xl z-10 my-8 max-h-[90vh] overflow-y-auto"
+            className="relative w-full max-w-2xl bg-[#131518] border border-white/[0.12] rounded-xl p-6 sm:p-8 shadow-2xl z-10 my-8 max-h-[90vh] overflow-y-auto"
           >
             {/* Header row with breadcrumbs & close */}
             <div className="flex items-start justify-between gap-4 border-b border-white/[0.08] pb-4 mb-6">
@@ -73,10 +73,10 @@ export default function ProjectModal({
             {/* Project Title & Category */}
             <div className="space-y-2 mb-6">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-[#e2a868] bg-[#e2a868]/10 border border-[#e2a868]/30 px-2.5 py-0.5 rounded-full">
-                  Systems Case Study
+                <span className="text-xs font-mono font-medium text-[#38bdf8] bg-[#38bdf8]/10 border border-[#38bdf8]/30 px-2.5 py-0.5 rounded">
+                  SYSTEMS DOSSIER
                 </span>
-                <span className="text-xs font-medium text-zinc-400">
+                <span className="text-xs font-mono text-zinc-400">
                   {project.category}
                 </span>
               </div>
@@ -92,10 +92,10 @@ export default function ProjectModal({
 
             {/* Architecture Overview */}
             {project.architecture && (
-              <div className="p-4 rounded-lg bg-white/[0.02] border border-white/[0.08] mb-6 space-y-2">
-                <div className="flex items-center gap-2 text-xs font-medium text-zinc-300">
-                  <Cpu className="w-4 h-4 text-[#e2a868]" />
-                  <span>Systems Architecture</span>
+              <div className="p-4 rounded-lg bg-black/40 border border-white/[0.08] mb-6 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-mono text-[#38bdf8]">
+                  <Cpu className="w-4 h-4 text-[#38bdf8]" />
+                  <span>SYSTEMS ARCHITECTURE & RUNTIME</span>
                 </div>
                 <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
                   {project.architecture}
@@ -106,8 +106,8 @@ export default function ProjectModal({
             {/* Highlights */}
             {project.highlights && project.highlights.length > 0 && (
               <div className="space-y-3 mb-6">
-                <h3 className="text-xs font-medium text-zinc-400 tracking-wide">
-                  Architectural Highlights
+                <h3 className="text-xs font-mono text-zinc-400 tracking-wide">
+                  ARCHITECTURAL HIGHLIGHTS
                 </h3>
                 <div className="grid grid-cols-1 gap-2">
                   {project.highlights.map((highlight) => (
@@ -115,7 +115,7 @@ export default function ProjectModal({
                       key={highlight}
                       className="flex items-start gap-2.5 text-xs sm:text-sm text-zinc-300"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-[#e2a868] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#38bdf8] shrink-0 mt-0.5" />
                       <span>{highlight}</span>
                     </div>
                   ))}
@@ -125,8 +125,8 @@ export default function ProjectModal({
 
             {/* Tech Stack Matrix */}
             <div className="space-y-2 mb-8">
-              <h3 className="text-xs font-medium text-zinc-400 tracking-wide">
-                Technology Stack
+              <h3 className="text-xs font-mono text-zinc-400 tracking-wide">
+                TECHNOLOGY STACK
               </h3>
               <div className="flex flex-wrap gap-1.5">
                 {project.stack.map((tag) => (
@@ -146,7 +146,7 @@ export default function ProjectModal({
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] text-zinc-200 border border-white/[0.08] transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-medium bg-white/[0.04] hover:bg-white/[0.08] text-zinc-200 border border-white/[0.08] transition-all"
               >
                 <GithubIcon className="w-4 h-4" />
                 <span>View Source Repository</span>
@@ -158,7 +158,7 @@ export default function ProjectModal({
                   onClose()
                   onInquire('Software development')
                 }}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl text-xs font-medium bg-white text-[#0c0d0e] hover:bg-zinc-200 transition-all cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-xs font-semibold bg-white text-[#090a0d] hover:bg-zinc-200 transition-all cursor-pointer"
               >
                 <span>Discuss similar architecture</span>
                 <ArrowRight className="w-3.5 h-3.5" />

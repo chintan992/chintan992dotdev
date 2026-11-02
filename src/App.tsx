@@ -5,7 +5,7 @@ import { devServices, projects } from '@/data/portfolio-data'
 
 // Components
 import NavigationHeader from '@/components/NavigationHeader'
-import EditorialHero from '@/components/EditorialHero'
+import NLETimelineStudio from '@/components/NLETimelineStudio'
 import GitHubGrid from '@/components/GitHubGrid'
 import CareerTimeline from '@/components/CareerTimeline'
 import MasonryGallery from '@/components/MasonryGallery'
@@ -176,7 +176,7 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen text-[#f4f5f6] font-sans bg-[#0c0d0e]">
+    <div className="relative min-h-screen text-[#f1f5f9] font-sans bg-[#090a0d]">
       {/* Unified Navigation Bar */}
       <NavigationHeader
         mode={mode}
@@ -187,7 +187,7 @@ export default function App() {
       <main className="relative z-10">
         <AnimatePresence mode="wait">
           {/* ================================================================= */}
-          {/* 1. EDITORIAL OVERVIEW VIEW (#all / #hub)                           */}
+          {/* 1. NLE MASTER TIMELINE VIEW (#all / #hub)                         */}
           {/* ================================================================= */}
           {mode === 'hub' && (
             <motion.div
@@ -196,37 +196,39 @@ export default function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="space-y-16 sm:space-y-24"
+              className="space-y-16 sm:space-y-20"
             >
-              {/* Editorial Hero Showcase */}
-              <EditorialHero
-                onSelectMode={switchMode}
-                onOpenGallery={() => {
-                  const el = document.getElementById('hub-gallery')
-                  el?.scrollIntoView({ behavior: 'smooth' })
-                }}
+              {/* NLE Timeline Studio Masterpiece */}
+              <NLETimelineStudio
+                onOpenProject={openProject}
+                onNavigateToInquiry={navigateToInquiry}
               />
 
+              {/* Systems & Open Source Dossiers */}
+              <section id="dev-projects" className="max-w-7xl mx-auto px-4 sm:px-6">
+                <GitHubGrid onSelectProject={openProject} />
+              </section>
+
               {/* Curated Visual Gallery */}
-              <section id="hub-gallery" className="max-w-6xl mx-auto px-4 sm:px-6">
+              <section id="hub-gallery" className="max-w-7xl mx-auto px-4 sm:px-6">
                 <MasonryGallery />
               </section>
 
               {/* Core Disciplines & Technical Capabilities */}
-              <section id="services" className="max-w-6xl mx-auto px-4 sm:px-6 pt-4">
+              <section id="services" className="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
                 <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4 mb-8">
                   <div>
-                    <div className="text-xs font-medium text-zinc-400 mb-1.5 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
-                      <span>Practice & Capabilities</span>
+                    <div className="text-xs font-mono text-[#38bdf8] mb-1.5 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#38bdf8]" />
+                      <span className="font-semibold">ENGINEERING CAPABILITIES & SPECIFICATION</span>
                     </div>
                     <h2 className="text-2xl sm:text-3xl font-medium font-display tracking-tight text-white">
-                      Disciplines & Craft
+                      Disciplines & Technical Craft
                     </h2>
                   </div>
                   <button
                     onClick={() => switchMode('developer')}
-                    className="text-xs font-medium text-zinc-300 hover:text-[#e2a868] flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="text-xs font-mono text-zinc-300 hover:text-[#38bdf8] flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <span>View all engineering work</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -249,10 +251,10 @@ export default function App() {
                         <p className="text-zinc-300 text-sm leading-relaxed">
                           {service.description}
                         </p>
-                        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-zinc-400">
+                        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-xs font-mono text-zinc-400">
                           {service.details.map((detail: string) => (
                             <span key={detail} className="flex items-center gap-1.5">
-                              <span className="w-1 h-1 rounded-full bg-[#e2a868]" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8]" />
                               <span>{detail}</span>
                             </span>
                           ))}
@@ -263,15 +265,29 @@ export default function App() {
                 </div>
               </section>
 
-              {/* Direct Inquiry / Contact */}
-              <section id="inquiry" className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-                <div className="text-center max-w-xl mx-auto mb-10">
-                  <div className="inline-flex items-center gap-2 text-xs font-medium text-zinc-400 mb-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
-                    <span>Inquiries & Direct Commissions</span>
+              {/* Trajectory & Experience Log */}
+              <section id="career" className="max-w-7xl mx-auto px-4 sm:px-6">
+                <div className="mb-8">
+                  <div className="text-xs font-mono text-[#a78bfa] mb-1.5 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#a78bfa]" />
+                    <span className="font-semibold">TRACK OPS // CHANGELOG & DELIVERY MILESTONES</span>
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
-                    Start a Conversation
+                    Trajectory & Field Delivery
+                  </h2>
+                </div>
+                <CareerTimeline />
+              </section>
+
+              {/* Direct Inquiry / Contact */}
+              <section id="inquiry" className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+                <div className="text-center max-w-xl mx-auto mb-10">
+                  <div className="inline-flex items-center gap-2 text-xs font-mono text-zinc-400 mb-2">
+                    <span className="w-2 h-2 rounded-full bg-[#38bdf8]" />
+                    <span>PRODUCTION DOCKET & INQUIRIES</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
+                    Start a Technical Conversation
                   </h2>
                   <p className="text-zinc-400 text-sm mt-2">
                     Have a systems architecture challenge, mobile application, or commercial visual production in mind?
@@ -298,9 +314,11 @@ export default function App() {
               <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-6">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                   <div className="lg:col-span-7 space-y-6">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300 text-xs font-medium">
-                      <Cpu className="w-3.5 h-3.5 text-[#e2a868]" />
-                      <span>Software Engineering & Systems Architecture</span>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#131518] border border-white/[0.08] text-zinc-300 text-xs font-mono">
+                      <Cpu className="w-3.5 h-3.5 text-[#38bdf8]" />
+                      <span className="text-[#38bdf8] font-semibold">TRACK SYS</span>
+                      <span className="text-zinc-600">/</span>
+                      <span>SOFTWARE ARCHITECTURE & RUNTIMES</span>
                     </div>
 
                     <h1 className="text-3xl sm:text-5xl font-medium font-display tracking-tight text-white leading-[1.15]">
@@ -314,7 +332,7 @@ export default function App() {
                     <div className="flex flex-wrap items-center gap-4 pt-2">
                       <a
                         href="#dev-projects"
-                        className="px-5 py-2.5 rounded-full bg-white text-[#0c0d0e] font-medium text-xs hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer"
+                        className="px-5 py-2.5 rounded-lg bg-white text-[#090a0d] font-semibold text-xs hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer font-mono"
                       >
                         Explore engineering dossiers <ArrowDown className="w-3.5 h-3.5" />
                       </a>
@@ -323,32 +341,32 @@ export default function App() {
 
                   <div className="lg:col-span-5">
                     {/* Technical Profile Dossier */}
-                    <div className="p-6 rounded-xl bg-[#141618] border border-white/[0.08] space-y-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-white/[0.06] text-xs">
-                        <span className="font-medium text-white">Technical Profile</span>
-                        <span className="text-zinc-400">Calgary, Canada</span>
+                    <div className="p-6 rounded-xl bg-[#131518] border border-white/[0.08] space-y-4">
+                      <div className="flex items-center justify-between pb-3 border-b border-white/[0.06] text-xs font-mono">
+                        <span className="font-semibold text-white">TECHNICAL PROFILE</span>
+                        <span className="text-zinc-400">CALGARY 51°N</span>
                       </div>
 
                       <div className="grid grid-cols-2 gap-3 text-xs">
                         <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
-                          <div className="text-zinc-400 text-[11px] font-medium">Primary Stack</div>
+                          <div className="text-zinc-400 text-[11px] font-mono">Primary Stack</div>
                           <div className="text-white font-medium mt-1">TypeScript · Kotlin</div>
                         </div>
                         <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
-                          <div className="text-zinc-400 text-[11px] font-medium">Mobile Runtimes</div>
+                          <div className="text-zinc-400 text-[11px] font-mono">Mobile Runtimes</div>
                           <div className="text-white font-medium mt-1">Android · Flutter</div>
                         </div>
                         <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
-                          <div className="text-zinc-400 text-[11px] font-medium">Cloud Infrastructure</div>
+                          <div className="text-zinc-400 text-[11px] font-mono">Cloud Infrastructure</div>
                           <div className="text-white font-medium mt-1">Cloudflare · Node.js</div>
                         </div>
                         <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
-                          <div className="text-zinc-400 text-[11px] font-medium">Current Role</div>
+                          <div className="text-zinc-400 text-[11px] font-mono">Current Role</div>
                           <div className="text-white font-medium mt-1">Compugen Systems</div>
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-300 leading-relaxed">
+                      <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs text-zinc-300 leading-relaxed font-mono">
                         Available for systems architecture reviews, full-stack builds, and mobile systems engineering.
                       </div>
                     </div>
@@ -364,9 +382,9 @@ export default function App() {
               {/* Career Timeline */}
               <section className="max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="mb-8">
-                  <div className="text-xs font-medium text-zinc-400 mb-1.5 flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-[#e2a868]" />
-                    <span>Milestones & Experience</span>
+                  <div className="text-xs font-mono text-[#a78bfa] mb-1.5 flex items-center gap-2">
+                    <MapPin className="w-3.5 h-3.5 text-[#a78bfa]" />
+                    <span className="font-semibold">TRACK OPS // MILESTONES & EXPERIENCE</span>
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Trajectory & Engineering Delivery
@@ -378,9 +396,9 @@ export default function App() {
               {/* Technical Service Disciplines */}
               <section className="max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="mb-8">
-                  <div className="text-xs font-medium text-zinc-400 mb-1.5 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
-                    <span>Engineering Capabilities</span>
+                  <div className="text-xs font-mono text-[#38bdf8] mb-1.5 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#38bdf8]" />
+                    <span className="font-semibold">ENGINEERING CAPABILITIES</span>
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Technical Disciplines
@@ -390,7 +408,7 @@ export default function App() {
                   {devServices.map((service: Service) => (
                     <div
                       key={service.title}
-                      className="p-7 rounded-xl bg-[#141618] border border-white/[0.08] flex flex-col justify-between"
+                      className="p-7 rounded-xl bg-[#131518] border border-white/[0.08] flex flex-col justify-between"
                     >
                       <div>
                         <h3 className="text-lg font-medium font-display text-white mb-2">{service.title}</h3>
@@ -398,8 +416,8 @@ export default function App() {
                       </div>
                       <div className="pt-4 border-t border-white/[0.06] space-y-2">
                         {service.details.map((detail: string) => (
-                          <div key={detail} className="text-xs text-zinc-300 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868] shrink-0" />
+                          <div key={detail} className="text-xs text-zinc-300 flex items-center gap-2 font-mono">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] shrink-0" />
                             <span>{detail}</span>
                           </div>
                         ))}
@@ -438,9 +456,11 @@ export default function App() {
             >
               {/* Focused Visual Hero */}
               <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 pb-10 text-center">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-zinc-300 text-xs font-medium mb-6">
-                  <Film className="w-3.5 h-3.5 text-[#e2a868]" />
-                  <span>Cinematic Filmmaking · Documentary Photography</span>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded bg-[#131518] border border-white/[0.08] text-zinc-300 text-xs font-mono mb-6">
+                  <Film className="w-3.5 h-3.5 text-[#e59846]" />
+                  <span className="text-[#e59846] font-semibold">TRACK V1/V2</span>
+                  <span className="text-zinc-600">/</span>
+                  <span>CINEMATIC FILM & DOCUMENTARY CHRONICLE</span>
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl md:text-6xl font-medium font-display text-white tracking-tight max-w-4xl mx-auto leading-[1.15]">
@@ -451,16 +471,16 @@ export default function App() {
                   Based in Calgary, capturing the Canadian wilderness, editorial portraits, and cinematic brand stories. Every frame is treated with intentional color rhythm and organic texture.
                 </p>
 
-                <div className="flex justify-center items-center gap-4 mt-8">
+                <div className="flex justify-center items-center gap-4 mt-8 font-mono">
                   <a
                     href="#visual-gallery"
-                    className="px-5 py-2.5 rounded-full bg-white text-[#0c0d0e] font-medium text-xs hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer"
+                    className="px-5 py-2.5 rounded-lg bg-white text-[#090a0d] font-semibold text-xs hover:bg-zinc-200 transition-all flex items-center gap-2 cursor-pointer"
                   >
                     View gallery <ArrowDown className="w-3.5 h-3.5" />
                   </a>
                   <a
                     href="#visual-inquiry"
-                    className="px-5 py-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-white text-xs font-medium hover:bg-white/[0.08] transition-all flex items-center gap-2 cursor-pointer"
+                    className="px-5 py-2.5 rounded-lg bg-[#131518] border border-white/[0.08] text-white text-xs font-medium hover:bg-white/[0.08] transition-all flex items-center gap-2 cursor-pointer"
                   >
                     Commission a session
                   </a>
@@ -475,9 +495,9 @@ export default function App() {
               {/* Offerings & Gear */}
               <section id="visual-offerings" className="max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="text-center max-w-xl mx-auto mb-10">
-                  <div className="inline-flex items-center gap-2 text-xs font-medium text-zinc-400 mb-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]" />
-                    <span>Creative Suite</span>
+                  <div className="inline-flex items-center gap-2 text-xs font-mono text-zinc-400 mb-1.5">
+                    <span className="w-2 h-2 rounded-full bg-[#e59846]" />
+                    <span className="text-[#e59846] font-semibold">PRODUCTION SUITE & GEAR LOCKER</span>
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-medium font-display text-white tracking-tight">
                     Cinematic Production & Toolkit
@@ -511,27 +531,27 @@ export default function App() {
       />
 
       {/* Editorial Footer */}
-      <footer className="border-t border-white/[0.08] pt-16 pb-12 mt-24 text-xs text-zinc-400 bg-[#0c0d0e]">
+      <footer className="border-t border-white/[0.08] pt-16 pb-12 mt-24 text-xs text-zinc-400 bg-[#090a0d]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             {/* Column 1: Brand & Bio */}
             <div className="md:col-span-1 space-y-3">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#e2a868]" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 <span className="font-display font-medium text-white text-base">Chintan Rathod</span>
               </div>
               <p className="text-zinc-400 leading-relaxed text-xs">
                 Systems & Mobile Engineer · Cinematographer & Photographer based in Calgary, Alberta.
               </p>
-              <div className="text-[11px] text-zinc-500">
+              <div className="text-[11px] text-zinc-500 font-mono">
                 Staff Integration Technician at Compugen
               </div>
             </div>
 
             {/* Column 2: Software Engineering */}
             <div className="space-y-3">
-              <h4 className="text-xs font-medium text-zinc-200">
-                Software Systems
+              <h4 className="text-xs font-mono font-semibold text-zinc-200">
+                SOFTWARE SYSTEMS
               </h4>
               <ul className="space-y-2">
                 <li>
@@ -588,8 +608,8 @@ export default function App() {
 
             {/* Column 3: Visual & Film */}
             <div className="space-y-3">
-              <h4 className="text-xs font-medium text-zinc-200">
-                Visual Stories
+              <h4 className="text-xs font-mono font-semibold text-zinc-200">
+                VISUAL STORIES
               </h4>
               <ul className="space-y-2">
                 <li>
@@ -651,8 +671,8 @@ export default function App() {
 
             {/* Column 4: Collaboration & Contact */}
             <div className="space-y-3">
-              <h4 className="text-xs font-medium text-zinc-200">
-                Direct Contact
+              <h4 className="text-xs font-mono font-semibold text-zinc-200">
+                DISPATCH DOCKET
               </h4>
               <ul className="space-y-2">
                 <li>
@@ -664,7 +684,7 @@ export default function App() {
                         navigateToInquiry()
                       }
                     }}
-                    className="hover:text-white transition-colors text-[#e2a868] font-medium"
+                    className="hover:text-white transition-colors text-[#38bdf8] font-medium"
                   >
                     Send an inquiry
                   </a>
@@ -691,16 +711,16 @@ export default function App() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
+          <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500 font-mono">
             <div>
-              © {CURRENT_YEAR} Chintan Rathod · Calgary, Alberta · Built with React & Cloudflare Workers
+              © {CURRENT_YEAR} Chintan Rathod · Calgary, Alberta · NLE Studio & Architecture Ledger
             </div>
             <div className="flex items-center gap-4">
               <button
                 onClick={() => switchMode(mode === 'developer' ? 'visual' : 'developer')}
                 className="hover:text-zinc-300 transition-colors cursor-pointer"
               >
-                Switch to {mode === 'developer' ? 'Photography & Film' : 'Software Engineering'}
+                Switch to {mode === 'developer' ? 'Cinema & Stills' : 'Software Engineering'}
               </button>
             </div>
           </div>

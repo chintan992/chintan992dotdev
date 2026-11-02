@@ -19,14 +19,14 @@ export default function NavigationHeader({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navItems = [
-    { id: 'hub', path: '/', label: 'Overview', shortLabel: 'All', icon: Layers },
-    { id: 'developer', path: '/developer', label: 'Engineering', shortLabel: 'Code', icon: Code2 },
-    { id: 'visual', path: '/visual', label: 'Photography', shortLabel: 'Film', icon: Film },
+    { id: 'hub', path: '/', label: 'Master Reel', shortLabel: 'Master', icon: Layers },
+    { id: 'developer', path: '/developer', label: 'Systems & Code', shortLabel: 'Code', icon: Code2 },
+    { id: 'visual', path: '/visual', label: 'Cinema & Stills', shortLabel: 'Cinema', icon: Film },
   ] as const
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-[#0c0d0e]/90 border-b border-white/[0.08] transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3 sm:gap-4">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-[#090a0d]/92 border-b border-white/[0.08] transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-15 flex items-center justify-between gap-3 sm:gap-4">
         {/* Brand Monogram & Location */}
         <div className="flex items-center gap-3 shrink-0">
           <a
@@ -40,24 +40,25 @@ export default function NavigationHeader({
             className="flex items-center gap-3 group text-left cursor-pointer"
             aria-label="Return to overview"
           >
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/[0.05] border border-white/12 flex items-center justify-center font-display font-medium text-xs sm:text-sm text-white group-hover:border-white/25 transition-all">
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/[0.05] border border-white/12 flex items-center justify-center font-display font-medium text-xs sm:text-sm text-white group-hover:border-white/25 transition-all">
               CR
-              <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#e2a868] border-2 border-[#0c0d0e]" />
+              <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border-2 border-[#090a0d]" />
             </div>
             <div className="hidden sm:block">
               <div className="font-display font-medium text-sm tracking-tight text-white group-hover:text-zinc-200 transition-colors">
                 Chintan Rathod
               </div>
-              <div className="text-[11px] text-zinc-400 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#e2a868]/80" />
-                <span>Calgary, AB</span>
+              <div className="text-[11px] text-zinc-400 font-mono flex items-center gap-1.5">
+                <span className="text-emerald-400 font-semibold">● ONLINE</span>
+                <span className="text-zinc-600">/</span>
+                <span>CALGARY, AB</span>
               </div>
             </div>
           </a>
         </div>
 
         {/* Central Segmented Persona Switcher */}
-        <nav aria-label="View switcher" className="flex items-center p-1 rounded-full bg-white/[0.03] border border-white/[0.08] shadow-inner shrink-0">
+        <nav aria-label="View switcher" className="flex items-center p-1 rounded-lg bg-[#131518] border border-white/[0.08] shadow-inner shrink-0">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = mode === item.id
@@ -72,9 +73,9 @@ export default function NavigationHeader({
                   }
                 }}
                 className={cn(
-                  'relative flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer',
+                  'relative flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-md text-xs font-mono transition-all duration-200 cursor-pointer',
                   isActive
-                    ? 'text-[#0c0d0e] font-semibold'
+                    ? 'text-[#090a0d] font-bold'
                     : 'text-zinc-400 hover:text-white',
                 )}
                 aria-current={isActive ? 'page' : undefined}
@@ -83,13 +84,13 @@ export default function NavigationHeader({
                   <motion.div
                     layoutId="activePill"
                     transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                    className="absolute inset-0 bg-[#f4f5f6] rounded-full"
+                    className="absolute inset-0 bg-[#f1f5f9] rounded-md"
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-1.5">
-                  <Icon className={cn('w-3.5 h-3.5', isActive ? 'text-[#0c0d0e]' : 'text-zinc-400')} />
+                  <Icon className={cn('w-3.5 h-3.5', isActive ? 'text-[#090a0d]' : 'text-zinc-400')} />
                   <span className="sm:hidden text-[11px] font-medium">{item.shortLabel}</span>
-                  <span className="hidden sm:inline">{item.label}</span>
+                  <span className="hidden sm:inline uppercase text-[11px]">{item.label}</span>
                 </span>
               </a>
             )
@@ -154,17 +155,17 @@ export default function NavigationHeader({
                 }
               }
             }}
-            className="ml-1 px-4 py-1.5 rounded-full bg-white text-[#0c0d0e] font-medium text-xs hover:bg-zinc-200 transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="ml-1 px-4 py-1.5 rounded-lg bg-white text-[#090a0d] font-semibold text-xs hover:bg-zinc-200 transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <Mail className="w-3.5 h-3.5" />
-            <span>Contact</span>
+            <span>Docket</span>
           </a>
         </div>
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 rounded-xl text-zinc-400 hover:text-white bg-white/[0.04] border border-white/[0.08] cursor-pointer"
+          className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-white bg-white/[0.04] border border-white/[0.08] cursor-pointer"
           aria-label="Toggle navigation menu"
         >
           {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -178,14 +179,14 @@ export default function NavigationHeader({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-white/[0.08] bg-[#0c0d0e]/98 backdrop-blur-2xl px-5 py-6 space-y-4"
+            className="lg:hidden border-t border-white/[0.08] bg-[#090a0d]/98 backdrop-blur-2xl px-5 py-6 space-y-4"
           >
             <div className="space-y-2">
               <a
                 href="/chintan-rathod.pdf"
                 target="_blank"
                 rel="noreferrer noopener"
-                className="w-full p-2.5 rounded-xl border border-white/[0.08] bg-white/[0.03] text-left flex items-center justify-between text-xs font-medium text-zinc-200"
+                className="w-full p-2.5 rounded-lg border border-white/[0.08] bg-white/[0.03] text-left flex items-center justify-between text-xs font-medium text-zinc-200"
               >
                 <span className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-zinc-400" />
@@ -235,9 +236,9 @@ export default function NavigationHeader({
                   }
                 }
               }}
-              className="w-full py-2.5 rounded-xl bg-white text-[#0c0d0e] font-medium text-xs flex items-center justify-center gap-2"
+              className="w-full py-2.5 rounded-lg bg-white text-[#090a0d] font-semibold text-xs flex items-center justify-center gap-2"
             >
-              Start an Inquiry <ArrowUpRight className="w-4 h-4" />
+              Commission Studio <ArrowUpRight className="w-4 h-4" />
             </a>
           </motion.div>
         )}
