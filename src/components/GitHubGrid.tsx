@@ -28,7 +28,11 @@ const languageColors: Record<string, string> = {
   Java: '#b07219',
 }
 
-export default function GitHubGrid() {
+interface GitHubGridProps {
+  onSelectProject?: (project: Project) => void
+}
+
+export default function GitHubGrid({ onSelectProject }: GitHubGridProps = {}) {
   const [repos, setRepos] = useState<GitHubRepo[]>([])
   const [status, setStatus] = useState<'loading' | 'live' | 'fallback'>('loading')
   const [activeFilter, setActiveFilter] = useState<FilterTag>('All')
@@ -197,38 +201,42 @@ export default function GitHubGrid() {
                       {project.liveLanguage ?? project.language}
                     </span>
                   )}
-                  {project.demoUrl ? (
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-white transition-colors"
-                    >
-                      <span>Preview</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  ) : (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-white transition-colors"
-                    >
-                      <span>Source</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  )}
+                  <a
+                    href={`/developer/projects/${project.host}`}
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault()
+                        onSelectProject?.(project)
+                      }
+                    }}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400 hover:text-emerald-300 font-medium transition-colors"
+                  >
+                    <span>Architecture</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {project.stack.map((tag: string) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-slate-300 border border-white/[0.08]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/[0.04]">
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.stack.map((tag: string) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.04] text-slate-300 border border-white/[0.08]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-white transition-colors shrink-0"
+                  >
+                    <span>Source</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </div>
               </div>
             </motion.article>

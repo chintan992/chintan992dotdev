@@ -16,6 +16,8 @@ export interface Project {
   demoUrl?: string
   stars?: number
   language?: string
+  architecture?: string
+  highlights?: string[]
 }
 
 export const projects: Project[] = [
@@ -30,6 +32,13 @@ export const projects: Project[] = [
     host: 'letstream',
     stars: 23,
     language: 'HTML',
+    architecture:
+      'Architected around progressive web standards with client-side cache stores, TMDB streaming metadata synchronization, and responsive player interfaces.',
+    highlights: [
+      'PWA offline playback metadata',
+      'Type-safe TMDB API integration',
+      'Dynamic streaming provider mapping',
+    ],
   },
   {
     name: 'X Player',
@@ -41,9 +50,16 @@ export const projects: Project[] = [
     github: 'https://github.com/chintan992/x-player',
     host: 'xplayer',
     language: 'Kotlin',
+    architecture:
+      'Engineered in Kotlin leveraging ExoPlayer/Media3 under Android Jetpack, utilizing surface texture optimization and background audio pipelines.',
+    highlights: [
+      'ExoPlayer / Media3 rendering core',
+      'Adaptive hardware codec playback',
+      'Low battery footprint background processing',
+    ],
   },
   {
-    name: 'Let\'s Stream Flutter',
+    name: "Let's Stream Flutter",
     number: '03',
     category: 'Mobile · Cross-platform',
     description:
@@ -53,6 +69,13 @@ export const projects: Project[] = [
     host: 'letsstream-flutter',
     stars: 2,
     language: 'Dart',
+    architecture:
+      'Cross-platform mobile application utilizing Flutter state management, custom sliver animations, and multi-endpoint media discovery.',
+    highlights: [
+      'Multi-platform code sharing (iOS & Android)',
+      'Optimized poster and thumbnail memory caches',
+      'Real-time query throttling and debouncing',
+    ],
   },
   {
     name: 'LinZe',
@@ -65,6 +88,13 @@ export const projects: Project[] = [
     host: 'linze',
     stars: 1,
     language: 'Dart',
+    architecture:
+      'Designed with a bespoke anime discovery feed, dynamic theme matching derived from anime banner palettes, and real-time recommendation querying.',
+    highlights: [
+      'Dynamic palette color extraction',
+      'Smooth gesture-driven navigation',
+      'Client-side bookmark synchronization',
+    ],
   },
   {
     name: 'Assetize',
@@ -75,6 +105,13 @@ export const projects: Project[] = [
     stack: ['Web', 'Design tools'],
     github: 'https://github.com/chintan992/Assetize',
     host: 'assetize',
+    architecture:
+      'Web-based asset processing engine utilizing canvas manipulation to export pixel-perfect icon matrices for Android and iOS.',
+    highlights: [
+      'Instant client-side canvas rasterization',
+      'Batch zip generation directly in-browser',
+      'Zero cloud compute latency or dependency',
+    ],
   },
   {
     name: 'CineCull',
@@ -85,6 +122,13 @@ export const projects: Project[] = [
     stack: ['Web', 'TypeScript'],
     github: 'https://github.com/chintan992/cinecull',
     host: 'cinecull',
+    architecture:
+      'TypeScript-driven film recommendation platform built for zero-friction exploration with client-side algorithmic preference scoring.',
+    highlights: [
+      'Rapid client-side filtering matrix',
+      'Ultra-lightweight bundle footprint',
+      'Responsive dark-mode UI with smooth micro-interactions',
+    ],
   },
 ]
 

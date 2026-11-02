@@ -28,3 +28,4 @@ dist-ssr
 content/
 .dev.vars
 public/media/videos/*.mp4
+.playwright-mcp/

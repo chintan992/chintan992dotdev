@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import type { PortfolioMode, Service } from '@/data/portfolio-data'
-import { devServices } from '@/data/portfolio-data'
+import type { PortfolioMode, Service, Project } from '@/data/portfolio-data'
+import { devServices, projects } from '@/data/portfolio-data'
 
 // Components
 import NavigationHeader from '@/components/NavigationHeader'
@@ -11,6 +11,7 @@ import CareerTimeline from '@/components/CareerTimeline'
 import MasonryGallery from '@/components/MasonryGallery'
 import VisualServices from '@/components/VisualServices'
 import InquiryWizard from '@/components/InquiryWizard'
+import ProjectModal from '@/components/ProjectModal'
 
 // Icons
 import {
@@ -24,13 +25,39 @@ import {
 const CURRENT_YEAR = new Date().getFullYear()
 
 export default function App() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname.toLowerCase()
+      if (path.startsWith('/developer/projects/')) {
+        const slug = path.slice('/developer/projects/'.length).replace(/\/$/, '')
+        return (
+          projects.find(
+            (p) =>
+              p.host.toLowerCase() === slug ||
+              (slug === 'letsstream' && p.host === 'letstream'),
+          ) ?? null
+        )
+      }
+    }
+    return null
+  })
+
   const [mode, setMode] = useState<PortfolioMode>(() => {
     if (typeof window !== 'undefined') {
       const path = window.location.pathname.toLowerCase()
-      if (path.startsWith('/developer') || path.startsWith('/dev') || path.startsWith('/engineering')) {
+      if (
+        path.startsWith('/developer') ||
+        path.startsWith('/dev') ||
+        path.startsWith('/engineering') ||
+        path.startsWith('/projects')
+      ) {
         return 'developer'
       }
-      if (path.startsWith('/visual') || path.startsWith('/photography') || path.startsWith('/film')) {
+      if (
+        path.startsWith('/visual') ||
+        path.startsWith('/photography') ||
+        path.startsWith('/film')
+      ) {
         return 'visual'
       }
 
@@ -41,15 +68,40 @@ export default function App() {
     return 'hub'
   })
 
-  // Sync mode with window location and update document title
+  // Sync mode and project with window location and update document title
   useEffect(() => {
     function handleLocationChange() {
       const path = window.location.pathname.toLowerCase()
-      if (path.startsWith('/developer') || path.startsWith('/dev') || path.startsWith('/engineering')) {
+
+      if (path.startsWith('/developer/projects/')) {
+        const slug = path.slice('/developer/projects/'.length).replace(/\/$/, '')
+        const found =
+          projects.find(
+            (p) =>
+              p.host.toLowerCase() === slug ||
+              (slug === 'letsstream' && p.host === 'letstream'),
+          ) ?? null
+        setSelectedProject(found)
         setMode('developer')
         return
       }
-      if (path.startsWith('/visual') || path.startsWith('/photography') || path.startsWith('/film')) {
+
+      setSelectedProject(null)
+
+      if (
+        path.startsWith('/developer') ||
+        path.startsWith('/dev') ||
+        path.startsWith('/engineering') ||
+        path.startsWith('/projects')
+      ) {
+        setMode('developer')
+        return
+      }
+      if (
+        path.startsWith('/visual') ||
+        path.startsWith('/photography') ||
+        path.startsWith('/film')
+      ) {
         setMode('visual')
         return
       }
@@ -61,6 +113,14 @@ export default function App() {
         setMode('visual')
       } else if (hash === '' || hash === '#hub' || hash === '#all') {
         setMode('hub')
+      }
+
+      if (path === '/inquiry' || path === '/contact' || hash === '#inquiry') {
+        const el =
+          document.getElementById('inquiry') ||
+          document.getElementById('dev-inquiry') ||
+          document.getElementById('visual-inquiry')
+        el?.scrollIntoView({ behavior: 'smooth' })
       }
     }
 
@@ -74,20 +134,45 @@ export default function App() {
 
   // Dynamic intent-specific page titles
   useEffect(() => {
-    if (mode === 'developer') {
+    if (selectedProject) {
+      document.title = `${selectedProject.name} — Software Project by Chintan Rathod`
+    } else if (mode === 'developer') {
       document.title = 'Software Engineering — Chintan Rathod | Calgary'
     } else if (mode === 'visual') {
       document.title = 'Photography & Cinematography — Chintan Rathod | Calgary'
     } else {
       document.title = 'Chintan Rathod — Software Engineer & Photographer, Calgary'
     }
-  }, [mode])
+  }, [mode, selectedProject])
 
   function switchMode(newMode: PortfolioMode) {
     setMode(newMode)
+    setSelectedProject(null)
     const targetPath = newMode === 'hub' ? '/' : `/${newMode}`
     window.history.pushState(null, '', targetPath)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function openProject(project: Project) {
+    setSelectedProject(project)
+    setMode('developer')
+    window.history.pushState(null, '', `/developer/projects/${project.host}`)
+  }
+
+  function closeProject() {
+    setSelectedProject(null)
+    window.history.pushState(null, '', '/developer')
+  }
+
+  function navigateToInquiry() {
+    const el =
+      document.getElementById('inquiry') ||
+      document.getElementById('dev-inquiry') ||
+      document.getElementById('visual-inquiry')
+    if (el) {
+      window.history.pushState(null, '', '/inquiry')
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
@@ -96,6 +181,7 @@ export default function App() {
       <NavigationHeader
         mode={mode}
         onModeChange={switchMode}
+        onNavigateToInquiry={navigateToInquiry}
       />
 
       <main className="relative z-10">
@@ -270,7 +356,7 @@ export default function App() {
 
               {/* Projects Grid (Live once in developer mode) */}
               <section id="dev-projects" className="max-w-6xl mx-auto px-4 sm:px-6">
-                <GitHubGrid />
+                <GitHubGrid onSelectProject={openProject} />
               </section>
 
               {/* Career Timeline (Live once in developer mode) */}
@@ -414,22 +500,210 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* Minimalist Executive Footer */}
-      <footer className="border-t border-white/[0.08] py-12 mt-20 text-xs font-mono text-slate-400">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <span className="font-display font-medium text-white text-sm">Chintan Rathod</span>
-            <span className="text-slate-600">/</span>
-            <span>© {CURRENT_YEAR} · Calgary, Alberta</span>
+      {/* Project Case Study / Architecture Modal */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={closeProject}
+        onInquire={() => navigateToInquiry()}
+      />
+
+      {/* Comprehensive Architectural Footer */}
+      <footer className="border-t border-white/[0.08] pt-16 pb-12 mt-24 text-xs font-mono text-slate-400 bg-black/40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            {/* Column 1: Brand & Bio */}
+            <div className="md:col-span-1 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="font-display font-medium text-white text-base">Chintan Rathod</span>
+              </div>
+              <p className="text-slate-400 leading-relaxed text-xs">
+                Systems & Mobile Engineer · Cinematographer & Photographer based in Calgary, Alberta.
+              </p>
+              <div className="text-[11px] text-slate-500">
+                Staff Engineer at Compugen · Open-Source Contributor
+              </div>
+            </div>
+
+            {/* Column 2: Software Engineering */}
+            <div className="space-y-3">
+              <h4 className="text-xs uppercase tracking-wider text-slate-300 font-semibold">
+                Software Systems
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href="/developer"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault()
+                        switchMode('developer')
+                      }
+                    }}
+                    className="hover:text-white transition-colors"
+                  >
+                    Engineering Overview
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/developer/projects"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault()
+                        switchMode('developer')
+                        document.getElementById('dev-projects')?.scrollIntoView({ behavior: 'smooth' })
+                      }
+                    }}
+                    className="hover:text-white transition-colors"
+                  >
+                    Open Source Projects
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/chintan992"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    <span>GitHub Profile</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/chintan-rathod.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    <span>Curriculum Vitae (PDF)</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: Visual & Film */}
+            <div className="space-y-3">
+              <h4 className="text-xs uppercase tracking-wider text-slate-300 font-semibold">
+                Visual Stories
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href="/visual"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault()
+                        switchMode('visual')
+                      }
+                    }}
+                    className="hover:text-white transition-colors"
+                  >
+                    Cinematography Hub
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/visual#visual-gallery"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault()
+                        switchMode('visual')
+                        document.getElementById('visual-gallery')?.scrollIntoView({ behavior: 'smooth' })
+                      }
+                    }}
+                    className="hover:text-white transition-colors"
+                  >
+                    Curated Photo Gallery
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/visual#visual-offerings"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault()
+                        switchMode('visual')
+                        document.getElementById('visual-offerings')?.scrollIntoView({ behavior: 'smooth' })
+                      }
+                    }}
+                    className="hover:text-white transition-colors"
+                  >
+                    Production Suite & Gear
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.instagram.com/chintan992_2/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    <span>Photography Instagram</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Collaboration & Contact */}
+            <div className="space-y-3">
+              <h4 className="text-xs uppercase tracking-wider text-slate-300 font-semibold">
+                Collaboration
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href="/inquiry"
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        e.preventDefault()
+                        navigateToInquiry()
+                      }
+                    }}
+                    className="hover:text-white transition-colors text-emerald-400 font-medium"
+                  >
+                    Start an Inquiry →
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="mailto:chintanr21@gmail.com"
+                    className="hover:text-white transition-colors"
+                  >
+                    chintanr21@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/in/chintan992/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-white transition-colors inline-flex items-center gap-1"
+                  >
+                    <span>LinkedIn</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => switchMode(mode === 'developer' ? 'visual' : 'developer')}
-              className="text-slate-400 hover:text-white transition-colors cursor-pointer"
-            >
-              {mode === 'developer' ? 'Cinematography →' : 'Engineering →'}
-            </button>
+          <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+            <div>
+              © {CURRENT_YEAR} Chintan Rathod · Calgary, Alberta · Built with React & Cloudflare Workers
+            </div>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => switchMode(mode === 'developer' ? 'visual' : 'developer')}
+                className="hover:text-slate-300 transition-colors cursor-pointer"
+              >
+                Switch to {mode === 'developer' ? 'Photography & Film' : 'Software Engineering'} →
+              </button>
+            </div>
           </div>
         </div>
       </footer>

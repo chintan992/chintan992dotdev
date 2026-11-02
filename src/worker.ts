@@ -29,6 +29,11 @@ const projects: Record<string, Project> = {
     description: 'A modern entertainment discovery platform.',
     repository: 'https://github.com/chintan992/letsstream2',
   },
+  letsstream: {
+    name: "Let's Stream",
+    description: 'A modern entertainment discovery platform.',
+    repository: 'https://github.com/chintan992/letsstream2',
+  },
   xplayer: {
     name: 'X Player',
     description: 'A multi-purpose video player for Android.',
@@ -189,6 +194,125 @@ function notFoundResponse(message = 'The page you are looking for does not exist
       'Content-Type': 'text/html; charset=utf-8',
     },
   })
+}
+
+interface RouteMeta {
+  title: string
+  description: string
+  canonical: string
+}
+
+function getRouteMeta(pathname: string): RouteMeta | null {
+  const normalized = pathname.replace(/\/+$/, '') || '/'
+
+  if (normalized === '/') {
+    return {
+      title: 'Chintan Rathod — Software Engineer & Photographer, Calgary',
+      description:
+        'Explore the software engineering and visual storytelling portfolios of Chintan Rathod, a Calgary-based software engineer, photographer and filmmaker.',
+      canonical: `https://${BASE_DOMAIN}/`,
+    }
+  }
+
+  if (normalized === '/developer') {
+    return {
+      title: 'Software Engineering & Systems Architecture — Chintan Rathod | Calgary',
+      description:
+        'Reactive web platforms, Kotlin Android engines, Flutter apps, and Cloudflare edge architecture by Chintan Rathod in Calgary.',
+      canonical: `https://${BASE_DOMAIN}/developer`,
+    }
+  }
+
+  if (normalized === '/visual') {
+    return {
+      title: 'Cinematography & Documentary Photography — Chintan Rathod | Calgary',
+      description:
+        'Cinematic brand filmmaking, Canadian Rockies wilderness photography, and editorial portraits by Chintan Rathod in Calgary.',
+      canonical: `https://${BASE_DOMAIN}/visual`,
+    }
+  }
+
+  if (normalized === '/inquiry') {
+    return {
+      title: 'Inquiries & Commissions — Chintan Rathod | Calgary',
+      description:
+        'Commission a software architecture project, mobile application, or commercial cinematography and photography session with Chintan Rathod in Calgary.',
+      canonical: `https://${BASE_DOMAIN}/inquiry`,
+    }
+  }
+
+  if (normalized === '/developer/projects') {
+    return {
+      title: 'Projects & Engineering Case Studies — Chintan Rathod | Calgary',
+      description:
+        'Featured software engineering projects, open-source architectures, and mobile applications by Chintan Rathod.',
+      canonical: `https://${BASE_DOMAIN}/developer/projects`,
+    }
+  }
+
+  if (normalized.startsWith('/developer/projects/')) {
+    const slug = normalized.slice('/developer/projects/'.length)
+    const project = projects[slug]
+    if (project) {
+      return {
+        title: `${project.name} — Software Project by Chintan Rathod`,
+        description: `${project.description} Engineered with modern architectural patterns by Chintan Rathod in Calgary.`,
+        canonical: `https://${BASE_DOMAIN}/developer/projects/${slug}`,
+      }
+    }
+  }
+
+  return null
+}
+
+function applyRouteMeta(response: Response, meta: RouteMeta): Response {
+  return new HTMLRewriter()
+    .on('title', {
+      element(e: Element) {
+        e.setInnerContent(meta.title)
+      },
+    })
+    .on('link[rel="canonical"]', {
+      element(e: Element) {
+        e.setAttribute('href', meta.canonical)
+      },
+    })
+    .on('meta[name="description"]', {
+      element(e: Element) {
+        e.setAttribute('content', meta.description)
+      },
+    })
+    .on('meta[property="og:title"]', {
+      element(e: Element) {
+        e.setAttribute('content', meta.title)
+      },
+    })
+    .on('meta[property="og:description"]', {
+      element(e: Element) {
+        e.setAttribute('content', meta.description)
+      },
+    })
+    .on('meta[property="og:url"]', {
+      element(e: Element) {
+        e.setAttribute('content', meta.canonical)
+      },
+    })
+    .on('meta[name="twitter:title"]', {
+      element(e: Element) {
+        e.setAttribute('content', meta.title)
+      },
+    })
+    .on('meta[name="twitter:description"]', {
+      element(e: Element) {
+        e.setAttribute('content', meta.description)
+      },
+    })
+    .on('meta[name="twitter:url"]', {
+      element(e: Element) {
+        e.setAttribute('content', meta.canonical)
+      },
+    })
+    .transform(response)
 }
 
 function isEmail(value: string): boolean {
@@ -485,20 +609,30 @@ export default {
       hostname === '127.0.0.1' ||
       hostname.endsWith('.workers.dev')
 
-    const validPortfolioRoutes = new Set([
-      '/',
-      '/developer',
-      '/dev',
-      '/engineering',
-      '/visual',
-      '/photography',
-    ])
+    // 301 Canonical Redirects for Aliases
+    const canonicalRedirects: Record<string, string> = {
+      '/dev': '/developer',
+      '/engineering': '/developer',
+      '/photography': '/visual',
+      '/film': '/visual',
+      '/contact': '/inquiry',
+      '/projects': '/developer/projects',
+    }
+
+    if (isPortfolioHost && canonicalRedirects[url.pathname]) {
+      const redirectUrl = new URL(request.url)
+      redirectUrl.pathname = canonicalRedirects[url.pathname]
+      return Response.redirect(redirectUrl.toString(), 301)
+    }
+
+    const meta = getRouteMeta(url.pathname)
 
     if (isPortfolioHost) {
-      if (validPortfolioRoutes.has(url.pathname)) {
+      if (meta) {
         const homeRequest = new Request(new URL('/', request.url).toString(), request)
         const assetResponse = await env.ASSETS.fetch(homeRequest)
-        return withSecurityHeaders(assetResponse)
+        const enrichedResponse = applyRouteMeta(assetResponse, meta)
+        return withSecurityHeaders(enrichedResponse)
       }
 
       const assetResponse = await env.ASSETS.fetch(request)

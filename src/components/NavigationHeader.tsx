@@ -8,18 +8,20 @@ import { GithubIcon, InstagramIcon, LinkedinIcon } from '@/components/Icons'
 interface NavigationHeaderProps {
   mode: PortfolioMode
   onModeChange: (mode: PortfolioMode) => void
+  onNavigateToInquiry?: () => void
 }
 
 export default function NavigationHeader({
   mode,
   onModeChange,
+  onNavigateToInquiry,
 }: NavigationHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navItems = [
-    { id: 'hub', label: 'Overview', shortLabel: 'All', icon: Layers },
-    { id: 'developer', label: 'Engineering', shortLabel: 'Code', icon: Code2 },
-    { id: 'visual', label: 'Photography', shortLabel: 'Film', icon: Film },
+    { id: 'hub', path: '/', label: 'Overview', shortLabel: 'All', icon: Layers },
+    { id: 'developer', path: '/developer', label: 'Engineering', shortLabel: 'Code', icon: Code2 },
+    { id: 'visual', path: '/visual', label: 'Photography', shortLabel: 'Film', icon: Film },
   ] as const
 
   return (
@@ -27,8 +29,14 @@ export default function NavigationHeader({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3 sm:gap-4">
         {/* Brand Monogram & Location */}
         <div className="flex items-center gap-3 shrink-0">
-          <button
-            onClick={() => onModeChange('hub')}
+          <a
+            href="/"
+            onClick={(e) => {
+              if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                e.preventDefault()
+                onModeChange('hub')
+              }
+            }}
             className="flex items-center gap-3 group text-left cursor-pointer"
             aria-label="Return to overview"
           >
@@ -45,7 +53,7 @@ export default function NavigationHeader({
                 <span>Calgary, AB</span>
               </div>
             </div>
-          </button>
+          </a>
         </div>
 
         {/* Central Segmented Persona Switcher */}
@@ -54,16 +62,22 @@ export default function NavigationHeader({
             const Icon = item.icon
             const isActive = mode === item.id
             return (
-              <button
+              <a
                 key={item.id}
-                onClick={() => onModeChange(item.id)}
+                href={item.path}
+                onClick={(e) => {
+                  if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                    e.preventDefault()
+                    onModeChange(item.id)
+                  }
+                }}
                 className={cn(
                   'relative flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer',
                   isActive
                     ? 'text-black font-semibold'
                     : 'text-slate-400 hover:text-white',
                 )}
-                aria-pressed={isActive}
+                aria-current={isActive ? 'page' : undefined}
               >
                 {isActive && (
                   <motion.div
@@ -77,7 +91,7 @@ export default function NavigationHeader({
                   <span className="sm:hidden text-[11px] font-mono">{item.shortLabel}</span>
                   <span className="hidden sm:inline">{item.label}</span>
                 </span>
-              </button>
+              </a>
             )
           })}
         </nav>
@@ -129,7 +143,17 @@ export default function NavigationHeader({
 
           {/* Direct Inquiry CTA */}
           <a
-            href="#inquiry"
+            href="/inquiry"
+            onClick={(e) => {
+              if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                e.preventDefault()
+                if (onNavigateToInquiry) {
+                  onNavigateToInquiry()
+                } else {
+                  onModeChange('hub')
+                }
+              }
+            }}
             className="ml-1 px-4 py-1.5 rounded-full bg-white text-black font-semibold text-xs hover:bg-slate-200 transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <Mail className="w-3.5 h-3.5" />
@@ -199,8 +223,18 @@ export default function NavigationHeader({
             </div>
 
             <a
-              href="#inquiry"
-              onClick={() => setMobileMenuOpen(false)}
+              href="/inquiry"
+              onClick={(e) => {
+                setMobileMenuOpen(false)
+                if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                  e.preventDefault()
+                  if (onNavigateToInquiry) {
+                    onNavigateToInquiry()
+                  } else {
+                    onModeChange('hub')
+                  }
+                }
+              }}
               className="w-full py-2.5 rounded-xl bg-white text-black font-semibold text-xs flex items-center justify-center gap-2"
             >
               Start an Inquiry <ArrowUpRight className="w-4 h-4" />
